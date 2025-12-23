@@ -1,0 +1,31 @@
+import {
+  ApplicationEntity,
+  ChatMessageEntity,
+  ChatSessionEntity,
+  CoverletterEntity,
+  JobListingEntity,
+  JobMatchEntity,
+  NotificationEntity,
+  ResumeEntity,
+  UserAccountEntity,
+  UserEntity,
+  UserJobPreferencesEntity,
+  UserSessionEntity,
+  UserVerificationEntity,
+} from '@paladin/entities';
+
+export const PrimaryEntities = [
+  UserEntity,
+  UserAccountEntity,
+  UserSessionEntity,
+  UserVerificationEntity,
+  ResumeEntity,
+  CoverletterEntity,
+  ChatMessageEntity,
+  ChatSessionEntity,
+  ApplicationEntity,
+  NotificationEntity,
+  JobListingEntity,
+  JobMatchEntity,
+  UserJobPreferencesEntity,
+];

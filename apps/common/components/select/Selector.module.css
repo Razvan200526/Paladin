@@ -1,0 +1,16 @@
+.heroBg {
+  background: var(--color-background);
+  transition: background 0.2s;
+}
+
+.heroBg:hover {
+  background: color-mix(in oklch, var(--color-secondary) 10%, transparent);
+}
+
+.heroBg:focus {
+  background: color-mix(in oklch, var(--color-secondary) 10%, transparent);
+}
+
+.heroBg[data-selected="true"] {
+  color: var(--color-secondary-text);
+}

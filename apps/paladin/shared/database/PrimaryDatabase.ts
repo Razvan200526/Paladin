@@ -1,0 +1,57 @@
+import { CONTAINER_KEYS, database, inject } from '@razvan11/paladin';
+import {
+  DataSource,
+  type EntityManager,
+  type EntityTarget,
+  type ObjectLiteral,
+  type Repository,
+} from 'typeorm';
+import { PrimaryEntities } from './Entities';
+
+@database()
+export class PrimaryDatabase {
+  private source: DataSource;
+
+  constructor(
+    @inject(CONTAINER_KEYS.APP_DATABASE_URL)
+    private readonly url: string,
+  ) { }
+
+  public getSource(): DataSource {
+    if (this.source) {
+      return this.source;
+    }
+
+    this.source = new DataSource({
+      type: 'postgres',
+      url: this.url,
+      synchronize: false,
+      entities: PrimaryEntities,
+    });
+
+    return this.source;
+  }
+
+  public async open<Entity extends ObjectLiteral>(
+    entity: EntityTarget<Entity>,
+  ): Promise<Repository<Entity>> {
+    const source = this.getSource();
+
+    if (!source.isInitialized) {
+      await source.initialize();
+    }
+
+    return source.getRepository(entity);
+  }
+
+  public async close(): Promise<void> {
+    const source = this.getSource();
+    if (source.isInitialized) {
+      await source.destroy();
+    }
+  }
+
+  public getEntityManager(): EntityManager {
+    return this.getSource().manager;
+  }
+}
