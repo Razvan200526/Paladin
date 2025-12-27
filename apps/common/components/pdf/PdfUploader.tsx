@@ -112,7 +112,7 @@ export const PdfUploader = React.forwardRef<HTMLDivElement, PdfUploaderProps>(
           const uploadPromises = files.map(async (file) => {
             if (type === 'resume') {
               const formData = new FormData();
-              formData.append('resume', file);
+              formData.append('file', file);
               formData.append('userId', user.id);
               formData.append('name', file.name);
               const data = await addResume(formData);
@@ -124,7 +124,7 @@ export const PdfUploader = React.forwardRef<HTMLDivElement, PdfUploaderProps>(
 
             if (type === 'coverLetter') {
               const formData = new FormData();
-              formData.append('coverletter', file);
+              formData.append('file', file);
               formData.append('userId', user.id);
               formData.append('name', file.name);
               const data = await addCoverLetter(formData);

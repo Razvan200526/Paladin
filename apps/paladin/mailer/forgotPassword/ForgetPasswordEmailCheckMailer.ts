@@ -1,7 +1,8 @@
-import { getMailer } from '@server/shared/mail/getMailer';
-import type { Mailer } from '@server/shared/mail/types';
 // import { renderTemplate } from '../renderers';
 // import { ForgetPasswordEmailCheckTemplate } from './ForgetPasswordEmailCheckTemplate';
+
+import type { Mailer } from '@sdk/types';
+import { getMailer } from '../getMailer';
 
 export class ForgetPasswordEmailCheckMailer {
   private readonly mailer: Mailer;

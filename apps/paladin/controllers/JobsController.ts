@@ -32,7 +32,7 @@ export class JobsController {
   @get('/listing/:id')
   async getListing(c: Context) {
     try {
-      const id = c.req.param('id');
+      const _id = c.req.param('id');
       // TODO: Implement with JobListingRepository
       return c.json({
         data: null,
@@ -51,7 +51,7 @@ export class JobsController {
   @post('/listings/create')
   async createListing(c: Context) {
     try {
-      const body = await c.req.json();
+      const _body = await c.req.json();
       // TODO: Implement with JobListingRepository
       return c.json({
         data: { id: 'placeholder' },
@@ -87,7 +87,7 @@ export class JobsController {
   @get('/matches/:userId')
   async getMatches(c: Context) {
     try {
-      const userId = c.req.param('userId');
+      const _userId = c.req.param('userId');
       // TODO: Implement with JobMatchRepository
       return c.json({
         data: [],
@@ -106,7 +106,7 @@ export class JobsController {
   @get('/match/:id')
   async getMatch(c: Context) {
     try {
-      const id = c.req.param('id');
+      const _id = c.req.param('id');
       // TODO: Implement with JobMatchRepository
       return c.json({
         data: null,
@@ -125,7 +125,7 @@ export class JobsController {
   @get('/match-stats/:userId')
   async getMatchStats(c: Context) {
     try {
-      const userId = c.req.param('userId');
+      const _userId = c.req.param('userId');
       return c.json({
         data: { total: 0, matched: 0, applied: 0 },
         message: 'Match stats retrieved successfully',
@@ -163,7 +163,7 @@ export class JobsController {
   @post('/refresh-matches/:userId')
   async refreshMatches(c: Context) {
     try {
-      const userId = c.req.param('userId');
+      const _userId = c.req.param('userId');
       // TODO: Implement job matching logic
       return c.json({
         data: { refreshed: true },
@@ -179,7 +179,7 @@ export class JobsController {
   @get('/preferences/:userId')
   async getPreferences(c: Context) {
     try {
-      const userId = c.req.param('userId');
+      const _userId = c.req.param('userId');
       // TODO: Implement with UserJobPreferencesRepository
       return c.json({
         data: null,
@@ -198,7 +198,7 @@ export class JobsController {
   @put('/preferences/:userId')
   async updatePreferences(c: Context) {
     try {
-      const userId = c.req.param('userId');
+      const _userId = c.req.param('userId');
       const preferences = await c.req.json();
       // TODO: Implement with UserJobPreferencesRepository
       return c.json({
@@ -218,7 +218,7 @@ export class JobsController {
   @post('/fetch-external')
   async fetchExternal(c: Context) {
     try {
-      const { keywords, location } = await c.req.json();
+      // const { keywords, location } = await c.req.json();
       // TODO: Implement external job fetching service
       return c.json({
         data: [],

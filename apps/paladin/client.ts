@@ -1,8 +1,3 @@
-/**
- * API Client Utilities
- * Full implementation matching easyres pattern
- */
-import { CONTAINER_KEYS, inject } from '@razvan11/paladin';
 import type { Context } from 'hono';
 import type { ContentfulStatusCode } from 'hono/utils/http-status';
 import type { ResponseType } from './sdk/types';

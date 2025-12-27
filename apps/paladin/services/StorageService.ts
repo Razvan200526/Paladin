@@ -2,8 +2,9 @@
  * Storage Service
  * Migrated from easyres with @service decorator and @inject for DI
  */
-import { service, inject, CONTAINER_KEYS } from '@razvan11/paladin';
+
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { inject, service } from '@razvan11/paladin';
 
 @service()
 export class StorageService {
@@ -12,7 +13,7 @@ export class StorageService {
     @inject('R2_SECRET_ACCESS_KEY') private readonly secretKey: string,
     @inject('R2_ENDPOINT') private readonly endpoint: string,
     @inject('R2_BUCKET_NAME') private bucketName: string,
-  ) { }
+  ) {}
 
   private validateCredentials() {
     if (!this.accessKey || !this.secretKey || !this.endpoint) {

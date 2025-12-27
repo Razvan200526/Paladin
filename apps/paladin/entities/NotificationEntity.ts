@@ -8,7 +8,7 @@ import {
   ManyToOne,
   PrimaryColumn,
 } from 'typeorm';
-import { UserEntity } from './UserEntity';
+import type { UserEntity } from './UserEntity';
 
 export type NotificationType =
   | 'application_status_change'
@@ -35,7 +35,7 @@ export class NotificationEntity {
   })
   id: string = random.nanoid(15);
 
-  @ManyToOne(() => UserEntity, { nullable: false })
+  @ManyToOne('UserEntity', { nullable: false })
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 

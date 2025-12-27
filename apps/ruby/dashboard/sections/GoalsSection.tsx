@@ -19,7 +19,7 @@ export const GoalsSection = () => {
 
   const thisMonthCount = overview?.thisMonthCount ?? 0;
   const thisWeekCount = overview?.thisWeekCount ?? 0;
-  const responseRate = overview?.responseRate ?? 0;
+  const responseRate = overview?.responseRate.toFixed(2) ?? '0';
   const interviewCount = overview?.statusCounts?.interviewing ?? 0;
 
   return (
@@ -58,13 +58,13 @@ export const GoalsSection = () => {
               target={WEEKLY_TARGET}
               color="bg-secondary-400"
             />
-            <ProgressBar
+            {/*<ProgressBar
               label="Response Rate"
-              current={responseRate}
-              target={100}
+              current={Number.parseFloat(responseRate)}
               color="bg-info-400"
+              target={Number.parseFloat(responseRate)}
               suffix="%"
-            />
+            /> TODO : Get rid of the target beacause the target should't be 100*/}
             <ProgressBar
               label="Active Interviews"
               current={interviewCount}

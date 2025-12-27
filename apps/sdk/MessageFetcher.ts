@@ -2,7 +2,7 @@ import type { Fetcher } from './Fetcher';
 import type { ResponseType } from './types';
 
 export class MessageFetcher {
-  constructor(readonly fetcher: Fetcher) { }
+  constructor(readonly fetcher: Fetcher) {}
 
   public readonly coverletter = {
     message: async (payload: {

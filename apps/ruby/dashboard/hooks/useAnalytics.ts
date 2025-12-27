@@ -1,10 +1,10 @@
+import { backend } from '@ruby/shared/backend';
 import type {
   AnalyticsOverview,
   StatusBreakdownData,
   TrendsPeriod,
   TrendsResponse,
-} from '@client/sdk/AnalyticsFetcher';
-import { backend } from '@ruby/shared/backend';
+} from '@sdk/AnalyticsFetcher';
 import type { ApplicationType } from '@sdk/types';
 import { useQuery } from '@tanstack/react-query';
 

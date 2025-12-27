@@ -8,7 +8,7 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { UserEntity } from './UserEntity';
+import type { UserEntity } from './UserEntity';
 
 @Entity({
   name: 'user_job_preferences',
@@ -21,7 +21,7 @@ export class UserJobPreferencesEntity {
   })
   id: string = random.nanoid(15);
 
-  @OneToOne(() => UserEntity, { nullable: false })
+  @OneToOne('UserEntity', { nullable: false })
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 

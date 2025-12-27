@@ -10,10 +10,10 @@ export const IndexView = ({ apiUrl }: IndexViewProps) => {
     <LayoutView
       title="Azurite App"
       description="A full-stack application powered by Azurite framework"
-      styles={[asset('dist', 'style.css'), asset('dist', 'App.css')]}
-      scripts={[asset('dist', 'App.js')]}
+      styles={[asset('dist', 'style.css'), asset('dist', 'app.css')]}
+      scripts={[asset('dist', 'app.js')]}
       clientData={{ apiUrl }}
-      className="font-primary font-medium bg-background text-base min-h-screen"
+      className="font-primary text-primary font-medium bg-background text-base min-h-screen"
     >
       <div id="root">
         <PageLoader />

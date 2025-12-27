@@ -1,14 +1,15 @@
 import { pe } from '@common/pretty-error';
 import { random } from '@common/utils';
-import { CONTAINER_KEYS, inject } from '@razvan11/paladin';
+import { inject, service } from '@razvan11/paladin';
 import { betterAuth } from 'better-auth';
 import { emailOTP, openAPI } from 'better-auth/plugins';
 import { Pool } from 'pg';
 import { ForgetPasswordEmailCheckMailer } from '../mailer/forgotPassword/ForgetPasswordEmailCheckMailer';
 import { SignupEmailCheckMailer } from '../mailer/signupCheck/SignupEmailCheckMailer';
 
+@service()
 export class AuthService {
-  constructor(@inject(CONTAINER_KEYS.APP_DATABASE_URL) private dbUrl: string) {}
+  constructor(@inject('APP_DATABASE_URL') private dbUrl: string) {}
 
   public getAuth() {
     return betterAuth({

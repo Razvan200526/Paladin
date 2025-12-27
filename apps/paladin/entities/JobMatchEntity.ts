@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { JobListingEntity } from './JobListingEntity';
 import { ResumeEntity } from './ResumeEntity';
-import { UserEntity } from './UserEntity';
+import type { UserEntity } from './UserEntity';
 
 export type MatchStatus = 'new' | 'viewed' | 'saved' | 'applied' | 'dismissed';
 
@@ -25,7 +25,7 @@ export class JobMatchEntity {
   })
   id: string = random.nanoid(15);
 
-  @ManyToOne(() => UserEntity, { nullable: false })
+  @ManyToOne('UserEntity', { nullable: false })
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 

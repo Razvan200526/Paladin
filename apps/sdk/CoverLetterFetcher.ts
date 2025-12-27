@@ -30,7 +30,7 @@ export class CoverLetterFetcher {
     },
 
     get: async (payload: { id: string }): Promise<ResponseType> => {
-      return this.fetcher.get(`/api/coverletter/${payload.id}`);
+      return this.fetcher.get(`/api/coverletters/single/${payload.id}`);
     },
     delete: async (payload: {
       coverletterIds: string[];

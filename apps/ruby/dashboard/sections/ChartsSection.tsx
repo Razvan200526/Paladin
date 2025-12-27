@@ -51,34 +51,27 @@ export const ChartsSection = () => {
     setSelectedPeriod(key as TrendsPeriod);
   };
 
-  // Transform trends data for the area chart
   const applicationTrendData =
-    trendsData?.trends.map((trend) => ({
+    trendsData?.trends?.map((trend: any) => ({
       label: trend.label,
       applications: trend.applications,
       responses: trend.responses,
       interviews: trend.interviews,
     })) || [];
 
-  // Transform status data for the pie chart
   const statusBreakdownData =
-    statusData?.breakdown.map((item) => ({
+    statusData?.breakdown?.map((item) => ({
       name: item.name,
       value: item.value,
       color: item.color,
     })) || [];
 
-  // Fallback data if no real data is available
-  const hasNoTrendData =
-    applicationTrendData.length === 0 ||
-    applicationTrendData.every((d) => d.applications === 0);
-  const hasNoStatusData =
-    statusBreakdownData.length === 0 ||
-    statusBreakdownData.every((d) => d.value === 0);
+  const displayTrendData = applicationTrendData.length > 0
+    ? applicationTrendData
+    : [{ label: '', applications: 0, responses: 0, interviews: 0 }];
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
-      {/* Application Trend Chart */}
       <Card className="bg-light border border-border hover:border-border-hover duration-300">
         <div className="space-y-4">
           <div className="flex items-center justify-between gap-2">
@@ -113,17 +106,13 @@ export const ChartsSection = () => {
               <div className="flex items-center justify-center h-full text-secondary-text text-sm">
                 Failed to load trends data
               </div>
-            ) : hasNoTrendData ? (
-              <div className="flex items-center justify-center h-full text-secondary-text text-sm text-center px-4">
-                No application data yet. Start tracking your applications!
-              </div>
             ) : (
               <ResponsiveContainer
                 width="100%"
                 height="100%"
                 initialDimension={{ width: 320, height: 200 }}
               >
-                <AreaChart data={applicationTrendData}>
+                <AreaChart data={displayTrendData}>
                   <defs>
                     <linearGradient
                       id="colorApplications"
@@ -251,10 +240,8 @@ export const ChartsSection = () => {
               <div className="flex items-center justify-center h-full text-secondary-text text-sm">
                 Failed to load status data
               </div>
-            ) : hasNoStatusData ? (
-              <div className="flex items-center justify-center h-full text-secondary-text text-sm text-center px-4">
-                No applications yet. Add your first application!
-              </div>
+            ) : statusBreakdownData.length === 0 || statusBreakdownData.every((d) => d.value === 0) ? (
+              <div className="h-full" />
             ) : (
               <div className="flex items-center h-full">
                 <ResponsiveContainer

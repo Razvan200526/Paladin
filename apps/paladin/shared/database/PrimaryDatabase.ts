@@ -1,4 +1,4 @@
-import { CONTAINER_KEYS, database, inject } from '@razvan11/paladin';
+import { database, inject } from '@razvan11/paladin';
 import {
   DataSource,
   type EntityManager,
@@ -8,14 +8,16 @@ import {
 } from 'typeorm';
 import { PrimaryEntities } from './Entities';
 
-@database()
+@database({
+  migrations: 'migrations',
+})
 export class PrimaryDatabase {
   private source: DataSource;
 
   constructor(
-    @inject(CONTAINER_KEYS.APP_DATABASE_URL)
+    @inject('APP_DATABASE_URL')
     private readonly url: string,
-  ) { }
+  ) {}
 
   public getSource(): DataSource {
     if (this.source) {

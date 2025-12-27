@@ -1,3 +1,4 @@
+import { PrimaryDatabase } from '@paladin/shared/database/PrimaryDatabase';
 import { inject, repository } from '@razvan11/paladin';
 import type {
   FindManyOptions,
@@ -8,11 +9,10 @@ import type {
   UpdateResult,
 } from 'typeorm';
 import { ApplicationEntity } from '../entities/ApplicationEntity';
-import { PrimaryDatabase } from '@paladin/shared/database/PrimaryDatabase';
 
 @repository()
 export class ApplicationRepository {
-  constructor(@inject(PrimaryDatabase) private database: PrimaryDatabase) { }
+  constructor(@inject(PrimaryDatabase) private database: PrimaryDatabase) {}
 
   public async open(): Promise<Repository<ApplicationEntity>> {
     return await this.database.open(ApplicationEntity);

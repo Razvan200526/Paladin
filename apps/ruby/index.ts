@@ -4,18 +4,10 @@
  */
 import 'reflect-metadata';
 
-container
-  .bind(CONTAINER_KEYS.APP_DATABASE_URL)
-  .toConstantValue(Bun.env.DATABASE_URL || '');
-container
-  .bind(CONTAINER_KEYS.APP_NAME)
-  .toConstantValue(Bun.env.APP_NAME || 'azurite');
-container
-  .bind(CONTAINER_KEYS.APP_URL)
-  .toConstantValue(Bun.env.APP_URL || 'http://localhost:3000');
-
 import { EnvValidator } from '@common/EnvValidator';
-import { App, CONTAINER_KEYS, container, logger } from '@razvan11/paladin';
+import { controllers } from '@paladin/controllers/controllers';
+import { NotificationHandler } from '@paladin/handlers/NotificationHandler';
+import { App, logger } from '@razvan11/paladin';
 import { HealthController } from './__init__/HealthController';
 import { IndexController } from './__init__/IndexController';
 
@@ -28,7 +20,8 @@ try {
 
   app.serveStatic({ path: '/static', root: './apps/ruby/shared/public' });
 
-  app.registerControllers(HealthController, IndexController);
+  app.registerControllers(HealthController, ...controllers, IndexController);
+  app.registerWebSocket(NotificationHandler);
 
   await app.run();
 } catch (e) {

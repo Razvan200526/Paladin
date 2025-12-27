@@ -18,7 +18,7 @@ export class ResumeEntity {
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 
-  @Column({ type: 'varchar', nullable: true })
+  @Column({ type: 'varchar' })
   name: string;
 
   @Column({ type: 'varchar' })

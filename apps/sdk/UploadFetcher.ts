@@ -2,7 +2,7 @@ import type { Fetcher } from './Fetcher';
 import type { ResponseType } from './types';
 
 export class UploadFetcher {
-  constructor(readonly fetcher: Fetcher) {}
+  constructor(readonly fetcher: Fetcher) { }
 
   public readonly image = {
     avatar: async (data: FormData): Promise<ResponseType<{ url: string }>> => {
@@ -27,7 +27,7 @@ export class UploadFetcher {
       data: FormData,
     ): Promise<ResponseType<{ url: string }>> => {
       this.fetcher.clearContentType();
-      const response = await this.fetcher.post('/uploads/resumes', data);
+      const response = await this.fetcher.post('/resumes/upload', data);
       this.fetcher.setContentType();
 
       return response;
@@ -37,7 +37,7 @@ export class UploadFetcher {
   public readonly coverLetter = {
     upload: async (data: FormData): Promise<ResponseType<{ url: string }>> => {
       this.fetcher.clearContentType();
-      const response = await this.fetcher.post('/uploads/coverletters', data);
+      const response = await this.fetcher.post('/coverletters/upload', data);
       this.fetcher.setContentType();
 
       return response;

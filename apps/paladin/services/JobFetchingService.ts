@@ -3,7 +3,7 @@
  * Migrated from easyres with @service decorator
  * Fetches jobs from external APIs (Remotive, Arbeitnow)
  */
-import { service, inject } from '@razvan11/paladin';
+import { inject, service } from '@razvan11/paladin';
 import { JobListingEntity } from '../entities/JobListingEntity';
 import { PrimaryDatabase } from '../shared/database/PrimaryDatabase';
 
@@ -167,8 +167,8 @@ export class JobFetchingService {
     for (const category of categories) {
       const remotiveJobs = await this.fetchFromRemotive(category, limit);
       allJobs.push(...remotiveJobs);
-      sourceCounts['remotive'] =
-        (sourceCounts['remotive'] || 0) + remotiveJobs.length;
+      sourceCounts.remotive =
+        (sourceCounts.remotive || 0) + remotiveJobs.length;
     }
 
     let savedCount = 0;
@@ -264,7 +264,9 @@ export class JobFetchingService {
 
     const numbers = salary.match(/[\d,]+/g);
     if (numbers && numbers.length > 0) {
-      const values = numbers.map((n) => parseInt(n.replace(/,/g, ''), 10));
+      const values = numbers.map((n) =>
+        Number.parseInt(n.replace(/,/g, ''), 10),
+      );
       const salaryValues = values.filter((v) => v > 1000);
 
       if (salaryValues.length >= 2) {

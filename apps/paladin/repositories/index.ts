@@ -6,9 +6,9 @@ export {
   ApplicationRepository,
   applicationRepository,
 } from './ApplicationRepository';
-export { UserRepository, userRepository } from './UserRepository';
-export { ResumeRepository, resumeRepository } from './ResumeRepository';
 export {
   CoverletterRepository,
   coverLetterRepository,
 } from './CoverletterRepository';
+export { ResumeRepository, resumeRepository } from './ResumeRepository';
+export { UserRepository, userRepository } from './UserRepository';

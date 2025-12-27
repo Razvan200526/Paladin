@@ -2,7 +2,7 @@ import { Button } from '@common/components/button';
 import { H1, P } from '@common/components/typography';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import { Link } from 'react-router';
-// import imgUrl from '@ruby/assets/PreviewImage.webp';
+import imageUrl from '@ruby/assets/PreviewImage.webp';
 import { BenefitsSection } from './components/BenefitsSection';
 import { FeaturesSection } from './components/FeaturesSection';
 import { Footer } from './components/Footer';
@@ -72,7 +72,7 @@ export const HeroPage = () => {
           </div>
           <img
             alt="App screenshot"
-            // src={imgUrl}
+            src={imageUrl}
             id="dashboard"
             fetchPriority="high"
             decoding="async"

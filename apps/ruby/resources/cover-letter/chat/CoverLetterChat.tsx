@@ -254,7 +254,7 @@ export const CoverLetterChat = ({
               <>
                 <ScrollShadow className="grow p-4" size={8}>
                   {messages.length === 0 ? (
-                    <EmptyChat />
+                    <EmptyChat resourceType='coverletter' />
                   ) : (
                     <>
                       <div className="flex flex-col gap-4 px-1">

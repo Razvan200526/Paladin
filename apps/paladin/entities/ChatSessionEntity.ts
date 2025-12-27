@@ -10,7 +10,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { ChatMessageEntity } from './ChatMessageEntity';
-import { UserEntity } from './UserEntity';
+import type { UserEntity } from './UserEntity';
 
 @Entity('chat_sessions')
 export class ChatSessionEntity {
@@ -21,10 +21,7 @@ export class ChatSessionEntity {
   })
   id: string = random.nanoid(15);
 
-  @ManyToOne(
-    () => UserEntity,
-    (user) => user.chatSessions,
-  )
+  @ManyToOne('UserEntity', 'chatSessions')
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 

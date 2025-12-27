@@ -2,19 +2,19 @@
  * Notifications Controller
  * Full implementation with apiResponse pattern
  */
-import { controller, get, post, del, inject } from '@razvan11/paladin';
+import { controller, del, get, inject, post } from '@razvan11/paladin';
+import type { Context } from 'hono';
 import { apiResponse } from '../client';
 import type { ApiResponse } from '../sdk/types';
-import type { Context } from 'hono';
 import {
-  NotificationService,
   type Notification,
+  NotificationService,
 } from '../services/NotificationService';
 
 @controller('/api/notifications')
 export class NotificationsController {
   constructor(
-    @inject('NotificationService')
+    @inject(NotificationService)
     private readonly notificationService: NotificationService,
   ) {}
 
@@ -24,8 +24,8 @@ export class NotificationsController {
     try {
       const userId = c.req.param('userId');
       const unreadOnly = c.req.query('unreadOnly') === 'true';
-      const limit = parseInt(c.req.query('limit') || '50', 10);
-      const offset = parseInt(c.req.query('offset') || '0', 10);
+      const limit = Number.parseInt(c.req.query('limit') || '50', 10);
+      const offset = Number.parseInt(c.req.query('offset') || '0', 10);
 
       const notifications = this.notificationService.getNotifications(userId, {
         unreadOnly,

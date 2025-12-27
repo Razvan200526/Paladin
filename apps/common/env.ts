@@ -5,7 +5,7 @@ const CommonEnv = z.object({
   BETTER_AUTH_SECRET: z.string(),
   PORT: z.string(),
   APP_URL: z.string(),
-  DATABASE_URL: z.string(),
+  APP_DATABASE_URL: z.string(),
   CORS_ORIGINS: z.string(),
   R2_TOKEN: z.string(),
   R2_ACCESS_KEY: z.string(),

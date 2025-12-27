@@ -1,3 +1,4 @@
+import { PrimaryDatabase } from '@paladin/shared/database/PrimaryDatabase';
 import { inject, repository } from '@razvan11/paladin';
 import type {
   DeleteResult,
@@ -8,11 +9,10 @@ import type {
   SaveOptions,
 } from 'typeorm';
 import { CoverletterEntity } from '../entities/CoverletterEntity';
-import { PrimaryDatabase } from '../shared/PrimaryDatabase';
 
 @repository()
 export class CoverletterRepository {
-  constructor(@inject(PrimaryDatabase) private database: PrimaryDatabase) {}
+  constructor(@inject(PrimaryDatabase) private database: PrimaryDatabase) { }
 
   public async open(): Promise<Repository<CoverletterEntity>> {
     return await this.database.open(CoverletterEntity);
@@ -27,6 +27,7 @@ export class CoverletterRepository {
       select: {
         id: true,
         filename: true,
+        name: true,
         url: true,
         filetype: true,
         filesize: true,

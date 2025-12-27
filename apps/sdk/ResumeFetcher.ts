@@ -31,7 +31,7 @@ export class ResumeFetcher {
       return this.fetcher.delete('/api/resumes/delete', payload);
     },
     get: async (payload: { id: string }): Promise<ResponseType> => {
-      return this.fetcher.get(`/api/resume/${payload.id}`);
+      return this.fetcher.get(`/api/resumes/single/${payload.id}`);
     },
     getSuggestions: async (payload: { id: string }): Promise<ResponseType> => {
       this.fetcher.config.baseURL = 'ws://localhost:8080';

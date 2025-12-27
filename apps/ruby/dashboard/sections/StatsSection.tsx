@@ -11,11 +11,11 @@ export const StatsSection = () => {
     isError,
   } = useAnalyticsOverview(user?.id);
 
-  if (isFetching || !overview) {
+  if (isFetching) {
     return <StatsSectionSkeleton />;
   }
 
-  if (isError) {
+  if (isError || !overview) {
     return <StatsSectionSkeleton />;
   }
 
@@ -32,7 +32,7 @@ export const StatsSection = () => {
     },
     {
       label: 'Response Rate',
-      value: `${overview?.responseRate || 0}%`,
+      value: `${overview?.responseRate.toFixed(2) || 0}%`,
       change: overview?.responseRate
         ? overview.responseRate > 30
           ? '+5%'
@@ -46,10 +46,10 @@ export const StatsSection = () => {
     },
     {
       label: 'Interviewing',
-      value: overview?.statusCounts.interviewing || 'none',
-      change: `+${overview?.statusCounts.interviewing || 0}`,
-      trend: overview?.statusCounts.interviewing
-        ? overview.statusCounts.interviewing > 0
+      value: overview.statusCounts.interviewing || 'none',
+      change: `+${overview.statusCounts.interviewing || 0}`,
+      trend: overview.statusCounts.interviewing
+        ? overview.statusCounts?.interviewing > 0
           ? ('up' as const)
           : ('down' as const)
         : undefined,

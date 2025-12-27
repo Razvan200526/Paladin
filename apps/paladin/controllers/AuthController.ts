@@ -2,21 +2,20 @@
  * Consolidated Auth Controller
  * Migrated from easyres individual controller files to @razvan11/paladin pattern
  */
-import {
-  controller,
-  get,
-  post,
-  inject,
-  CONTAINER_KEYS,
-} from '@razvan11/paladin';
+import { controller, get, inject, post } from '@razvan11/paladin';
 import type { Context } from 'hono';
-import type { AuthService } from '../services/AuthService';
+import { AuthService } from '../services/AuthService';
+import { apiResponse } from '@paladin/client';
 
 @controller('/api/auth')
 export class AuthController {
-  constructor(
-    @inject('AuthService') private readonly authService: AuthService,
-  ) {}
+  constructor(@inject(AuthService) private readonly authService: AuthService) { }
+
+  @get('/reference')
+  async getOpenAPIReference(c: Context) {
+    const auth = this.authService.getAuth();
+    return auth.handler(c.req.raw);
+  }
 
   // POST /api/auth/signup/email
   @post('/signup/email')
@@ -82,7 +81,7 @@ export class AuthController {
   async sendVerificationOtp(c: Context) {
     try {
       const { email } = await c.req.json();
-      const res = await this.authService.sendVerificationEmail(email);
+      await this.authService.sendVerificationEmail(email);
       return c.json({ success: true }, 200);
     } catch (e) {
       console.error('Error in sendVerificationOtp:', e);
@@ -105,23 +104,18 @@ export class AuthController {
         c.header('Set-Cookie', setCookieHeader);
       }
 
-      return c.json(
-        {
-          data: {
-            user: result.response.user,
-            token: result.response.token,
-            success: true,
-          },
+      return apiResponse(c, {
+        data: {
+          user: result.response.user,
+          token: result.response.token,
         },
-        200,
-      );
+        success: true,
+        message: 'User signed in successfully'
+      })
     } catch (e) {
       if (e instanceof Error)
-        return c.json({ data: { error: e.message, success: false } }, 500);
-      return c.json(
-        { data: { error: 'Something went wrong', success: false } },
-        500,
-      );
+        return apiResponse(c, { data: { user: null, token: null }, isClientError: false, isServerError: true, success: false, message: 'Something went wrong' }, 401);
+      return apiResponse(c, { data: { user: null, token: false }, isClientError: false, isServerError: true, success: false, message: 'Something went wrong' }, 401);
     }
   }
 

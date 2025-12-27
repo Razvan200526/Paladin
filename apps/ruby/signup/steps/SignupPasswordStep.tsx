@@ -1,3 +1,4 @@
+import { Button } from '@common/components/button';
 import { InputPassword } from '@common/components/input';
 import { InputConfirmPassword } from '@common/components/input/InputConfirmPassword';
 import { Toast } from '@common/components/toast';
@@ -6,7 +7,7 @@ import {
   ArrowLeftCircleIcon,
   ArrowRightCircleIcon,
 } from '@heroicons/react/24/outline';
-import { Button, Form } from '@heroui/react';
+import { Form } from '@heroui/react';
 import type React from 'react';
 import { useState } from 'react';
 import { useSignupStore } from '../signUpStore';

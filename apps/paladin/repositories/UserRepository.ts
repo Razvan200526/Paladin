@@ -1,4 +1,5 @@
-import { repository } from '@razvan11/paladin';
+import { PrimaryDatabase } from '@paladin/shared/database/PrimaryDatabase';
+import { inject, repository } from '@razvan11/paladin';
 import type {
   FindManyOptions,
   FindOneOptions,
@@ -8,17 +9,10 @@ import type {
   UpdateResult,
 } from 'typeorm';
 import { UserEntity } from '../entities/UserEntity';
-import {
-  type PrimaryDatabase,
-  primaryDatabase,
-} from '../shared/PrimaryDatabase';
 
 @repository()
 export class UserRepository {
-  private database: PrimaryDatabase;
-  constructor() {
-    this.database = primaryDatabase;
-  }
+  constructor(@inject(PrimaryDatabase) private database: PrimaryDatabase) {}
 
   public async open(): Promise<Repository<UserEntity>> {
     return await this.database.open(UserEntity);
@@ -161,5 +155,3 @@ export class UserRepository {
     return await repository.count({ where: criteria });
   }
 }
-
-export const userRepository = new UserRepository();

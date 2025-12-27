@@ -2,19 +2,18 @@
  * Applications Controller
  * Full implementation migrated from easyres with apiResponse pattern
  */
-import { controller, get, post, put, del, inject } from '@razvan11/paladin';
+import { controller, del, get, inject, post, put } from '@razvan11/paladin';
+import type { Context } from 'hono';
 import { apiResponse } from '../client';
 import {
   ApplicationEntity,
   CoverletterEntity,
   ResumeEntity,
 } from '../entities';
-import { DeleteApplicationModel } from '../models';
-import { UpdateApplicationModel } from '../models';
+import { DeleteApplicationModel, UpdateApplicationModel } from '../models';
+import { ApplicationRepository } from '../repositories/ApplicationRepository';
+import { UserRepository } from '../repositories/UserRepository';
 import type { ApiResponse, CreateApplicationType } from '../sdk/types';
-import type { Context } from 'hono';
-import type { ApplicationRepository } from '../repositories/ApplicationRepository';
-import type { UserRepository } from '../repositories/UserRepository';
 import { PrimaryDatabase } from '../shared/database/PrimaryDatabase';
 
 type ApplicationStatus = 'Applied' | 'Interviewing' | 'Accepted' | 'Rejected';
@@ -41,10 +40,10 @@ type UpdateApplicationPayload = {
 export class ApplicationsController {
   constructor(
     @inject(PrimaryDatabase) private readonly db: PrimaryDatabase,
-    @inject('UserRepository') private readonly userRepo: UserRepository,
-    @inject('ApplicationRepository')
+    @inject(UserRepository) private readonly userRepo: UserRepository,
+    @inject(ApplicationRepository)
     private readonly appRepo: ApplicationRepository,
-  ) {}
+  ) { }
 
   // POST /api/applications/create
   @post('/create')

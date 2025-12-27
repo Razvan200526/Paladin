@@ -14,7 +14,7 @@ export class UserFetcher {
   public readonly exists = async (
     email: string,
   ): Promise<ResponseType<{ exists: boolean }>> => {
-    return await this.fetcher.get(`/user-exists?email=${email}`);
+    return await this.fetcher.get(`/users/exists?email=${email}`);
   };
 
   public readonly create = async (payload: {

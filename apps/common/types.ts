@@ -18,3 +18,41 @@ export type ApiResponse = {
   message: string;
   success: true;
 };
+
+// Analytics Types
+export type TrendsPeriod =
+  | 'last_week'
+  | 'last_month'
+  | 'last_3_months'
+  | 'last_6_months'
+  | 'last_year';
+
+export type TrendDataPoint = {
+  label: string;
+  applications: number;
+  responses: number;
+  interviews: number;
+  accepted: number;
+  rejected: number;
+};
+
+export type TrendsData = {
+  trends: TrendDataPoint[];
+  period: {
+    start: string;
+    end: string;
+    type: TrendsPeriod;
+  };
+};
+
+export type StatusBreakdownItem = {
+  name: string;
+  value: number;
+  color: string;
+  percentage: number;
+};
+
+export type StatusBreakdownData = {
+  breakdown: StatusBreakdownItem[];
+  total: number;
+};

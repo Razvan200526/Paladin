@@ -8,13 +8,11 @@ import type {
   SaveOptions,
 } from 'typeorm';
 import { ResumeEntity } from '../entities/ResumeEntity';
-import {
-  PrimaryDatabase,
-} from '../shared/database/PrimaryDatabase';
+import { PrimaryDatabase } from '../shared/database/PrimaryDatabase';
 
 @repository()
 export class ResumeRepository {
-  constructor(@inject(PrimaryDatabase) private database: PrimaryDatabase) { }
+  constructor(@inject(PrimaryDatabase) private database: PrimaryDatabase) {}
 
   public async open(): Promise<Repository<ResumeEntity>> {
     return await this.database.open(ResumeEntity);
@@ -28,6 +26,7 @@ export class ResumeRepository {
     return {
       select: {
         id: true,
+        name: true,
         filename: true,
         url: true,
         filetype: true,

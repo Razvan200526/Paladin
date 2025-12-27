@@ -1,5 +1,5 @@
-import type { CreateApplicationFormData } from '@client/applications/components/CreateApplicationButton';
-import type { ApplicationFilters } from '@client/resources/shared/filterUtils';
+import type { CreateApplicationFormData } from '@ruby/applications/components/CreateApplicationButton';
+import type { ApplicationFilters } from '@ruby/resources/shared/filterUtils';
 import type { Fetcher } from './Fetcher';
 import type { ApplicationType, ResponseType } from './types';
 
@@ -24,7 +24,7 @@ export type DeleteApplicationResult = {
 };
 
 export class ApplicationFetcher {
-  constructor(readonly fetcher: Fetcher) {}
+  constructor(readonly fetcher: Fetcher) { }
 
   public readonly apps = {
     /**
@@ -57,7 +57,7 @@ export class ApplicationFetcher {
     getApp: async (payload: {
       applicationId: string;
     }): Promise<ResponseType<ApplicationType>> => {
-      return this.fetcher.get(`/api/application/${payload.applicationId}`);
+      return this.fetcher.get(`/api/applications/single/${payload.applicationId}`);
     },
 
     /**

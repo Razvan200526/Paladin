@@ -2,7 +2,6 @@
  * Auth Middleware
  * Migrated from easyres with support for @razvan11/paladin pattern
  */
-import { inject } from '@razvan11/paladin';
 import type { Context, Next } from 'hono';
 import type { AuthService } from '../services/AuthService';
 

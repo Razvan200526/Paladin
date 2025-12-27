@@ -90,7 +90,6 @@ export const EditApplicationModal = ({
     }
 
     try {
-      console.debug('hrere');
       const salaryRange =
         formData.salary.min && formData.salary.max
           ? `${formData.salary.min} - ${formData.salary.max}`

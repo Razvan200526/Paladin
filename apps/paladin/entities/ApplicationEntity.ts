@@ -11,7 +11,7 @@ import {
 } from 'typeorm';
 import { CoverletterEntity } from './CoverletterEntity';
 import { ResumeEntity } from './ResumeEntity';
-import { UserEntity } from './UserEntity';
+import type { UserEntity } from './UserEntity';
 
 type ApplicationStatusType =
   | 'Applied'
@@ -30,7 +30,7 @@ export class ApplicationEntity {
   })
   id: string = random.nanoid(15);
 
-  @ManyToOne(() => UserEntity, { nullable: false })
+  @ManyToOne('UserEntity', { nullable: false })
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 

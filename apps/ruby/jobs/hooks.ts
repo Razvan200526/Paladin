@@ -1,6 +1,11 @@
 import { backend } from '@ruby/shared/backend';
 import { queryClient } from '@ruby/shared/QueryClient';
-import type { JobMatch, JobMatchStats, JobPreferences, MatchStatus } from '@sdk/JobFetcher';
+import type {
+  JobMatch,
+  JobMatchStats,
+  JobPreferences,
+  MatchStatus,
+} from '@sdk/JobFetcher';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 // ============================================

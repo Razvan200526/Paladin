@@ -1,9 +1,9 @@
+import { backend } from '@ruby/shared/backend';
+import { queryClient } from '@ruby/shared/QueryClient';
 import type {
   Notification,
   NotificationsResponse,
-} from '@client/sdk/NotificationFetcher';
-import { backend } from '@ruby/shared/backend';
-import { queryClient } from '@ruby/shared/QueryClient';
+} from '@sdk/NotificationFetcher';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
@@ -43,7 +43,7 @@ export const useUnreadNotificationCount = (userId: string | undefined) => {
     queryKey: ['notifications', 'unread-count', userId],
     queryFn: async () => {
       if (!userId) return 0;
-      console.debug(process.env.VITE_WS_URL);
+      console.debug(Bun.env.VITE_WS_URL);
       const res = await backend.notifications.notifications.getUnreadCount({
         userId,
       });
@@ -204,9 +204,7 @@ export const useRealtimeNotifications = (
 
     isConnectingRef.current = true;
 
-    const wsUrl =
-      import.meta.env.VITE_WS_URL ||
-      `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}/ws`;
+    const wsUrl = 'ws://localhost:3000/ws';
 
     try {
       // Close any existing connection first

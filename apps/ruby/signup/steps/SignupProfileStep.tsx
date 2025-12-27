@@ -1,3 +1,4 @@
+import { Button } from '@common/components/button';
 import { InputAvatar } from '@common/components/input/InputAvatar';
 import { InputName } from '@common/components/input/InputFirstName';
 import { Toast } from '@common/components/toast';
@@ -6,7 +7,7 @@ import {
   ArrowLeftCircleIcon,
   ArrowRightCircleIcon,
 } from '@heroicons/react/24/outline';
-import { Button, Form } from '@heroui/react';
+import { Form } from '@heroui/react';
 import { backend } from '@ruby/shared/backend';
 import { useSignupStore } from '../signUpStore';
 

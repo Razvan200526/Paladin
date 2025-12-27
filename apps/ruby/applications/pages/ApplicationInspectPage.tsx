@@ -26,6 +26,11 @@ import {
   useGetApplication,
   useUpdateApplicationStatus,
 } from '../hooks/applicationHooks';
+import { ActionTimeline } from '../components/ActionTimeline';
+import { RelatedDocuments } from '../components/RelatedDocuments';
+import { QuickStats } from '../components/QuickStats';
+import { CommentsAndSuggestions } from '../components/CommentsAndSuggestions';
+import { JobInformation } from '../components/JobInformation';
 
 const statusConfig = {
   Applied: {
@@ -275,229 +280,17 @@ export const ApplicationInspectPage = () => {
                   </div>
                 </div>
 
-                {/* Job Information */}
-                <div className="bg-light border border-border rounded-lg p-4">
-                  <H4 className="mb-4">Job Information</H4>
-                  <div className="space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <H6 className="text-sm font-semibold text-muted mb-1">
-                          Company
-                        </H6>
-                        <p className="text-primary font-medium">
-                          {application.employer}
-                        </p>
-                      </div>
-                      <div>
-                        <H6 className="text-sm font-semibold text-muted mb-1">
-                          Position
-                        </H6>
-                        <p className="text-primary font-medium">
-                          {application.jobTitle}
-                        </p>
-                      </div>
-                      <div>
-                        <H6 className="text-sm font-semibold text-muted mb-1">
-                          Location
-                        </H6>
-                        <p className="text-secondary-text">
-                          {application.location}
-                        </p>
-                      </div>
-                      {application.salaryRange && (
-                        <div>
-                          <H6 className="text-sm font-semibold text-muted mb-1">
-                            Salary Range
-                          </H6>
-                          <p className="text-secondary-text">
-                            {application.salaryRange}
-                          </p>
-                        </div>
-                      )}
-                    </div>
+                <JobInformation application={application} />
 
-                    {application.jobUrl && (
-                      <div>
-                        <H6 className="text-sm font-semibold text-muted mb-1">
-                          Job Posting
-                        </H6>
-                        <a
-                          href={application.jobUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary hover:underline inline-flex items-center gap-1"
-                        >
-                          <Icon icon="heroicons:link" className="size-4" />
-                          View Original Posting
-                        </a>
-                      </div>
-                    )}
-
-                    {application.contact && (
-                      <div>
-                        <H6 className="text-sm font-semibold text-muted mb-1">
-                          Contact Person
-                        </H6>
-                        <p className="text-secondary-text">
-                          {application.contact}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* Comments & Suggestions */}
-                {(application.comments?.length > 0 ||
-                  application.suggestions?.length > 0) && (
-                  <div className="bg-light border border-border rounded-lg p-4">
-                    <H4 className="mb-4">Notes & Suggestions</H4>
-
-                    {application.comments?.length > 0 && (
-                      <div className="mb-4">
-                        <H6 className="text-sm font-semibold text-muted mb-2">
-                          Comments
-                        </H6>
-                        <ul className="space-y-2">
-                          {application.comments.map((comment, index) => (
-                            <li key={index} className="flex items-start gap-2">
-                              <Icon
-                                icon="heroicons:chat-bubble-left"
-                                className="size-4 text-primary mt-0.5 shrink-0"
-                              />
-                              <span className="text-sm text-secondary-text">
-                                {comment}
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-
-                    {application.suggestions?.length > 0 && (
-                      <div>
-                        <H6 className="text-sm font-semibold text-muted mb-2">
-                          Suggestions
-                        </H6>
-                        <ul className="space-y-2">
-                          {application.suggestions.map((suggestion, index) => (
-                            <li key={index} className="flex items-start gap-2">
-                              <Icon
-                                icon="heroicons:light-bulb"
-                                className="size-4 text-amber-500 mt-0.5 shrink-0"
-                              />
-                              <span className="text-sm text-secondary-text">
-                                {suggestion}
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
-                )}
+                <CommentsAndSuggestions application={application} />
               </div>
 
-              {/* Sidebar */}
               <div className="space-y-6">
-                {/* Quick Stats */}
-                <div className="bg-light border border-border rounded-lg p-4">
-                  <H4 className="mb-4">Quick Info</H4>
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted">Applied</span>
-                      <span className="text-sm font-medium">
-                        {new Date(application.createdAt).toLocaleDateString()}
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted">Last Updated</span>
-                      <span className="text-sm font-medium">
-                        {new Date(application.updatedAt).toLocaleDateString()}
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted">Status</span>
-                      <Chip
-                        size="sm"
-                        className={`${statusInfo.color} border font-semibold`}
-                      >
-                        {statusInfo.label}
-                      </Chip>
-                    </div>
-                  </div>
-                </div>
+                <QuickStats application={application} statusInfo={statusInfo} />
 
-                {/* Related Documents */}
-                {(application.resume || application.coverletter) && (
-                  <div className="bg-light border border-border rounded-lg p-4">
-                    <H4 className="mb-4">Attached Documents</H4>
-                    <div className="space-y-3">
-                      {application.resume && (
-                        <div className="flex items-center gap-3 p-2 border border-border rounded">
-                          <Icon
-                            icon="heroicons:document-text"
-                            className="size-5 text-blue-600"
-                          />
-                          <div className="flex-1">
-                            <p className="text-sm font-medium">Resume</p>
-                            <p className="text-xs text-muted">
-                              {application.resume.name}
-                            </p>
-                          </div>
-                          <Button variant="light" size="sm">
-                            <Icon icon="heroicons:eye" className="size-4" />
-                          </Button>
-                        </div>
-                      )}
-                      {application.coverletter && (
-                        <div className="flex items-center gap-3 p-2 border border-border rounded">
-                          <Icon
-                            icon="heroicons:document-text"
-                            className="size-5 text-green-600"
-                          />
-                          <div className="flex-1">
-                            <p className="text-sm font-medium">Cover Letter</p>
-                            <p className="text-xs text-muted">
-                              {application.coverletter.name}
-                            </p>
-                          </div>
-                          <Button variant="light" size="sm">
-                            <Icon icon="heroicons:eye" className="size-4" />
-                          </Button>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
+                <RelatedDocuments application={application} />
 
-                {/* Action Timeline */}
-                <div className="bg-light border border-border rounded-lg p-4">
-                  <H4 className="mb-4">Timeline</H4>
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-3">
-                      <div className="w-2 h-2 bg-primary rounded-full mt-2 shrink-0" />
-                      <div>
-                        <p className="text-sm font-medium">
-                          Application Created
-                        </p>
-                        <p className="text-xs text-muted">
-                          {new Date(application.createdAt).toLocaleString()}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 shrink-0" />
-                      <div>
-                        <p className="text-sm font-medium">
-                          Status: {statusInfo.label}
-                        </p>
-                        <p className="text-xs text-muted">
-                          {new Date(application.updatedAt).toLocaleString()}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <ActionTimeline application={application} statusInfo={statusInfo} />
               </div>
             </div>
           </div>

@@ -232,7 +232,7 @@ export const ResumeChat = ({ resume }: { resume: ResumeType }) => {
             <>
               <ScrollShadow className="grow p-4" size={8}>
                 {messages.length === 0 ? (
-                  <EmptyChat />
+                  <EmptyChat resourceType='resume' />
                 ) : (
                   <>
                     <div className="flex flex-col gap-4 px-1">

@@ -12,5 +12,5 @@ services:
   maildev:
     image: maildev/maildev
     ports:
-      - "8025:8025"
+      - "1080:1080"
       - "1025:1025"

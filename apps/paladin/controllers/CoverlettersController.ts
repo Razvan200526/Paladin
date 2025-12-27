@@ -2,26 +2,26 @@
  * Coverletters Controller
  * Full implementation with apiResponse pattern
  */
-import { controller, get, post, put, del, inject } from '@razvan11/paladin';
+import { controller, del, get, inject, post, put } from '@razvan11/paladin';
+import type { Context } from 'hono';
 import { apiResponse } from '../client';
 import { CoverletterEntity } from '../entities/CoverletterEntity';
+import { CoverletterRepository } from '../repositories/CoverletterRepository';
+import { UserRepository } from '../repositories/UserRepository';
 import type { ApiResponse } from '../sdk/types';
-import type { Context } from 'hono';
-import type { CoverletterRepository } from '../repositories/CoverletterRepository';
-import type { UserRepository } from '../repositories/UserRepository';
 import { StorageService } from '../services/StorageService';
 
 @controller('/api/coverletters')
 export class CoverlettersController {
   constructor(
-    @inject('CoverletterRepository')
+    @inject(CoverletterRepository)
     private readonly coverletterRepo: CoverletterRepository,
-    @inject('UserRepository') private readonly userRepo: UserRepository,
-    @inject('StorageService') private readonly storageService: StorageService,
-  ) {}
+    @inject(UserRepository) private readonly userRepo: UserRepository,
+    @inject(StorageService) private readonly storageService: StorageService,
+  ) { }
 
   // GET /api/coverletters/user/:userId
-  @get('/user/:userId')
+  @get('/:userId')
   async getByUser(
     c: Context,
   ): Promise<ApiResponse<CoverletterEntity[] | null>> {
@@ -62,7 +62,7 @@ export class CoverlettersController {
   }
 
   // GET /api/coverletters/:id
-  @get('/:id')
+  @get('/single/:id')
   async getOne(c: Context): Promise<ApiResponse<CoverletterEntity | null>> {
     try {
       const id = c.req.param('id');

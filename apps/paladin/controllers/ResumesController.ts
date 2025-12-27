@@ -2,13 +2,21 @@
  * Resumes Controller
  * Full implementation with apiResponse pattern
  */
-import { controller, get, post, put, del, inject } from '@razvan11/paladin';
+import {
+  controller,
+  del,
+  get,
+  inject,
+  logger,
+  post,
+  put,
+} from '@razvan11/paladin';
+import type { Context } from 'hono';
 import { apiResponse } from '../client';
 import { ResumeEntity } from '../entities/ResumeEntity';
-import type { ApiResponse } from '../sdk/types';
-import type { Context } from 'hono';
 import { ResumeRepository } from '../repositories/ResumeRepository';
 import { UserRepository } from '../repositories/UserRepository';
+import type { ApiResponse } from '../sdk/types';
 import { StorageService } from '../services/StorageService';
 
 @controller('/api/resumes')
@@ -20,7 +28,7 @@ export class ResumesController {
   ) { }
 
   // GET /api/resumes/user/:userId
-  @get('/user/:userId')
+  @get('/:userId')
   async getByUser(c: Context): Promise<ApiResponse<ResumeEntity[] | null>> {
     try {
       const userId = c.req.param('userId');
@@ -59,7 +67,7 @@ export class ResumesController {
   }
 
   // GET /api/resumes/:id
-  @get('/:id')
+  @get('/single/:id')
   async getOne(c: Context): Promise<ApiResponse<ResumeEntity | null>> {
     try {
       const id = c.req.param('id');
@@ -105,6 +113,7 @@ export class ResumesController {
       const file = formData.get('file') as File;
       const userId = formData.get('userId') as string;
       const name = formData.get('name') as string;
+      logger.info(`Resume name : ${name}`);
 
       if (!file || !userId) {
         return apiResponse(

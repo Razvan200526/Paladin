@@ -57,7 +57,7 @@ export type TrendsResponse = {
 };
 
 export class AnalyticsFetcher {
-  constructor(readonly fetcher: Fetcher) {}
+  constructor(readonly fetcher: Fetcher) { }
 
   public readonly analytics = {
     /**
@@ -66,7 +66,7 @@ export class AnalyticsFetcher {
     getOverview: async (payload: {
       userId: string;
     }): Promise<ResponseType<AnalyticsOverview | null>> => {
-      return this.fetcher.get(`/api/analytics/${payload.userId}/overview`);
+      return this.fetcher.get(`/api/analytics/overview/${payload.userId}`);
     },
 
     /**
@@ -76,7 +76,7 @@ export class AnalyticsFetcher {
       userId: string;
     }): Promise<ResponseType<StatusBreakdownData | null>> => {
       return this.fetcher.get(
-        `/api/analytics/${payload.userId}/status-breakdown`,
+        `/api/analytics/status-breakdown/${payload.userId}`,
       );
     },
 
@@ -90,7 +90,7 @@ export class AnalyticsFetcher {
     }): Promise<ResponseType<TrendsResponse | null>> => {
       const params = payload.period ? `?period=${payload.period}` : '';
       return this.fetcher.get(
-        `/api/analytics/${payload.userId}/trends${params}`,
+        `/api/analytics/trends/${payload.userId}${params}`,
       );
     },
   };

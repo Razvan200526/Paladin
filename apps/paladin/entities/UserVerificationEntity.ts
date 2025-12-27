@@ -9,7 +9,7 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { UserEntity } from './UserEntity';
+import type { UserEntity } from './UserEntity';
 
 @Entity({
   name: 'user_verifications',
@@ -18,7 +18,7 @@ export class UserVerificationEntity {
   @PrimaryColumn({ name: 'id', type: 'varchar', length: 15 })
   id: string = random.nanoid(15);
 
-  @ManyToOne(() => UserEntity)
+  @ManyToOne('UserEntity')
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: UserEntity;
 

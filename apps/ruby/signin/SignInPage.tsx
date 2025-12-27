@@ -1,3 +1,4 @@
+import { Button } from '@common/components/button';
 import {
   InputEmail,
   type InputEmailRefType,
@@ -6,7 +7,7 @@ import {
 } from '@common/components/input';
 import { Toast } from '@common/components/toast';
 import { H3, H6 } from '@common/components/typography';
-import { Button, Card, Form } from '@heroui/react';
+import { Card, Form } from '@heroui/react';
 import { backend } from '@ruby/shared/backend';
 import type React from 'react';
 import { useRef, useState } from 'react';
@@ -39,7 +40,12 @@ export const SigninPage = () => {
     setTimeout(() => {
       setIsLoading(false);
 
-      if (response.success) {
+      if (!response.success) {
+        passwordRef.current?.setValue('');
+        Toast.error({
+          description: response.message || 'Something went wrong',
+        });
+      } else if (response.success) {
         navigate('/home/dashboard');
         setIsLoading(false);
       } else {

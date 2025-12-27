@@ -2,13 +2,13 @@
  * Users Controller
  * Full implementation with apiResponse pattern
  */
-import { controller, get, post, inject } from '@razvan11/paladin';
-import { apiResponse } from '../client';
-import type { ApiResponse } from '../sdk/types';
+import { controller, get, inject, post } from '@razvan11/paladin';
 import type { Context } from 'hono';
-import { UserRepository } from '../repositories/UserRepository';
-import { ResumeRepository } from '../repositories/ResumeRepository';
+import { apiResponse } from '../client';
 import { CoverletterRepository } from '../repositories/CoverletterRepository';
+import { ResumeRepository } from '../repositories/ResumeRepository';
+import { UserRepository } from '../repositories/UserRepository';
+import type { ApiResponse } from '../sdk/types';
 import { StorageService } from '../services/StorageService';
 
 @controller('/api/users')
@@ -16,11 +16,11 @@ export class UsersController {
   constructor(
     @inject(UserRepository) private readonly userRepo: UserRepository,
     @inject(ResumeRepository) private readonly resumeRepo: ResumeRepository,
-    @inject(CoverletterRepository) private readonly coverletterRepo: CoverletterRepository,
+    @inject(CoverletterRepository)
+    private readonly coverletterRepo: CoverletterRepository,
     @inject(StorageService) private readonly storageService: StorageService,
-  ) { }
+  ) {}
 
-  // GET /api/users/exists
   @get('/exists')
   async checkExists(
     c: Context,
