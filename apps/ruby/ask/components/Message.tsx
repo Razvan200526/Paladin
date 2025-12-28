@@ -1,10 +1,10 @@
-import { Avatar, cn } from '@heroui/react';
-import type { ChatMessage } from '../useAiChat';
+import { H1, H2, H3 } from '@common/components/typography';
 import { AiChatIcon } from '@common/icons/AiChatIcon';
 import { ThinkingIcon } from '@common/icons/ThinkingIcon';
+import { Avatar, cn } from '@heroui/react';
 import ReactMarkdown from 'react-markdown';
-import { H1, H2, H3 } from '@common/components/typography';
 import remarkGfm from 'remark-gfm';
+import type { ChatMessage } from '../useAiChat';
 
 export const Message = ({
   message,

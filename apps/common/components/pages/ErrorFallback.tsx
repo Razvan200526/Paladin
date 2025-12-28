@@ -27,26 +27,21 @@ export const ErrorFallback = ({ error }: { error: Error }) => {
       className="min-h-screen bg-linear-to-br from-primary-100 to-danger-50 flex items-center justify-center p-4"
     >
       <Card className="max-w-lg w-full p-8 text-center shadow-md flex flex-col gap-10">
-        {/* Error Icon */}
         <div className="mx-auto w-16 h-16 bg-danger-50 rounded-full flex items-center justify-center">
           <Icon icon="bx:error" className="text-danger size-10" />
         </div>
 
-        {/* Error Title */}
         <H3 className="text-danger">Oops! Something went wrong</H3>
 
-        {/* Error Description */}
         <p>
           We encountered an unexpected error. Don't worry, our team has been
           notified and we're working on a fix.
         </p>
 
-        {/* Action Buttons */}
         <Button onPress={handleReload} className="w-full">
           Try again
         </Button>
 
-        {/* Error Details Toggle */}
         <div className="flex flex-col gap-6 items-center">
           <Button
             onPress={() => setShowDetails(!showDetails)}

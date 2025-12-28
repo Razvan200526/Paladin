@@ -7,7 +7,7 @@ import '@fontsource/montserrat/600.css';
 import '@fontsource/montserrat/700.css';
 import '@fontsource/montserrat/800.css';
 import '@fontsource/montserrat/900.css';
-
+import '../logo.svg';
 import { ToastProvider } from '@common/components/toast';
 import { queryClient } from '@ruby/shared/QueryClient';
 import { QueryClientProvider } from '@tanstack/react-query';

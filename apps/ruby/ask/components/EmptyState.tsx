@@ -2,13 +2,13 @@ import {
   InputChat,
   type InputChatRefType,
 } from '@common/components/input/InputChat';
-import { suggestions } from '../utils';
-import { SuggestionButton } from './SuggetionButton';
+import { H4 } from '@common/components/typography';
+import { useAuth } from '@ruby/shared/hooks';
 import { useRef } from 'react';
 import { useAiChat } from '../useAiChat';
-import { useAuth } from '@ruby/shared/hooks';
 import { useAiChatHistory } from '../useAiChatHistory';
-import { H4 } from '@common/components/typography';
+import { suggestions } from '../utils';
+import { SuggestionButton } from './SuggetionButton';
 
 export const EmptyState = () => {
   const { data: user } = useAuth();
@@ -29,7 +29,6 @@ export const EmptyState = () => {
   const messageRef = useRef<InputChatRefType | null>(null);
   const handleSend = (message: string) => {
     if (!message.trim() || isStreaming) return;
-    console.log(message);
     try {
       sendMessage(message);
     } catch (e) {
@@ -71,7 +70,7 @@ export const EmptyState = () => {
         </div>
       </div>
       <InputChat
-        className='p-8'
+        className="p-8"
         ref={messageRef}
         placeholder="Ask me anything..."
         onSubmit={handleSend}

@@ -1,11 +1,11 @@
-import { useMemo } from 'react';
-import type { ChatHistoryItem } from '../useAiChatHistory';
-import { cn, ScrollShadow } from '@heroui/react';
+import { Button } from '@common/components/button';
 import { ChatHistorySkeleton } from '@common/components/skeletons/ChatHistorySkeleton';
 import { H6 } from '@common/components/typography';
-import { MessageSquareIcon, Trash2Icon } from 'lucide-react';
-import { Button } from '@common/components/button';
 import { formatDate } from '@common/utils';
+import { cn, ScrollShadow } from '@heroui/react';
+import { MessageSquareIcon, Trash2Icon } from 'lucide-react';
+import { useMemo } from 'react';
+import type { ChatHistoryItem } from '../useAiChatHistory';
 
 // Group history by date
 const groupHistoryByDate = (history: ChatHistoryItem[]) => {
@@ -24,15 +24,15 @@ const groupHistoryByDate = (history: ChatHistoryItem[]) => {
 export const ChatHistorySidebar = ({
   history,
   isLoading,
-  currentSessionId,
   onNewChat,
+  currentSessionId,
   onSelectSession,
   onDeleteSession,
 }: {
   history: ChatHistoryItem[];
   isLoading: boolean;
-  currentSessionId: string | null;
   onNewChat: () => void;
+  currentSessionId: string | null;
   onSelectSession: (sessionId: string) => void;
   onDeleteSession: (sessionId: string) => void;
 }) => {
@@ -49,7 +49,7 @@ export const ChatHistorySidebar = ({
           </div>
         ) : (
           <div className="space-y-4">
-            <H6 className='px-4 pt-4'>History</H6>
+            <H6 className="px-4 pt-4">History</H6>
             {Object.entries(groupedHistory).map(([dateLabel, items]) => (
               <div key={dateLabel}>
                 <div className="space-y-1">

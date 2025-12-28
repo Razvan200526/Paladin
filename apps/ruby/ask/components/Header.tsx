@@ -1,8 +1,8 @@
 import { Button } from '@common/components/button';
 import { AiChatIcon } from '@common/icons/AiChatIcon';
+import { useAuth } from '@ruby/shared/hooks';
 import { Trash2Icon, WifiOffIcon } from 'lucide-react';
 import { useAiChat } from '../useAiChat';
-import { useAuth } from '@ruby/shared/hooks';
 import { useAiChatHistory } from '../useAiChatHistory';
 
 export const Header = () => {

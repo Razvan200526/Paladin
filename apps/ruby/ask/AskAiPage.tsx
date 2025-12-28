@@ -3,12 +3,12 @@ import { InputChat } from '@common/components/input/InputChat';
 import { ScrollShadow } from '@heroui/react';
 import { useAuth } from '@ruby/shared/hooks';
 import { useEffect, useRef, useState } from 'react';
+import { ChatHistorySidebar } from './components/ChatHistorySidebar';
+import { EmptyState } from './components/EmptyState';
+import { Header } from './components/Header';
+import { Message } from './components/Message';
 import { useAiChat } from './useAiChat';
 import { useAiChatHistory } from './useAiChatHistory';
-import { Message } from './components/Message';
-import { ChatHistorySidebar } from './components/ChatHistorySidebar';
-import { Header } from './components/Header';
-import { EmptyState } from './components/EmptyState';
 export const AskAiPage = () => {
   const { data: user } = useAuth();
   const [inputValue, setInputValue] = useState('');

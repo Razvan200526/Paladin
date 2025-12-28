@@ -166,9 +166,7 @@ export const InputChat = ({
       placeholder={placeholder}
       value={inputValue}
       onKeyDown={handleKeyDown}
-      startContent={
-        <MessageIcon className={cn('size-4', colors.text)} />
-      }
+      startContent={<MessageIcon className={cn('size-4', colors.text)} />}
       endContent={
         showStopButton ? (
           <Button
@@ -177,9 +175,7 @@ export const InputChat = ({
             className="rounded-md"
             variant="bordered"
             onPress={onStop}
-            startContent={
-              <StopIcon className="size-3.5 text-secondary-text" />
-            }
+            startContent={<StopIcon className="size-3.5 text-secondary-text" />}
           />
         ) : (
           <Button

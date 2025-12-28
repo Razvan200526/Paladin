@@ -8,7 +8,7 @@ import type {
   TrendsData,
   TrendsPeriod,
 } from '@common/types';
-import { controller, get, inject, logger } from '@razvan11/paladin';
+import { controller, get, inject } from '@razvan11/paladin';
 import type { Context } from 'hono';
 import { MoreThanOrEqual } from 'typeorm';
 import { apiResponse } from '../client';

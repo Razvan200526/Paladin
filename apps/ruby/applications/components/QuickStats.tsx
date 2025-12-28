@@ -1,7 +1,5 @@
-import { Button } from '@common/components/button';
 import { H4 } from '@common/components/typography';
 import { Chip } from '@heroui/react';
-import { Icon } from '@iconify/react';
 import type { ApplicationType } from '@sdk/types';
 
 export const QuickStats = ({

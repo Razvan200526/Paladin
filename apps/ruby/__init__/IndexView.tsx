@@ -8,6 +8,7 @@ export interface IndexViewProps {
 export const IndexView = ({ apiUrl }: IndexViewProps) => {
   return (
     <LayoutView
+      favicon={asset('dist', 'logo.svg')}
       title="Azurite App"
       description="A full-stack application powered by Azurite framework"
       styles={[asset('dist', 'style.css'), asset('dist', 'app.css')]}

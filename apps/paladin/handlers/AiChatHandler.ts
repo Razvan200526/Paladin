@@ -2,6 +2,7 @@ import { AiChatSessionService } from '@paladin/services/AiChatSessionService';
 import { AiQueryService } from '@paladin/services/AiMessageService';
 import {
   inject,
+  logger,
   onClose,
   onMessage,
   onOpen,
@@ -49,8 +50,8 @@ export class AiChatHandler {
   ) {}
 
   @onOpen()
-  handleOpen(ws: ServerWebSocket<WSData>) {
-    console.log('[AI Chat] Client connected');
+  handleOpen(_ws: ServerWebSocket<WSData>) {
+    logger.info('[AI Chat] Client connected');
   }
 
   @onMessage()
@@ -79,10 +80,10 @@ export class AiChatHandler {
           break;
 
         default:
-          console.log('[AI Chat] Unknown action:', data.action);
+          logger.warn(`[AI Chat] Unknown action: ${data.action}`);
       }
     } catch (error) {
-      console.error('[AI Chat] Error:', error);
+      logger.error(new Error(`[AI Chat] Error: ${error}`));
       this.sendError(
         ws,
         error instanceof Error ? error.message : 'Unknown error',
@@ -91,8 +92,8 @@ export class AiChatHandler {
   }
 
   @onClose()
-  handleClose(ws: ServerWebSocket<WSData>) {
-    console.log('[AI Chat] Client disconnected');
+  handleClose(_ws: ServerWebSocket<WSData>) {
+    logger.info('[AI Chat] Client disconnected');
   }
 
   private async handleInit(ws: ServerWebSocket<WSData>, data: ChatAction) {
