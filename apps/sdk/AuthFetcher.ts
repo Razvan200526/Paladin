@@ -2,7 +2,7 @@ import type { Fetcher } from './Fetcher';
 import type { ResponseType, UserType } from './types';
 
 export class AuthFetcher {
-  constructor(private readonly fetcher: Fetcher) { }
+  constructor(private readonly fetcher: Fetcher) {}
 
   public setAuthToken(token: string) {
     this.fetcher.setAuthToken(token);
@@ -40,7 +40,7 @@ export class AuthFetcher {
       password: string;
       rememberMe?: boolean;
     }): Promise<
-      | ResponseType<{
+      ResponseType<{
         user: UserType;
         token: string;
       }>

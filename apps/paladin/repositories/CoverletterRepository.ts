@@ -12,7 +12,7 @@ import { CoverletterEntity } from '../entities/CoverletterEntity';
 
 @repository()
 export class CoverletterRepository {
-  constructor(@inject(PrimaryDatabase) private database: PrimaryDatabase) { }
+  constructor(@inject(PrimaryDatabase) private database: PrimaryDatabase) {}
 
   public async open(): Promise<Repository<CoverletterEntity>> {
     return await this.database.open(CoverletterEntity);

@@ -8,7 +8,6 @@ import {
   TrashIcon,
 } from '@heroicons/react/24/outline';
 import {
-  Chip,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -20,17 +19,17 @@ import { Icon } from '@iconify/react';
 import { useAuth } from '@ruby/shared/hooks';
 import { useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
+import { ActionTimeline } from '../components/ActionTimeline';
+import { CommentsAndSuggestions } from '../components/CommentsAndSuggestions';
 import { DeleteApplicationModal } from '../components/DeleteApplicationModal';
 import { EditApplicationModal } from '../components/EditApplicationModal';
+import { JobInformation } from '../components/JobInformation';
+import { QuickStats } from '../components/QuickStats';
+import { RelatedDocuments } from '../components/RelatedDocuments';
 import {
   useGetApplication,
   useUpdateApplicationStatus,
 } from '../hooks/applicationHooks';
-import { ActionTimeline } from '../components/ActionTimeline';
-import { RelatedDocuments } from '../components/RelatedDocuments';
-import { QuickStats } from '../components/QuickStats';
-import { CommentsAndSuggestions } from '../components/CommentsAndSuggestions';
-import { JobInformation } from '../components/JobInformation';
 
 const statusConfig = {
   Applied: {
@@ -290,7 +289,10 @@ export const ApplicationInspectPage = () => {
 
                 <RelatedDocuments application={application} />
 
-                <ActionTimeline application={application} statusInfo={statusInfo} />
+                <ActionTimeline
+                  application={application}
+                  statusInfo={statusInfo}
+                />
               </div>
             </div>
           </div>

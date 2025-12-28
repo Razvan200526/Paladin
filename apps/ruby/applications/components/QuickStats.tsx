@@ -1,10 +1,16 @@
-import { Button } from "@common/components/button";
-import { H4 } from "@common/components/typography";
-import { Chip } from "@heroui/react";
-import { Icon } from "@iconify/react";
-import type { ApplicationType } from "@sdk/types";
+import { Button } from '@common/components/button';
+import { H4 } from '@common/components/typography';
+import { Chip } from '@heroui/react';
+import { Icon } from '@iconify/react';
+import type { ApplicationType } from '@sdk/types';
 
-export const QuickStats = ({ application, statusInfo }: { application: ApplicationType, statusInfo: { color: string, label: string } }) => {
+export const QuickStats = ({
+  application,
+  statusInfo,
+}: {
+  application: ApplicationType;
+  statusInfo: { color: string; label: string };
+}) => {
   return (
     <div className="bg-light border border-border rounded-lg p-4">
       <H4 className="mb-4">Quick Info</H4>
@@ -32,5 +38,5 @@ export const QuickStats = ({ application, statusInfo }: { application: Applicati
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

@@ -6,6 +6,7 @@ import 'reflect-metadata';
 
 import { EnvValidator } from '@common/EnvValidator';
 import { controllers } from '@paladin/controllers/controllers';
+import { AiChatHandler } from '@paladin/handlers/AiChatHandler';
 import { NotificationHandler } from '@paladin/handlers/NotificationHandler';
 import { App, logger } from '@razvan11/paladin';
 import { HealthController } from './__init__/HealthController';
@@ -21,7 +22,7 @@ try {
   app.serveStatic({ path: '/static', root: './apps/ruby/shared/public' });
 
   app.registerControllers(HealthController, ...controllers, IndexController);
-  app.registerWebSocket(NotificationHandler);
+  app.registerWebSockets(NotificationHandler, AiChatHandler);
 
   await app.run();
 } catch (e) {

@@ -10,10 +10,11 @@
     "test": "bun test tests",
     "test:watch": "bun test tests --watch",
     "test:coverage": "bun test tests --coverage",
-    "db": "bun run db:migrate && bun run db:run",
-    "mirgate": "bun run --bun node_modules/typeorm/cli.js migration:generate ./migrations/Initial -d ./apps/paladin/shared/database/data-source.ts",
+    "wrangler": "wrangler dev",
+    "db:mirgate": "bun run --bun node_modules/typeorm/cli.js migration:generate ./migrations/Initial -d ./apps/paladin/shared/database/data-source.ts",
     "db:run": "bun run --bun node_modules/typeorm/cli.js migration:run -d ./apps/paladin/shared/database/data-source.ts",
-    "db:revert": "bun run --bun node_modules/typeorm/cli.js migration:revert -d ./apps/paladin/shared/database/data-source.ts"
+    "db:revert": "bun run --bun node_modules/typeorm/cli.js migration:revert -d ./apps/paladin/shared/database/data-source.ts",
+    "db": "bun db:migrate && bun db:run"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.10",
@@ -38,7 +39,7 @@
     "@react-stately/utils": "^3.10.8",
     "@sentry/react": "^10.32.1",
     "@tailwindcss/cli": "^4.1.18",
-    "@tanstack/react-query": "^5.90.12",
+    "@tanstack/react-query": "^5.90.13",
     "@tiptap/extension-bubble-menu": "^3.13.0",
     "@tiptap/extension-character-count": "^3.13.0",
     "@tiptap/extension-color": "^3.13.0",

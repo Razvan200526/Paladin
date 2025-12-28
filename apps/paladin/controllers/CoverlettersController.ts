@@ -18,7 +18,7 @@ export class CoverlettersController {
     private readonly coverletterRepo: CoverletterRepository,
     @inject(UserRepository) private readonly userRepo: UserRepository,
     @inject(StorageService) private readonly storageService: StorageService,
-  ) { }
+  ) {}
 
   // GET /api/coverletters/user/:userId
   @get('/:userId')

@@ -26,4 +26,8 @@ export class EnvValidator {
   @IsString()
   @env()
   private readonly R2_BUCKET_NAME: string;
+
+  @IsString()
+  @env()
+  private readonly GEMINI_API_KEY: string;
 }

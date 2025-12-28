@@ -6,7 +6,7 @@ import type { Context } from 'hono';
 
 @controller('/api/uploads/images')
 export class UploadController {
-  constructor(@inject(StorageService) private storageService: StorageService) { }
+  constructor(@inject(StorageService) private storageService: StorageService) {}
 
   @post('/avatars')
   async uploadAvatar(c: Context): Promise<ApiResponse<{ url: string } | null>> {

@@ -2,7 +2,7 @@ import type { Fetcher } from './Fetcher';
 import type { ResponseType } from './types';
 
 export class UploadFetcher {
-  constructor(readonly fetcher: Fetcher) { }
+  constructor(readonly fetcher: Fetcher) {}
 
   public readonly image = {
     avatar: async (data: FormData): Promise<ResponseType<{ url: string }>> => {

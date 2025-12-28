@@ -1,9 +1,12 @@
-import { H4, H6 } from "@common/components/typography";
-import { Icon } from "@iconify/react";
-import type { ApplicationType } from "@sdk/types";
+import { H4, H6 } from '@common/components/typography';
+import { Icon } from '@iconify/react';
+import type { ApplicationType } from '@sdk/types';
 
-export const CommentsAndSuggestions = ({ application }: { application: ApplicationType }) => {
-
+export const CommentsAndSuggestions = ({
+  application,
+}: {
+  application: ApplicationType;
+}) => {
   return (
     (application.comments?.length > 0 ||
       application.suggestions?.length > 0) && (
@@ -12,9 +15,7 @@ export const CommentsAndSuggestions = ({ application }: { application: Applicati
 
         {application.comments?.length > 0 && (
           <div className="mb-4">
-            <H6 className="text-sm font-semibold text-muted mb-2">
-              Comments
-            </H6>
+            <H6 className="text-sm font-semibold text-muted mb-2">Comments</H6>
             <ul className="space-y-2">
               {application.comments.map((comment, index) => (
                 <li key={index} className="flex items-start gap-2">
@@ -22,9 +23,7 @@ export const CommentsAndSuggestions = ({ application }: { application: Applicati
                     icon="heroicons:chat-bubble-left"
                     className="size-4 text-primary mt-0.5 shrink-0"
                   />
-                  <span className="text-sm text-secondary-text">
-                    {comment}
-                  </span>
+                  <span className="text-sm text-secondary-text">{comment}</span>
                 </li>
               ))}
             </ul>
@@ -53,5 +52,5 @@ export const CommentsAndSuggestions = ({ application }: { application: Applicati
         )}
       </div>
     )
-  )
-}
+  );
+};

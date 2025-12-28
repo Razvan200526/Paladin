@@ -66,9 +66,10 @@ export const ChartsSection = () => {
       color: item.color,
     })) || [];
 
-  const displayTrendData = applicationTrendData.length > 0
-    ? applicationTrendData
-    : [{ label: '', applications: 0, responses: 0, interviews: 0 }];
+  const displayTrendData =
+    applicationTrendData.length > 0
+      ? applicationTrendData
+      : [{ label: '', applications: 0, responses: 0, interviews: 0 }];
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
@@ -240,7 +241,8 @@ export const ChartsSection = () => {
               <div className="flex items-center justify-center h-full text-secondary-text text-sm">
                 Failed to load status data
               </div>
-            ) : statusBreakdownData.length === 0 || statusBreakdownData.every((d) => d.value === 0) ? (
+            ) : statusBreakdownData.length === 0 ||
+              statusBreakdownData.every((d) => d.value === 0) ? (
               <div className="h-full" />
             ) : (
               <div className="flex items-center h-full">

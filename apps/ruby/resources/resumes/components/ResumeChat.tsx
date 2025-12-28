@@ -232,7 +232,7 @@ export const ResumeChat = ({ resume }: { resume: ResumeType }) => {
             <>
               <ScrollShadow className="grow p-4" size={8}>
                 {messages.length === 0 ? (
-                  <EmptyChat resourceType='resume' />
+                  <EmptyChat resourceType="resume" />
                 ) : (
                   <>
                     <div className="flex flex-col gap-4 px-1">
@@ -336,7 +336,7 @@ export const ResumeChat = ({ resume }: { resume: ResumeType }) => {
                   placeholder="Chat about your resume..."
                   value={inputValue}
                   onChange={setInputValue}
-                  onEnter={handleSubmit}
+                  onSubmit={handleSubmit}
                   isPending={isThinking}
                   onStop={handleStop}
                   showStopButton={isThinking}

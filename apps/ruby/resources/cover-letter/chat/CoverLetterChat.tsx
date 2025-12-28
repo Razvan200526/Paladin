@@ -254,7 +254,7 @@ export const CoverLetterChat = ({
               <>
                 <ScrollShadow className="grow p-4" size={8}>
                   {messages.length === 0 ? (
-                    <EmptyChat resourceType='coverletter' />
+                    <EmptyChat resourceType="coverletter" />
                   ) : (
                     <>
                       <div className="flex flex-col gap-4 px-1">
@@ -357,7 +357,7 @@ export const CoverLetterChat = ({
                   <InputChat
                     value={inputValue}
                     onChange={setInputValue}
-                    onEnter={handleSubmit}
+                    onSubmit={handleSubmit}
                     isPending={isThinking}
                     theme="coverletter"
                     onStop={handleStop}

@@ -199,7 +199,7 @@ export const AiQuickChat = ({ onClose }: AiQuickChatProps) => {
           placeholder="Message AI Assistant..."
           value={inputValue}
           onChange={setInputValue}
-          onEnter={handleSend}
+          onSubmit={handleSend}
           onStop={handleStop}
           isPending={isLoading}
           showStopButton={isLoading}

@@ -57,7 +57,7 @@ export type TrendsResponse = {
 };
 
 export class AnalyticsFetcher {
-  constructor(readonly fetcher: Fetcher) { }
+  constructor(readonly fetcher: Fetcher) {}
 
   public readonly analytics = {
     /**

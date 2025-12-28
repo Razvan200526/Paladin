@@ -24,7 +24,7 @@ export type DeleteApplicationResult = {
 };
 
 export class ApplicationFetcher {
-  constructor(readonly fetcher: Fetcher) { }
+  constructor(readonly fetcher: Fetcher) {}
 
   public readonly apps = {
     /**
@@ -57,7 +57,9 @@ export class ApplicationFetcher {
     getApp: async (payload: {
       applicationId: string;
     }): Promise<ResponseType<ApplicationType>> => {
-      return this.fetcher.get(`/api/applications/single/${payload.applicationId}`);
+      return this.fetcher.get(
+        `/api/applications/single/${payload.applicationId}`,
+      );
     },
 
     /**

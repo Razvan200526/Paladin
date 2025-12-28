@@ -1,5 +1,4 @@
-import { type ButtonProps, Button as HeroButton } from '@heroui/button';
-import { cn } from '@heroui/theme';
+import { type ButtonProps, cn, Button as HeroButton } from '@heroui/react';
 
 export type ButtonPropsType = Omit<ButtonProps, 'color'> & {
   color?: 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
@@ -24,6 +23,8 @@ export const Button = (props: ButtonPropsType) => {
       variant={variant}
       className={cn(
         'font-medium tracking-wide rounded',
+        'data-[focus=true]:outline-2 data-[focus=true]:outline-offset-2',
+        'data-[focus=true]:outline-primary',
         size === 'sm' ? 'text-xs' : 'text-sm',
         variant === 'bordered' ? 'border-small' : '',
         color === 'primary' && variant === 'light'

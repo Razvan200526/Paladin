@@ -1,9 +1,13 @@
-import { Button } from "@common/components/button"
-import { H4 } from "@common/components/typography"
-import { Icon } from "@iconify/react"
-import type { ApplicationType } from "@sdk/types"
+import { Button } from '@common/components/button';
+import { H4 } from '@common/components/typography';
+import { Icon } from '@iconify/react';
+import type { ApplicationType } from '@sdk/types';
 
-export const RelatedDocuments = ({ application }: { application: ApplicationType }) => {
+export const RelatedDocuments = ({
+  application,
+}: {
+  application: ApplicationType;
+}) => {
   return (
     (application.resume || application.coverletter) && (
       <div className="bg-light border border-border rounded-lg p-4">
@@ -46,5 +50,5 @@ export const RelatedDocuments = ({ application }: { application: ApplicationType
         </div>
       </div>
     )
-  )
-}
+  );
+};

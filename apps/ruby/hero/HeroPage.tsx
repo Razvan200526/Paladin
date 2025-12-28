@@ -1,8 +1,8 @@
 import { Button } from '@common/components/button';
 import { H1, P } from '@common/components/typography';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
-import { Link } from 'react-router';
 import imageUrl from '@ruby/assets/PreviewImage.webp';
+import { Link } from 'react-router';
 import { BenefitsSection } from './components/BenefitsSection';
 import { FeaturesSection } from './components/FeaturesSection';
 import { Footer } from './components/Footer';

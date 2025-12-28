@@ -25,7 +25,7 @@ export class ResumesController {
     @inject(ResumeRepository) private readonly resumeRepo: ResumeRepository,
     @inject(UserRepository) private readonly userRepo: UserRepository,
     @inject(StorageService) private readonly storageService: StorageService,
-  ) { }
+  ) {}
 
   // GET /api/resumes/user/:userId
   @get('/:userId')

@@ -43,7 +43,7 @@ export class ApplicationsController {
     @inject(UserRepository) private readonly userRepo: UserRepository,
     @inject(ApplicationRepository)
     private readonly appRepo: ApplicationRepository,
-  ) { }
+  ) {}
 
   // POST /api/applications/create
   @post('/create')

@@ -2,17 +2,18 @@
  * Analytics Controller
  * Full implementation with apiResponse pattern
  */
+
+import type {
+  StatusBreakdownData,
+  TrendsData,
+  TrendsPeriod,
+} from '@common/types';
 import { controller, get, inject, logger } from '@razvan11/paladin';
 import type { Context } from 'hono';
+import { MoreThanOrEqual } from 'typeorm';
 import { apiResponse } from '../client';
 import { ApplicationRepository } from '../repositories/ApplicationRepository';
 import type { ApiResponse } from '../sdk/types';
-import { MoreThanOrEqual } from 'typeorm';
-import type {
-  TrendsData,
-  TrendsPeriod,
-  StatusBreakdownData,
-} from '@common/types';
 
 type AnalyticsOverview = {
   totalApplications: number;
@@ -35,7 +36,7 @@ export class AnalyticsController {
   constructor(
     @inject(ApplicationRepository)
     private readonly appRepo: ApplicationRepository,
-  ) { }
+  ) {}
 
   // GET /api/analytics/overview/:userId
   @get('/overview/:userId')
@@ -61,11 +62,28 @@ export class AnalyticsController {
         'Rejected',
       );
 
-      const thisMonthApplications = await this.appRepo.find({ where: { user: { id: userId }, createdAt: MoreThanOrEqual(new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)) } })
+      const thisMonthApplications = await this.appRepo.find({
+        where: {
+          user: { id: userId },
+          createdAt: MoreThanOrEqual(
+            new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+          ),
+        },
+      });
       const thisMonthCount = thisMonthApplications?.length ?? 0;
-      const thisWeekApplications = await this.appRepo.find({ where: { user: { id: userId }, createdAt: MoreThanOrEqual(new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)) } });
+      const thisWeekApplications = await this.appRepo.find({
+        where: {
+          user: { id: userId },
+          createdAt: MoreThanOrEqual(
+            new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+          ),
+        },
+      });
       const thisWeekCount = thisWeekApplications?.length ?? 0;
-      const responseRate = totalApplications > 0 ? ((accepted + interviewing + rejected) / totalApplications) * 100 : 0;
+      const responseRate =
+        totalApplications > 0
+          ? ((accepted + interviewing + rejected) / totalApplications) * 100
+          : 0;
 
       return apiResponse(c, {
         data: {
@@ -128,10 +146,30 @@ export class AnalyticsController {
       const total = applied + interviewing + accepted + rejected;
 
       const breakdown = [
-        { name: 'Applied', value: applied, color: 'var(--color-primary-500)', percentage: total > 0 ? (applied / total) * 100 : 0 },
-        { name: 'Interviewing', value: interviewing, color: 'var(--color-secondary-500)', percentage: total > 0 ? (interviewing / total) * 100 : 0 },
-        { name: 'Accepted', value: accepted, color: 'var(--color-green-500)', percentage: total > 0 ? (accepted / total) * 100 : 0 },
-        { name: 'Rejected', value: rejected, color: 'var(--color-red-500)', percentage: total > 0 ? (rejected / total) * 100 : 0 },
+        {
+          name: 'Applied',
+          value: applied,
+          color: 'var(--color-primary-500)',
+          percentage: total > 0 ? (applied / total) * 100 : 0,
+        },
+        {
+          name: 'Interviewing',
+          value: interviewing,
+          color: 'var(--color-secondary-500)',
+          percentage: total > 0 ? (interviewing / total) * 100 : 0,
+        },
+        {
+          name: 'Accepted',
+          value: accepted,
+          color: 'var(--color-green-500)',
+          percentage: total > 0 ? (accepted / total) * 100 : 0,
+        },
+        {
+          name: 'Rejected',
+          value: rejected,
+          color: 'var(--color-red-500)',
+          percentage: total > 0 ? (rejected / total) * 100 : 0,
+        },
       ];
 
       return apiResponse(c, {
@@ -188,7 +226,7 @@ export class AnalyticsController {
 
       // Filter applications within period
       const filteredApps = applications.filter(
-        (app) => new Date(app.createdAt) >= startDate
+        (app) => new Date(app.createdAt) >= startDate,
       );
 
       // Determine if we should group by day or month
@@ -203,7 +241,10 @@ export class AnalyticsController {
         current.setHours(0, 0, 0, 0);
         while (current <= now) {
           const key = `${current.getFullYear()}-${String(current.getMonth() + 1).padStart(2, '0')}-${String(current.getDate()).padStart(2, '0')}`;
-          const label = current.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric' });
+          const label = current.toLocaleDateString('en-US', {
+            weekday: 'short',
+            day: 'numeric',
+          });
           allPeriods.push({ key, label, date: new Date(current) });
           current.setDate(current.getDate() + 1);
         }
@@ -219,9 +260,26 @@ export class AnalyticsController {
       }
 
       // Initialize all periods with zero values
-      const groupedData: Record<string, { label: string; applications: number; responses: number; interviews: number; accepted: number; rejected: number }> = {};
-      allPeriods.forEach(p => {
-        groupedData[p.key] = { label: p.label, applications: 0, responses: 0, interviews: 0, accepted: 0, rejected: 0 };
+      const groupedData: Record<
+        string,
+        {
+          label: string;
+          applications: number;
+          responses: number;
+          interviews: number;
+          accepted: number;
+          rejected: number;
+        }
+      > = {};
+      allPeriods.forEach((p) => {
+        groupedData[p.key] = {
+          label: p.label,
+          applications: 0,
+          responses: 0,
+          interviews: 0,
+          accepted: 0,
+          rejected: 0,
+        };
       });
 
       // Populate with actual application data

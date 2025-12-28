@@ -2,6 +2,7 @@ import { AnalyticsFetcher } from './AnalyticsFetcher';
 import { ApplicationFetcher } from './ApplicationFetcher';
 import { AuthFetcher } from './AuthFetcher';
 import { ChatFetcher } from './ChatFetcher';
+import { ChatHistoryFetcher } from './ChatHistoryFetcher';
 import { CoverLetterFetcher } from './CoverLetterFetcher';
 import type { Fetcher } from './Fetcher';
 import { JobFetcher } from './JobFetcher';
@@ -20,6 +21,7 @@ export class Backend {
   public readonly coverLetter: CoverLetterFetcher;
   public readonly message: MessageFetcher;
   public readonly chat: ChatFetcher;
+  public readonly chatHistory: ChatHistoryFetcher;
   public readonly apps: ApplicationFetcher;
   public readonly analytics: AnalyticsFetcher;
   public readonly notifications: NotificationFetcher;
@@ -33,6 +35,7 @@ export class Backend {
     this.coverLetter = new CoverLetterFetcher(this.fetcher);
     this.message = new MessageFetcher(this.fetcher);
     this.chat = new ChatFetcher(this.fetcher);
+    this.chatHistory = new ChatHistoryFetcher(this.fetcher);
     this.apps = new ApplicationFetcher(this.fetcher);
     this.analytics = new AnalyticsFetcher(this.fetcher);
     this.notifications = new NotificationFetcher(this.fetcher);

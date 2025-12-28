@@ -19,7 +19,7 @@ export const GoalsSection = () => {
 
   const thisMonthCount = overview?.thisMonthCount ?? 0;
   const thisWeekCount = overview?.thisWeekCount ?? 0;
-  const responseRate = overview?.responseRate.toFixed(2) ?? '0';
+  const _responseRate = overview?.responseRate.toFixed(2) ?? '0';
   const interviewCount = overview?.statusCounts?.interviewing ?? 0;
 
   return (

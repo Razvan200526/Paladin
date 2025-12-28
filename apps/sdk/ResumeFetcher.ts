@@ -6,7 +6,7 @@ import { Socket, type SocketResponseType } from './Socket';
 import type { ResponseType, ResumeChatResponseType, ResumeType } from './types';
 
 export class ResumeFetcher {
-  constructor(readonly fetcher: Fetcher) { }
+  constructor(readonly fetcher: Fetcher) {}
 
   public readonly resumes = {
     retrieve: async (payload: { userId: string }): Promise<ResponseType> => {

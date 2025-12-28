@@ -10,6 +10,8 @@ export { AnalyticsController } from './AnalyticsController';
 export { ApplicationsController } from './ApplicationsController';
 // Auth Controllers
 export { AuthController } from './AuthController';
+// Chat History Controllers
+export { ChatHistoryController } from './ChatHistoryController';
 export { CoverlettersController } from './CoverlettersController';
 // Jobs Controllers
 export { JobsController } from './JobsController';
@@ -25,6 +27,7 @@ import { AnalyticsController } from './AnalyticsController';
 import { ApplicationsController } from './ApplicationsController';
 // Export all controllers as an array for convenient registration
 import { AuthController } from './AuthController';
+import { ChatHistoryController } from './ChatHistoryController';
 import { CoverlettersController } from './CoverlettersController';
 import { JobsController } from './JobsController';
 import { NotificationsController } from './NotificationsController';
@@ -37,6 +40,7 @@ export const controllers = [
   ApplicationsController,
   ResumesController,
   CoverlettersController,
+  ChatHistoryController,
   AnalyticsController,
   JobsController,
   NotificationsController,

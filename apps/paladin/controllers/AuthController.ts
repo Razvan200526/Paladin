@@ -2,14 +2,15 @@
  * Consolidated Auth Controller
  * Migrated from easyres individual controller files to @razvan11/paladin pattern
  */
+
+import { apiResponse } from '@paladin/client';
 import { controller, get, inject, post } from '@razvan11/paladin';
 import type { Context } from 'hono';
 import { AuthService } from '../services/AuthService';
-import { apiResponse } from '@paladin/client';
 
 @controller('/api/auth')
 export class AuthController {
-  constructor(@inject(AuthService) private readonly authService: AuthService) { }
+  constructor(@inject(AuthService) private readonly authService: AuthService) {}
 
   @get('/reference')
   async getOpenAPIReference(c: Context) {
@@ -110,12 +111,32 @@ export class AuthController {
           token: result.response.token,
         },
         success: true,
-        message: 'User signed in successfully'
-      })
+        message: 'User signed in successfully',
+      });
     } catch (e) {
       if (e instanceof Error)
-        return apiResponse(c, { data: { user: null, token: null }, isClientError: false, isServerError: true, success: false, message: 'Something went wrong' }, 401);
-      return apiResponse(c, { data: { user: null, token: false }, isClientError: false, isServerError: true, success: false, message: 'Something went wrong' }, 401);
+        return apiResponse(
+          c,
+          {
+            data: { user: null, token: null },
+            isClientError: false,
+            isServerError: true,
+            success: false,
+            message: 'Something went wrong',
+          },
+          401,
+        );
+      return apiResponse(
+        c,
+        {
+          data: { user: null, token: false },
+          isClientError: false,
+          isServerError: true,
+          success: false,
+          message: 'Something went wrong',
+        },
+        401,
+      );
     }
   }
 
