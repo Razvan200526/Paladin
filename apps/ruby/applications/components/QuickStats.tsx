@@ -1,13 +1,10 @@
 import { H4 } from '@common/components/typography';
-import { Chip } from '@heroui/react';
 import type { ApplicationType } from '@sdk/types';
 
 export const QuickStats = ({
   application,
-  statusInfo,
 }: {
   application: ApplicationType;
-  statusInfo: { color: string; label: string };
 }) => {
   return (
     <div className="bg-light border border-border rounded-lg p-4">
@@ -24,15 +21,6 @@ export const QuickStats = ({
           <span className="text-sm font-medium">
             {new Date(application.updatedAt).toLocaleDateString()}
           </span>
-        </div>
-        <div className="flex items-center justify-between">
-          <span className="text-sm text-muted">Status</span>
-          <Chip
-            size="sm"
-            className={`${statusInfo.color} border font-semibold`}
-          >
-            {statusInfo.label}
-          </Chip>
         </div>
       </div>
     </div>

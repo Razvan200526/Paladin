@@ -35,7 +35,7 @@ export const ActionsSection = () => {
       iconBgColor: 'bg-secondary-200',
       titleColor: 'text-secondary-800',
       descriptionColor: 'text-secondary-600',
-      onClick: () => navigate('/resumes'),
+      onClick: () => navigate('/home/resources' , {replace :true}),
     },
     {
       title: 'AI Assistant',
@@ -71,7 +71,6 @@ export const ActionsSection = () => {
         ))}
       </div>
 
-      {/* Create Application Modal */}
       {showCreateModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <div className="w-full max-w-3xl mx-4 max-h-[90vh] overflow-y-auto animate-appearance-in">
@@ -80,10 +79,8 @@ export const ActionsSection = () => {
         </div>
       )}
 
-      {/* AI Quick Chat Popup */}
       {showAiChat && (
         <>
-          {/* Backdrop */}
           <div
             className="fixed inset-0 z-40 bg-black/30"
             onClick={() => setShowAiChat(false)}

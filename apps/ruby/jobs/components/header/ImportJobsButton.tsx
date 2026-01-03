@@ -1,11 +1,10 @@
+import { Button } from '@common/components/button';
 import {
   AdjustmentsHorizontalIcon,
-  ArrowPathIcon,
-  CloudArrowDownIcon,
+  ArrowDownTrayIcon,
 } from '@heroicons/react/24/outline';
 import {
   addToast,
-  Button,
   Checkbox,
   CheckboxGroup,
   Popover,
@@ -13,24 +12,26 @@ import {
   PopoverTrigger,
   Spinner,
 } from '@heroui/react';
+import { UserRoundSearchIcon } from 'lucide-react';
 import { useState } from 'react';
 import {
   useFetchExternalJobs,
   useJobCategories,
   useRefreshJobMatches,
-} from '../hooks';
+} from '../../hooks';
 
-interface FetchExternalJobsProps {
+interface ImportJobsButtonProps {
   userId?: string;
   onSuccess?: () => void;
 }
 
 const DEFAULT_CATEGORIES = ['software-dev', 'data', 'devops', 'design'];
 
-export const FetchExternalJobs = ({
+export const ImportJobsButton = ({
   userId,
   onSuccess,
-}: FetchExternalJobsProps) => {
+}: ImportJobsButtonProps) => {
+  const [isOpen, setIsOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] =
     useState<string[]>(DEFAULT_CATEGORIES);
 
@@ -63,7 +64,8 @@ export const FetchExternalJobs = ({
               color: 'success',
             });
 
-            // Now refresh matches for this user
+            setIsOpen(false);
+
             if (userId) {
               refreshMatches(userId, {
                 onSuccess: (matchResult) => {
@@ -109,68 +111,64 @@ export const FetchExternalJobs = ({
   };
 
   return (
-    <div className="flex flex-col items-center gap-3">
-      <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-        <CloudArrowDownIcon className="w-6 h-6 text-primary" />
-      </div>
-      <p className="text-sm text-muted text-center max-w-xs">
-        Import jobs from external sources to find matches
-      </p>
-      <div className="flex items-center gap-2">
-        <Popover placement="bottom">
-          <PopoverTrigger>
-            <Button
-              size="sm"
-              variant="flat"
-              startContent={<AdjustmentsHorizontalIcon className="w-4 h-4" />}
-            >
-              Categories
-              {selectedCategories.length > 0 && (
-                <span className="ml-1 px-1.5 py-0.5 text-xs rounded-full bg-primary/20 text-primary">
-                  {selectedCategories.length}
-                </span>
-              )}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="p-3 w-64">
-            {isLoadingCategories ? (
-              <div className="flex items-center gap-2 text-default-400 p-2">
-                <Spinner size="sm" />
-                <span className="text-sm">Loading...</span>
-              </div>
-            ) : (
-              <CheckboxGroup
-                label="Job categories"
-                value={selectedCategories}
-                onValueChange={setSelectedCategories}
-                size="sm"
-                classNames={{
-                  wrapper: 'gap-1',
-                }}
-              >
-                {categories.map((cat) => (
-                  <Checkbox key={cat.value} value={cat.value}>
-                    {cat.label}
-                  </Checkbox>
-                ))}
-              </CheckboxGroup>
-            )}
-          </PopoverContent>
-        </Popover>
+    <Popover placement="bottom" isOpen={isOpen} onOpenChange={setIsOpen}>
+      <PopoverTrigger>
         <Button
           size="sm"
           color="primary"
-          isLoading={isLoading}
-          startContent={!isLoading && <ArrowPathIcon className="w-4 h-4" />}
-          onPress={handleFetchJobs}
+          variant="flat"
+          startContent={<UserRoundSearchIcon className="w-4 h-4" />}
         >
-          {isFetching
-            ? 'Fetching...'
-            : isRefreshing
-              ? 'Matching...'
-              : 'Import Jobs'}
+          Find Jobs
         </Button>
-      </div>
-    </div>
+      </PopoverTrigger>
+      <PopoverContent className="p-3 w-64">
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-medium">Import External Jobs</span>
+            <AdjustmentsHorizontalIcon className="w-4 h-4 text-muted" />
+          </div>
+
+          {isLoadingCategories ? (
+            <div className="flex items-center gap-2 text-default-400 p-2">
+              <Spinner size="sm" />
+              <span className="text-sm">Loading...</span>
+            </div>
+          ) : (
+            <CheckboxGroup
+              label="Categories"
+              value={selectedCategories}
+              onValueChange={setSelectedCategories}
+              size="sm"
+              classNames={{
+                wrapper: 'gap-1',
+                label: 'text-xs text-muted',
+              }}
+            >
+              {categories.map((cat) => (
+                <Checkbox key={cat.value} value={cat.value}>
+                  {cat.label}
+                </Checkbox>
+              ))}
+            </CheckboxGroup>
+          )}
+
+          <Button
+            size="sm"
+            color="primary"
+            className="w-full"
+            isLoading={isLoading}
+            onPress={handleFetchJobs}
+            isDisabled={selectedCategories.length === 0}
+          >
+            {isFetching
+              ? 'Fetching...'
+              : isRefreshing
+                ? 'Matching...'
+                : 'Import Jobs'}
+          </Button>
+        </div>
+      </PopoverContent>
+    </Popover>
   );
 };

@@ -236,10 +236,7 @@ export class JobFetcher {
     userId: string,
   ): Promise<ResponseType<RefreshMatchesResult>> {
     return this.fetcher.post<ResponseType<RefreshMatchesResult>>(
-      '/api/jobs/matches/refresh',
-      {
-        userId,
-      },
+      `/api/jobs/refresh-matches/${userId}`,
     );
   }
 
@@ -257,7 +254,7 @@ export class JobFetcher {
     userId: string,
   ): Promise<ResponseType<JobPreferences | null>> {
     return this.fetcher.get<ResponseType<JobPreferences | null>>(
-      `/api/jobs/preferences?userId=${userId}`,
+      `/api/jobs/preferences/${userId}`,
     );
   }
 

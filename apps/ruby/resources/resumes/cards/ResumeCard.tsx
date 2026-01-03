@@ -31,7 +31,7 @@ export const ResumeCard = ({ resume }: ResumeCardProps) => {
             }}
           />
         )}
-        <div className="object-cover">
+        <div className="h-full">
           <PdfPreviewImage src={resume.url} />
         </div>
         <div className="absolute bottom-0 left-0 z-10 w-full flex flex-col space-y-1 bg-background rounded-b-lg border-t border-border transition-all duration-300 hover:border-book/50 h-1/3 p-4">

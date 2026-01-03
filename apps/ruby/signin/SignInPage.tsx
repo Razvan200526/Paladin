@@ -43,16 +43,11 @@ export const SigninPage = () => {
       if (!response.success) {
         passwordRef.current?.setValue('');
         Toast.error({
-          description: response.message || 'Something went wrong',
+          description: response.message ?? 'Something went waasdng',
         });
+        setIsLoading(false);
       } else if (response.success) {
         navigate('/home/dashboard');
-        setIsLoading(false);
-      } else {
-        passwordRef.current?.setValue('');
-        Toast.error({
-          description: 'Invalid email or password',
-        });
         setIsLoading(false);
       }
     });

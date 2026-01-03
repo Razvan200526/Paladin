@@ -3,29 +3,20 @@
  * Central export file for all controllers to be registered with App.registerControllers()
  */
 
-// Analytics Controllers
 export { AnalyticsController } from './AnalyticsController';
 
-// Application Controllers
 export { ApplicationsController } from './ApplicationsController';
-// Auth Controllers
 export { AuthController } from './AuthController';
-// Chat History Controllers
 export { ChatHistoryController } from './ChatHistoryController';
 export { CoverlettersController } from './CoverlettersController';
-// Jobs Controllers
 export { JobsController } from './JobsController';
-// Notification Controllers
 export { NotificationsController } from './NotificationsController';
-// Resource Controllers
 export { ResumesController } from './ResumesController';
 
-// User Controllers
 export { UsersController } from './UsersController';
 
 import { AnalyticsController } from './AnalyticsController';
 import { ApplicationsController } from './ApplicationsController';
-// Export all controllers as an array for convenient registration
 import { AuthController } from './AuthController';
 import { ChatHistoryController } from './ChatHistoryController';
 import { CoverlettersController } from './CoverlettersController';

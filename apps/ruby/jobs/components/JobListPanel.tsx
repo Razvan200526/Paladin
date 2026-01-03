@@ -1,5 +1,5 @@
-import type { JobMatch } from '@client/sdk/JobFetcher';
 import { ScrollShadow, Spinner } from '@heroui/react';
+import type { JobMatch } from '@sdk/JobFetcher';
 import { JobListEmptyState } from './JobListEmptyState';
 import { JobMatchCard } from './JobMatchCard';
 
@@ -9,8 +9,6 @@ interface JobListPanelProps {
   isLoading: boolean;
   selectedMatchId: string | null;
   onSelectMatch: (id: string) => void;
-  onRefresh: () => void;
-  userId?: string;
   hasFilters: boolean;
 }
 
@@ -20,8 +18,6 @@ export const JobListPanel = ({
   isLoading,
   selectedMatchId,
   onSelectMatch,
-  onRefresh,
-  userId,
   hasFilters,
 }: JobListPanelProps) => {
   return (
@@ -31,11 +27,7 @@ export const JobListPanel = ({
           <Spinner size="lg" />
         </div>
       ) : filteredMatches.length === 0 ? (
-        <JobListEmptyState
-          hasFilters={hasFilters}
-          userId={userId}
-          onSuccess={onRefresh}
-        />
+        <JobListEmptyState hasFilters={hasFilters} />
       ) : (
         <ScrollShadow size={8} className="flex-1">
           <div className="p-2 space-y-2">

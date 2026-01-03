@@ -4,6 +4,7 @@ import { useAuth } from '@ruby/shared/hooks';
 import { Trash2Icon, WifiOffIcon } from 'lucide-react';
 import { useAiChat } from '../useAiChat';
 import { useAiChatHistory } from '../useAiChatHistory';
+import { H2, H6 } from '@common/components/typography';
 
 export const Header = () => {
   const { data: user } = useAuth();
@@ -26,13 +27,13 @@ export const Header = () => {
     <div className="border-b border-border bg-background px-6 py-3 shrink-0">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-            <AiChatIcon className="size-5 text-primary" />
+          <div className="flex items-center justify-center">
+            <AiChatIcon className="size-5 " />
           </div>
-          <div>
-            <h2 className="text-base font-semibold text-primary leading-tight">
+          <div className="flex flex-col">
+            <H6 className="text-primary">
               {sessionTitle || 'Ask AI'}
-            </h2>
+            </H6>
             <span className="text-xs text-secondary-text">
               Career Assistant
             </span>

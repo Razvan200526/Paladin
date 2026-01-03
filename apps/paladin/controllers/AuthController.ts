@@ -104,7 +104,6 @@ export class AuthController {
       if (setCookieHeader) {
         c.header('Set-Cookie', setCookieHeader);
       }
-
       return apiResponse(c, {
         data: {
           user: result.response.user,
@@ -120,23 +119,12 @@ export class AuthController {
           {
             data: { user: null, token: null },
             isClientError: false,
-            isServerError: true,
+            isServerError: false,
             success: false,
             message: 'Something went wrong',
           },
           401,
         );
-      return apiResponse(
-        c,
-        {
-          data: { user: null, token: false },
-          isClientError: false,
-          isServerError: true,
-          success: false,
-          message: 'Something went wrong',
-        },
-        401,
-      );
     }
   }
 

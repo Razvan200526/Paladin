@@ -1,5 +1,6 @@
 import { EmptyChat } from '@common/components/empty/EmptyChat';
 import { InputChat } from '@common/components/input/InputChat';
+import { Toast } from '@common/components/toast';
 import { ScrollShadow } from '@heroui/react';
 import { useAuth } from '@ruby/shared/hooks';
 import { useEffect, useRef, useState } from 'react';
@@ -71,7 +72,7 @@ export const AskAiPage = () => {
         newChat();
       }
     } catch (error) {
-      console.error('Failed to delete session:', error);
+      Toast.error({ description: `Failed to delete session: ${error}` });
     }
   };
 
@@ -88,10 +89,9 @@ export const AskAiPage = () => {
       <div className="flex-1 flex flex-col min-w-0">
         <Header />
 
-        {/* Main Content */}
         <div className="flex-1 overflow-hidden flex flex-col">
           {!hasMessages ? (
-            <EmptyState />
+            <EmptyState sendMessage={sendMessage} isStreaming={isStreaming} />
           ) : (
             <>
               <ScrollShadow
@@ -116,11 +116,10 @@ export const AskAiPage = () => {
                 </div>
               </ScrollShadow>
 
-              {/* Input Area */}
               <div className="border-t border-border bg-background px-6 py-4 shrink-0">
                 <div className="max-w-3xl mx-auto">
                   <InputChat
-                    placeholder="Continue the conversation..."
+                    placeholder="Ask me anything..."
                     value={inputValue}
                     onChange={setInputValue}
                     onSubmit={handleSend}

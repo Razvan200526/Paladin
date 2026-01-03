@@ -20,7 +20,6 @@ try {
   });
 
   app.serveStatic({ path: '/static', root: './apps/ruby/shared/public' });
-
   app.registerControllers(HealthController, ...controllers, IndexController);
   app.registerWebSockets(NotificationHandler, AiChatHandler);
 

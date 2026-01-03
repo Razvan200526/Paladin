@@ -33,6 +33,19 @@ const parseSalaryRange = (
   return { min: '', max: '', currency: currency || 'USD' };
 };
 
+const platformItems = [
+  { value: 'Linkedin', label: 'LinkedIn' },
+  { value: 'Glassdoor', label: 'Glassdoor' },
+  { value: 'Other', label: 'Other' },
+];
+
+const statusItems = [
+  { value: 'Applied', label: 'Applied' },
+  { value: 'Interviewing', label: 'Interviewing' },
+  { value: 'Accepted', label: 'Accepted' },
+  { value: 'Rejected', label: 'Rejected' },
+];
+
 export const EditApplicationModal = ({
   modalRef,
   application,
@@ -113,6 +126,7 @@ export const EditApplicationModal = ({
       });
 
       if (response.success) {
+        Toast.success({ description: 'Application updated successfully' });
         modalRef.current?.close();
         onSuccess?.();
       }
@@ -126,68 +140,78 @@ export const EditApplicationModal = ({
     <Modal
       modalRef={modalRef}
       size="2xl"
-      className="bg-light rounded"
+      className="bg-background rounded-xl"
       hideCloseButton={false}
     >
       <div className="p-6">
-        <H4 className="mb-6">Edit Application</H4>
+        {/* Header */}
+        <H4 className="text-primary mb-6">Edit Application</H4>
 
-        <div className="grid gap-4">
+        <div className="grid gap-5">
+          {/* Company & Job Title */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex flex-col gap-2">
-              <div className="flex gap-2 items-center justify-start">
-                <CompanyIcon className="size-5 text-primary" />
-                <H6 className="font-semibold">Company Name</H6>
+              <div className="flex gap-2 items-center">
+                <CompanyIcon className="size-4 text-primary" />
+                <H6 className="text-primary font-semibold text-sm">
+                  Company Name
+                </H6>
               </div>
               <InputName
                 hasLabel={false}
                 hasIcon={false}
-                className="text-primary"
                 placeholder="Enter company name"
                 value={formData.employer}
                 onChange={(value: string) =>
                   handleInputChange('employer', value)
                 }
                 isRequired
+                className="[&_input]:bg-light [&>div]:bg-light"
               />
             </div>
             <div className="flex flex-col gap-2">
-              <div className="flex gap-2 items-center justify-start">
-                <JobIcon className="size-5 text-primary" />
-                <H6 className="font-semibold">Job Title</H6>
+              <div className="flex gap-2 items-center">
+                <JobIcon className="size-4 text-primary" />
+                <H6 className="text-primary font-semibold text-sm">
+                  Job Title
+                </H6>
               </div>
               <InputName
                 hasLabel={false}
                 hasIcon={false}
-                className="text-primary"
                 placeholder="Enter job title"
                 value={formData.jobTitle}
                 onChange={(value: string) =>
                   handleInputChange('jobTitle', value)
                 }
                 isRequired
+                className="[&_input]:bg-light [&>div]:bg-light"
               />
             </div>
           </div>
 
+          {/* Location & Salary */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex flex-col gap-2">
-              <div className="flex items-center justify-start gap-1">
-                <LocationIcon className="size-5 text-primary" />
-                <H6 className="font-semibold">Location</H6>
+              <div className="flex items-center gap-2">
+                <LocationIcon className="size-4 text-primary" />
+                <H6 className="text-primary font-semibold text-sm">Location</H6>
               </div>
               <Selector
                 size="sm"
                 value={formData.location}
-                placeholder={formData.location}
+                placeholder="Select location"
                 onChange={(value) => handleInputChange('location', value)}
                 items={locationItems}
+                classNames={{
+                  trigger: 'bg-light',
+                }}
               />
             </div>
 
             <InputSalary
               size="sm"
-              values={[formData.salary.min || '0', formData.salary.max || '0']}
+              values={[formData.salary.min || '', formData.salary.max || '']}
               currency={formData.salary.currency}
               onChange={(value) =>
                 setFormData((prev) => ({
@@ -195,68 +219,92 @@ export const EditApplicationModal = ({
                   salary: value,
                 }))
               }
+              className="[&_input]:bg-light [&>div>div]:bg-light"
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Input
-              label="Job URL"
-              placeholder="Link to job posting"
-              value={formData.jobUrl}
-              onValueChange={(value: string) =>
-                handleInputChange('jobUrl', value)
-              }
-            />
-            <Input
-              label="Contact Person"
-              placeholder="Recruiter or hiring manager"
-              value={formData.contact}
-              onValueChange={(value: string) =>
-                handleInputChange('contact', value)
-              }
-            />
-          </div>
-
+          {/* Job URL & Contact */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex flex-col gap-2">
-              <H6 className="font-semibold">Platform</H6>
+              <H6 className="text-primary font-semibold text-sm">Job URL</H6>
+              <Input
+                placeholder="Link to job posting"
+                value={formData.jobUrl}
+                onValueChange={(value: string) =>
+                  handleInputChange('jobUrl', value)
+                }
+                inputClassName="bg-light"
+                inputWrapperClassName="bg-light"
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <H6 className="text-primary font-semibold text-sm">
+                Contact Person
+              </H6>
+              <Input
+                placeholder="Recruiter or hiring manager"
+                value={formData.contact}
+                onValueChange={(value: string) =>
+                  handleInputChange('contact', value)
+                }
+                inputClassName="bg-light"
+                inputWrapperClassName="bg-light"
+              />
+            </div>
+          </div>
+
+          {/* Platform & Status */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="flex flex-col gap-2">
+              <H6 className="text-primary font-semibold text-sm">Platform</H6>
               <Selector
                 size="sm"
                 placeholder="Where did you find this job?"
                 value={formData.platform}
                 onChange={(value) => handleInputChange('platform', value)}
-                items={['Linkedin', 'Glassdoor', 'Other']}
+                items={platformItems}
+                classNames={{
+                  trigger: 'bg-light',
+                }}
               />
             </div>
 
             <div className="flex flex-col gap-2">
-              <H6 className="font-semibold">Status</H6>
+              <H6 className="text-primary font-semibold text-sm">Status</H6>
               <Selector
                 size="sm"
                 placeholder="Current application status"
                 value={formData.status}
                 onChange={(value) => handleInputChange('status', value)}
-                items={['Applied', 'Interviewing', 'Accepted', 'Rejected']}
+                items={statusItems}
+                classNames={{
+                  trigger: 'bg-light',
+                }}
               />
             </div>
           </div>
 
-          <div>
+          {/* Add Comment */}
+          <div className="flex flex-col gap-2">
+            <H6 className="text-primary font-semibold text-sm">
+              Add Comment (Optional)
+            </H6>
             <Input
-              label="Add Comment (Optional)"
               placeholder="Add a note about this update..."
               value={formData.newComment}
               onValueChange={(value: string) =>
                 handleInputChange('newComment', value)
               }
+              inputClassName="bg-light"
+              inputWrapperClassName="bg-light"
             />
           </div>
         </div>
 
-        <div className="flex justify-end gap-3 mt-6">
+        {/* Footer */}
+        <div className="flex justify-end gap-3 mt-8 pt-4 border-t border-border">
           <Button
             variant="light"
-            color="danger"
             onPress={() => modalRef.current?.close()}
           >
             Cancel

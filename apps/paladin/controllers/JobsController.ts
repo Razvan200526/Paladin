@@ -1,158 +1,262 @@
 /**
  * Jobs Controller
- * Migrated from easyres to @razvan11/paladin pattern
+ * Full implementation with apiResponse pattern - routes aligned with SDK
  */
-import { controller, get, post, put } from '@razvan11/paladin';
+import { apiResponse } from '@paladin/client';
+import { JobListingRepository } from '@paladin/repositories/JobListingRepository';
+import { JobMatchRepository } from '@paladin/repositories/JobMatchRepository';
+import { UserJobPreferencesRepository } from '@paladin/repositories/UserJobPreferenceRepository';
+import { JobFetchingService } from '@paladin/services';
+import {
+  controller,
+  get,
+  inject,
+  logger,
+  patch,
+  post,
+  put,
+} from '@razvan11/paladin';
 import type { Context } from 'hono';
 
 @controller('/api/jobs')
 export class JobsController {
+  constructor(
+    @inject(JobFetchingService) private jobs: JobFetchingService,
+    @inject(JobMatchRepository) private matches: JobMatchRepository,
+    @inject(UserJobPreferencesRepository)
+    private preferences: UserJobPreferencesRepository,
+    @inject(JobListingRepository) private listings: JobListingRepository,
+  ) {}
+
+  // ============================================
+  // Job Listings
+  // ============================================
+
   // GET /api/jobs/listings
   @get('/listings')
   async getListings(c: Context) {
     try {
-      const page = Number(c.req.query('page')) || 1;
+      const search = c.req.query('search');
+      const location = c.req.query('location');
+      const jobType = c.req.query('jobType');
+      const isRemote = c.req.query('isRemote');
       const limit = Number(c.req.query('limit')) || 20;
-      // TODO: Implement with JobListingRepository
-      return c.json({
-        data: [],
-        pagination: { page, limit, total: 0 },
+      const offset = Number(c.req.query('offset')) || 0;
+
+      const jobs = await this.listings.findAll({
+        search,
+        location,
+        jobType,
+        isRemote:
+          isRemote === 'true' ? true : isRemote === 'false' ? false : undefined,
+        limit,
+        offset,
+      });
+
+      return apiResponse(c, {
+        data: jobs,
         message: 'Job listings retrieved successfully',
       });
     } catch (e) {
-      console.error(e);
-      return c.json(
+      logger.error(e as Error);
+      return apiResponse(
+        c,
         { data: null, message: 'Failed to retrieve job listings' },
         500,
       );
     }
   }
 
-  // GET /api/jobs/listing/:id
-  @get('/listing/:id')
+  // GET /api/jobs/listings/:id
+  @get('/listings/:id')
   async getListing(c: Context) {
     try {
-      const _id = c.req.param('id');
-      // TODO: Implement with JobListingRepository
-      return c.json({
-        data: null,
+      const id = c.req.param('id');
+      const job = await this.listings.findById(id);
+
+      if (!job) {
+        return apiResponse(
+          c,
+          { data: null, message: 'Job listing not found', isNotFound: true },
+          404,
+        );
+      }
+
+      return apiResponse(c, {
+        data: job,
         message: 'Job listing retrieved successfully',
       });
     } catch (e) {
-      console.error(e);
-      return c.json(
+      logger.error(e as Error);
+      return apiResponse(
+        c,
         { data: null, message: 'Failed to retrieve job listing' },
         500,
       );
     }
   }
 
-  // POST /api/jobs/listings/create
-  @post('/listings/create')
+  // POST /api/jobs/listings
+  @post('/listings')
   async createListing(c: Context) {
     try {
-      const _body = await c.req.json();
+      const body = await c.req.json();
       // TODO: Implement with JobListingRepository
-      return c.json({
+      return apiResponse(c, {
         data: { id: 'placeholder' },
         message: 'Job listing created successfully',
       });
     } catch (e) {
-      console.error(e);
-      return c.json(
+      logger.error(e as Error);
+      return apiResponse(
+        c,
         { data: null, message: 'Failed to create job listing' },
         500,
       );
     }
   }
 
-  // GET /api/jobs/categories
-  @get('/categories')
-  async getCategories(c: Context) {
-    return c.json({
-      data: [
-        'Technology',
-        'Finance',
-        'Healthcare',
-        'Education',
-        'Marketing',
-        'Sales',
-        'Other',
-      ],
-      message: 'Categories retrieved successfully',
-    });
-  }
+  // ============================================
+  // Job Matches
+  // ============================================
 
-  // GET /api/jobs/matches/:userId
-  @get('/matches/:userId')
+  // GET /api/jobs/matches (query: userId, status, minScore, limit, offset)
+  @get('/matches')
   async getMatches(c: Context) {
     try {
-      const _userId = c.req.param('userId');
-      // TODO: Implement with JobMatchRepository
-      return c.json({
-        data: [],
+      const userId = c.req.query('userId');
+      const status = c.req.query('status');
+      const minScore = c.req.query('minScore');
+      const limit = Number(c.req.query('limit')) || 50;
+      const offset = Number(c.req.query('offset')) || 0;
+
+      if (!userId) {
+        return apiResponse(
+          c,
+          { data: null, message: 'userId is required' },
+          400,
+        );
+      }
+
+      const matches = await this.matches.findByUserId(userId, {
+        status: status === 'all' ? undefined : status,
+        minScore: minScore ? Number(minScore) : undefined,
+        limit,
+        offset,
+      });
+
+      return apiResponse(c, {
+        data: matches,
         message: 'Job matches retrieved successfully',
       });
     } catch (e) {
-      console.error(e);
-      return c.json(
+      logger.error(e as Error);
+      return apiResponse(
+        c,
         { data: null, message: 'Failed to retrieve job matches' },
         500,
       );
     }
   }
 
-  // GET /api/jobs/match/:id
-  @get('/match/:id')
-  async getMatch(c: Context) {
-    try {
-      const _id = c.req.param('id');
-      // TODO: Implement with JobMatchRepository
-      return c.json({
-        data: null,
-        message: 'Job match retrieved successfully',
-      });
-    } catch (e) {
-      console.error(e);
-      return c.json(
-        { data: null, message: 'Failed to retrieve job match' },
-        500,
-      );
-    }
-  }
-
-  // GET /api/jobs/match-stats/:userId
-  @get('/match-stats/:userId')
+  // GET /api/jobs/matches/stats (query: userId)
+  @get('/matches/stats')
   async getMatchStats(c: Context) {
     try {
-      const _userId = c.req.param('userId');
-      return c.json({
-        data: { total: 0, matched: 0, applied: 0 },
+      const userId = c.req.query('userId');
+
+      if (!userId) {
+        return apiResponse(
+          c,
+          { data: null, message: 'userId is required' },
+          400,
+        );
+      }
+
+      const stats = await this.matches.getStatsByUserId(userId);
+      return apiResponse(c, {
+        data: {
+          totalMatches: stats.total,
+          newMatches: stats.new,
+          savedMatches: stats.saved,
+          appliedMatches: stats.applied,
+          averageScore: 0, // TODO: implement
+          highMatchCount: 0, // TODO: implement
+          topSkillGaps: [], // TODO: implement
+        },
         message: 'Match stats retrieved successfully',
       });
     } catch (e) {
-      console.error(e);
-      return c.json(
+      logger.error(e as Error);
+      return apiResponse(
+        c,
         { data: null, message: 'Failed to retrieve match stats' },
         500,
       );
     }
   }
 
-  // PUT /api/jobs/match-status/:id
-  @put('/match-status/:id')
-  async updateMatchStatus(c: Context) {
+  // GET /api/jobs/matches/:id
+  @get('/matches/:id')
+  async getMatch(c: Context) {
     try {
       const id = c.req.param('id');
-      const { status } = await c.req.json();
-      // TODO: Implement with JobMatchRepository
-      return c.json({
-        data: { id, status },
+      const match = await this.matches.findById(id);
+
+      if (!match) {
+        return apiResponse(
+          c,
+          { data: null, message: 'Match not found', isNotFound: true },
+          404,
+        );
+      }
+
+      return apiResponse(c, {
+        data: match,
+        message: 'Job match retrieved successfully',
+      });
+    } catch (e) {
+      logger.error(e as Error);
+      return apiResponse(
+        c,
+        { data: null, message: 'Failed to retrieve job match' },
+        500,
+      );
+    }
+  }
+
+  // PATCH /api/jobs/matches/status (body: matchId, status)
+  @patch('/matches/status')
+  async updateMatchStatus(c: Context) {
+    try {
+      const { matchId, status } = await c.req.json();
+
+      if (!matchId || !status) {
+        return apiResponse(
+          c,
+          { data: null, message: 'matchId and status are required' },
+          400,
+        );
+      }
+
+      const updated = await this.matches.updateStatus(matchId, status);
+
+      if (!updated) {
+        return apiResponse(
+          c,
+          { data: null, message: 'Match not found', isNotFound: true },
+          404,
+        );
+      }
+
+      return apiResponse(c, {
+        data: updated,
         message: 'Match status updated successfully',
       });
     } catch (e) {
-      console.error(e);
-      return c.json(
+      logger.error(e as Error);
+      return apiResponse(
+        c,
         { data: null, message: 'Failed to update match status' },
         500,
       );
@@ -163,70 +267,134 @@ export class JobsController {
   @post('/refresh-matches/:userId')
   async refreshMatches(c: Context) {
     try {
-      const _userId = c.req.param('userId');
-      // TODO: Implement job matching logic
-      return c.json({
-        data: { refreshed: true },
+      const userId = c.req.param('userId');
+      const result = await this.matches.refreshMatchesForUser(userId);
+
+      return apiResponse(c, {
+        data: {
+          newMatches: result.newMatches,
+          totalMatches: result.totalMatches,
+        },
         message: 'Matches refreshed successfully',
       });
     } catch (e) {
-      console.error(e);
-      return c.json({ data: null, message: 'Failed to refresh matches' }, 500);
+      logger.error(e as Error);
+      return apiResponse(
+        c,
+        { data: null, message: 'Failed to refresh matches' },
+        500,
+      );
     }
   }
+
+  // ============================================
+  // Job Preferences
+  // ============================================
 
   // GET /api/jobs/preferences/:userId
   @get('/preferences/:userId')
   async getPreferences(c: Context) {
     try {
-      const _userId = c.req.param('userId');
-      // TODO: Implement with UserJobPreferencesRepository
-      return c.json({
-        data: null,
+      const userId = c.req.param('userId');
+      const preferences = await this.preferences.findByUserId(userId);
+      logger.info(`Retrieved preferences for user ${userId}`);
+
+      return apiResponse(c, {
+        data: preferences ?? null,
         message: 'Preferences retrieved successfully',
       });
     } catch (e) {
-      console.error(e);
-      return c.json(
+      logger.error(e as Error);
+      return apiResponse(
+        c,
         { data: null, message: 'Failed to retrieve preferences' },
         500,
       );
     }
   }
 
-  // PUT /api/jobs/preferences/:userId
-  @put('/preferences/:userId')
+  // PUT /api/jobs/preferences (body: userId + preferences data)
+  @put('/preferences')
   async updatePreferences(c: Context) {
     try {
-      const _userId = c.req.param('userId');
-      const preferences = await c.req.json();
-      // TODO: Implement with UserJobPreferencesRepository
-      return c.json({
+      const body = await c.req.json();
+      const { userId, ...preferencesData } = body;
+
+      if (!userId) {
+        return apiResponse(
+          c,
+          { data: null, message: 'userId is required' },
+          400,
+        );
+      }
+
+      const preferences = await this.preferences.upsert(
+        userId,
+        preferencesData,
+      );
+
+      return apiResponse(c, {
         data: preferences,
         message: 'Preferences updated successfully',
       });
     } catch (e) {
-      console.error(e);
-      return c.json(
+      logger.error(e as Error);
+      return apiResponse(
+        c,
         { data: null, message: 'Failed to update preferences' },
         500,
       );
     }
   }
 
+  // ============================================
+  // Categories & External Fetching
+  // ============================================
+
+  // GET /api/jobs/categories
+  @get('/categories')
+  async getCategories(c: Context) {
+    return apiResponse(c, {
+      data: [
+        { value: 'software-dev', label: 'Software Development' },
+        { value: 'data', label: 'Data Science & Analytics' },
+        { value: 'devops', label: 'DevOps & Infrastructure' },
+        { value: 'design', label: 'Design & UX' },
+        { value: 'product', label: 'Product Management' },
+        { value: 'marketing', label: 'Marketing' },
+        { value: 'sales', label: 'Sales' },
+        { value: 'finance', label: 'Finance' },
+        { value: 'other', label: 'Other' },
+      ],
+      message: 'Categories retrieved successfully',
+    });
+  }
+
   // POST /api/jobs/fetch-external
   @post('/fetch-external')
   async fetchExternal(c: Context) {
     try {
-      // const { keywords, location } = await c.req.json();
-      // TODO: Implement external job fetching service
-      return c.json({
-        data: [],
-        message: 'External jobs fetched successfully',
+      const body = await c.req.json();
+      const limit = Math.min(Math.max(body.limit || 50, 1), 100);
+      const { categories } = body;
+
+      if (!categories) {
+        return apiResponse(
+          c,
+          { data: null, message: 'Categories are required' },
+          400,
+        );
+      }
+
+      const jobs = await this.jobs.fetchAndSaveJobs({ categories, limit });
+      return apiResponse(c, {
+        data: jobs,
+        message: `Fetched ${jobs.new} applications`,
       });
     } catch (e) {
-      console.error(e);
-      return c.json(
+      logger.error(e as Error);
+      return apiResponse(
+        c,
         { data: null, message: 'Failed to fetch external jobs' },
         500,
       );

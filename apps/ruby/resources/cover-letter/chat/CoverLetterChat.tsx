@@ -46,19 +46,19 @@ const items: DropdownItemDataType[] = [
   },
 ];
 const tabItems = [
-  {
-    key: 'suggestions',
-    label: 'Suggestions',
-    icon: MessageIcon,
-    className: 'text-coverletter data-[hover=true]:bg-coverletter/10',
-    activeClassName: 'bg-coverletter/15 border-coverletter',
-  },
+  // {
+  //   key: 'suggestions',
+  //   label: 'Suggestions',
+  //   icon: MessageIcon,
+  //   className: 'text-coverletter data-[hover=true]:bg-coverletter/10',
+  //   activeClassName: 'bg-coverletter/15 border-coverletter',
+  // },
   {
     key: 'chat',
     label: 'Chat',
     icon: AiChatIcon,
-    className: 'text-coverletter data-[hover=true]:bg-coverletter/10',
-    activeClassName: 'bg-coverletter/15 border-coverletter',
+    className: 'text-secondary-text data-[hover=true]:bg-secondary/10',
+    activeClassName: 'bg-secondary/15 border-secondary',
   },
 ];
 
@@ -174,7 +174,7 @@ export const CoverLetterChat = ({
     <>
       <div
         className={cn(
-          'flex h-full w-full max-w-full flex-col gap-4 border border-border',
+          'flex h-full w-full max-w-full flex-col gap-4 border border-border rounded',
         )}
       >
         <nav className="px-4 py-2 rounded sticky top-0 z-10 bg-light flex items-center justify-between border-b border-coverletter/20 shrink-0">
@@ -291,17 +291,17 @@ export const CoverLetterChat = ({
                                   remarkPlugins={[remarkGfm]}
                                   components={{
                                     h1: ({ children }) => (
-                                      <H1 className="text-xl font-semibold text-primary mt-4 mb-2">
+                                      <H1 className="text-xl text-primary mt-4 mb-2">
                                         {children}
                                       </H1>
                                     ),
                                     h2: ({ children }) => (
-                                      <H2 className="text-lg font-semibold text-primary mt-3 mb-2">
+                                      <H2 className="text-lg text-primary mt-3 mb-2">
                                         {children}
                                       </H2>
                                     ),
                                     h3: ({ children }) => (
-                                      <H3 className="text-base text-primary font-semibold mt-2 mb-1">
+                                      <H3 className="text-base text-primary mt-2 mb-1">
                                         {children}
                                       </H3>
                                     ),
@@ -311,7 +311,7 @@ export const CoverLetterChat = ({
                                       </p>
                                     ),
                                     strong: ({ children }) => (
-                                      <strong className="font-bold text-secondary-text">
+                                      <strong className=" text-secondary-text">
                                         {children}
                                       </strong>
                                     ),
@@ -359,7 +359,6 @@ export const CoverLetterChat = ({
                     onChange={setInputValue}
                     onSubmit={handleSubmit}
                     isPending={isThinking}
-                    theme="coverletter"
                     onStop={handleStop}
                     showStopButton={isThinking}
                   />
@@ -372,7 +371,7 @@ export const CoverLetterChat = ({
                   'h-full flex flex-col justify-center items-center gap-2',
                 )}
               >
-                {/* <ShowResourceState state={resume.state} /> */}
+                {/*<ShowResourceState state={resume.state} />*/}
                 <p className="text-muted">
                   {coverletter.state === 'failed'
                     ? 'Failed to process your document. Please try again.'

@@ -1,5 +1,5 @@
-import type { JobMatch } from '@client/sdk/JobFetcher';
 import { Drawer, DrawerContent } from '@heroui/react';
+import type { JobMatch } from '@sdk/JobFetcher';
 import { JobMatchDetail } from './JobMatchDetail';
 
 interface JobDetailDrawerProps {

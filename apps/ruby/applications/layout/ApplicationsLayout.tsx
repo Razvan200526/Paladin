@@ -7,7 +7,7 @@ import { applicationFilterConfig } from '@ruby/resources/shared/filterConfigs';
 import { filterAndSortApplications } from '@ruby/resources/shared/filterUtils';
 import { useAuth } from '@ruby/shared/hooks';
 import { useMemo, useState } from 'react';
-import { Outlet, useOutletContext } from 'react-router';
+import { Outlet, useLocation, useOutletContext } from 'react-router';
 import type { ApplicationType } from '../../../sdk/types';
 import { useApplicationFilterStore } from '../applicationStore';
 import { ApplicationFilterSidebar } from '../components/ApplicationFilterSidebar';
@@ -26,6 +26,7 @@ export const useApplicationsResourceContext = () => {
 export const ApplicationsLayout = () => {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const { data: user } = useAuth();
+  const location = useLocation();
   const { data: applications, isFetching: applicationsLoading } =
     useApplications(user?.id || '');
   const handleCreateApplication = () => {
@@ -38,7 +39,9 @@ export const ApplicationsLayout = () => {
     if (!applications) return [];
     return filterAndSortApplications(applications, applicationFilters);
   }, [applications, applicationFilters]);
-  const isInspectPage = location.pathname.includes('/applications/');
+
+  const pathParts = location.pathname.split('/applications/');
+  const isInspectPage = pathParts.length > 1 && pathParts[1].length > 0 && pathParts[1] !== '';
   const showFilterSidebar = !isInspectPage;
   const sidebarFilteredCount = filteredApplications?.length || 0;
 

@@ -13,6 +13,7 @@ import { Spinner, Tab, Tabs } from '@heroui/react';
 import { useAuth } from '@ruby/shared/hooks';
 import { useJobMatchStats, useRefreshJobMatches } from '../hooks';
 import { useJobsStore } from '../store';
+import { ImportJobsButton } from './header/ImportJobsButton';
 import { JobsFilter } from './JobsFilter';
 
 export const JobPageHeader = () => {
@@ -33,7 +34,7 @@ export const JobPageHeader = () => {
     <div className="p-4 border-b border-border bg-background">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-primary/10">
+          <div className="p-2 rounded-lg">
             <BriefcaseIcon className="w-6 h-6 text-primary" />
           </div>
           <div>
@@ -44,6 +45,7 @@ export const JobPageHeader = () => {
           </div>
         </div>
         <div className="flex items-center gap-2">
+          <ImportJobsButton userId={user?.id} onSuccess={handleRefresh} />
           <Button
             size="sm"
             variant="flat"
@@ -86,66 +88,58 @@ export const JobPageHeader = () => {
               tab: 'px-0 h-10',
             }}
           >
-            <Tab
-              key="all"
-              title={
-                <div className="flex items-center gap-2">
-                  <BriefcaseIcon className="w-4 h-4" />
-                  <span>All</span>
-                  <span className="px-2 py-0.5 text-xs rounded-full bg-blue-100 text-blue-600">
-                    {stats.totalMatches}
-                  </span>
-                </div>
-              }
-            />
-            <Tab
-              key="new"
-              title={
-                <div className="flex items-center gap-2">
-                  <SparklesIcon className="w-4 h-4" />
-                  <span>New</span>
-                  <span className="px-2 py-0.5 text-xs rounded-full bg-purple-100 text-purple-600">
-                    {stats.newMatches}
-                  </span>
-                </div>
-              }
-            />
-            <Tab
-              key="high"
-              title={
-                <div className="flex items-center gap-2">
-                  <ChartBarIcon className="w-4 h-4" />
-                  <span>High Match</span>
-                  <span className="px-2 py-0.5 text-xs rounded-full bg-green-100 text-green-600">
-                    {stats.highMatchCount}
-                  </span>
-                </div>
-              }
-            />
-            <Tab
-              key="saved"
-              title={
-                <div className="flex items-center gap-2">
-                  <BookmarkIcon className="w-4 h-4" />
-                  <span>Saved</span>
-                  <span className="px-2 py-0.5 text-xs rounded-full bg-yellow-100 text-yellow-600">
-                    {stats.savedMatches}
-                  </span>
-                </div>
-              }
-            />
-            <Tab
-              key="applied"
-              title={
-                <div className="flex items-center gap-2">
-                  <PaperAirplaneIcon className="w-4 h-4" />
-                  <span>Applied</span>
-                  <span className="px-2 py-0.5 text-xs rounded-full bg-emerald-100 text-emerald-600">
-                    {stats.appliedMatches}
-                  </span>
-                </div>
-              }
-            />
+            {[
+              {
+                key: 'all',
+                label: 'All',
+                icon: BriefcaseIcon,
+                count: stats.totalMatches,
+                badgeClass: 'bg-primary/10 text-primary',
+              },
+              {
+                key: 'new',
+                label: 'New',
+                icon: SparklesIcon,
+                count: stats.newMatches,
+                badgeClass: 'bg-primary/10 text-primary',
+              },
+              {
+                key: 'high',
+                label: 'High Match',
+                icon: ChartBarIcon,
+                count: stats.highMatchCount,
+                badgeClass: 'bg-primary/10 text-primary',
+              },
+              {
+                key: 'saved',
+                label: 'Saved',
+                icon: BookmarkIcon,
+                count: stats.savedMatches,
+                badgeClass: 'bg-primary/10 text-primary',
+              },
+              {
+                key: 'applied',
+                label: 'Applied',
+                icon: PaperAirplaneIcon,
+                count: stats.appliedMatches,
+                badgeClass: 'bg-primary/10 text-primary',
+              },
+            ].map((item) => (
+              <Tab
+                key={item.key}
+                title={
+                  <div className="flex items-center gap-2">
+                    <item.icon className="w-4 h-4 text-secondary-text" />
+                    <span className="text-primary">{item.label}</span>
+                    <span
+                      className={`px-2 py-0.5 text-xs rounded-full ${item.badgeClass}`}
+                    >
+                      {item.count}
+                    </span>
+                  </div>
+                }
+              />
+            ))}
           </Tabs>
         ) : null}
       </div>

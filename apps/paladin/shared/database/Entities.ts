@@ -6,7 +6,6 @@ import {
   JobListingEntity,
   JobMatchEntity,
   NotificationEntity,
-  RandomEntity,
   ResumeEntity,
   UserAccountEntity,
   UserEntity,
@@ -29,5 +28,4 @@ export const PrimaryEntities = [
   JobListingEntity,
   JobMatchEntity,
   UserJobPreferencesEntity,
-  RandomEntity,
 ];

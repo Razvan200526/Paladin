@@ -10,8 +10,7 @@
     "test": "bun test tests",
     "test:watch": "bun test tests --watch",
     "test:coverage": "bun test tests --coverage",
-    "wrangler": "wrangler dev",
-    "db:mirgate": "bun run --bun node_modules/typeorm/cli.js migration:generate ./migrations/Initial -d ./apps/paladin/shared/database/data-source.ts",
+    "db:migrate": "bun run --bun node_modules/typeorm/cli.js migration:generate ./migrations/Initial -d ./apps/paladin/shared/database/data-source.ts",
     "db:run": "bun run --bun node_modules/typeorm/cli.js migration:run -d ./apps/paladin/shared/database/data-source.ts",
     "db:revert": "bun run --bun node_modules/typeorm/cli.js migration:revert -d ./apps/paladin/shared/database/data-source.ts",
     "db": "bun db:migrate && bun db:run"
@@ -64,6 +63,7 @@
     "framer-motion": "^12.23.26",
     "globals": "^16.5.0",
     "hono": "^4.11.1",
+    "html-react-parser": "^5.2.11",
     "husky": "^9.1.7",
     "jsonwebtoken": "^9.0.3",
     "lucide-react": "^0.562.0",

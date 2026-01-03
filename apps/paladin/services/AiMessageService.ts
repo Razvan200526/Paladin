@@ -44,7 +44,6 @@ export class AiQueryService {
         },
       ];
 
-      // System instruction for career assistant
       const systemInstruction = `You are a helpful career assistant for a job search platform.
 You help users with:
 - Resume writing and optimization

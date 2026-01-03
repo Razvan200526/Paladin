@@ -1,5 +1,5 @@
 export * from './CompatibilityScore';
-export * from './FetchExternalJobs';
+export * from './header/ImportJobsButton';
 export * from './JobCardActions';
 export * from './JobCompanyLogo';
 export * from './JobDetailDrawer';

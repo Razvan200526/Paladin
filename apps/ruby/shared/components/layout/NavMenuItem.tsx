@@ -65,7 +65,7 @@ export const NavMenuItem = ({
           <span
             className={cn(
               isActive ? 'text-secondary-text' : 'text-primary',
-              'font-primary font-semibold',
+              'font-primary',
             )}
           >
             {item.title}

@@ -3,29 +3,16 @@ import {
   type InputChatRefType,
 } from '@common/components/input/InputChat';
 import { H4 } from '@common/components/typography';
-import { useAuth } from '@ruby/shared/hooks';
 import { useRef } from 'react';
-import { useAiChat } from '../useAiChat';
-import { useAiChatHistory } from '../useAiChatHistory';
 import { suggestions } from '../utils';
 import { SuggestionButton } from './SuggetionButton';
 
-export const EmptyState = () => {
-  const { data: user } = useAuth();
-  const { refetch: refetchHistory } = useAiChatHistory({
-    userId: user?.id,
-    enabled: !!user?.id,
-  });
-  const { sendMessage, isStreaming } = useAiChat({
-    userId: user?.id,
-    enabled: !!user?.id,
-    onError: (error) => {
-      console.error('[AI Chat Error]:', error);
-    },
-    onSessionChange: () => {
-      refetchHistory();
-    },
-  });
+interface EmptyStateProps {
+  sendMessage: (message: string) => void;
+  isStreaming: boolean;
+}
+
+export const EmptyState = ({ sendMessage, isStreaming }: EmptyStateProps) => {
   const messageRef = useRef<InputChatRefType | null>(null);
   const handleSend = (message: string) => {
     if (!message.trim() || isStreaming) return;
@@ -47,7 +34,7 @@ export const EmptyState = () => {
           {/* Welcome */}
           <div className="text-center space-y-3">
             <H4 className="tracking-tight">What would you like to know?</H4>
-            <p className="text-sm font-semibold text-secondary-text max-w-md mx-auto">
+            <p className="text-sm text-secondary-text max-w-md mx-auto">
               Get personalized advice on resumes, cover letters, and your job
               search journey
             </p>

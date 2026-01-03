@@ -31,7 +31,7 @@ export const CoverLetterCard = ({ coverLetter }: CoverLetterCardProps) => {
             }}
           />
         )}
-        <div className="object-cover">
+        <div className="h-full">
           <PdfPreviewImage src={coverLetter.url} />
         </div>
       </div>

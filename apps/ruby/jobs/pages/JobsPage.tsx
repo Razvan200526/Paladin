@@ -82,8 +82,6 @@ export const JobsPage = () => {
           isLoading={isLoadingMatches}
           selectedMatchId={selectedMatchId}
           onSelectMatch={setSelectedMatchId}
-          onRefresh={handleRefresh}
-          userId={userId}
           hasFilters={hasFilters}
         />
 

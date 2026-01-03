@@ -164,14 +164,6 @@ export const ResourceLayout = () => {
       activeClassName: 'bg-primary/15 border-primary',
       count: coverletters?.length || 0,
     },
-    {
-      key: 'chats',
-      label: 'Chats',
-      href: 'chats',
-      className: 'text-primary data-[hover=true]:bg-secondary/10',
-      activeClassName: 'bg-primary/15 border-primary',
-      count: chats?.length || 0,
-    },
   ];
 
   const activeTabKey = useMemo(() => {

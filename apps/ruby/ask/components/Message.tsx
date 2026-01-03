@@ -45,12 +45,12 @@ export const Message = ({
                   remarkPlugins={[remarkGfm]}
                   components={{
                     h1: ({ children }) => (
-                      <H1 className="text-xl font-semibold text-primary mt-4 mb-2">
+                      <H1 className="text-xl text-primary mt-4 mb-2">
                         {children}
                       </H1>
                     ),
                     h2: ({ children }) => (
-                      <H2 className="text-lg font-semibold text-primary mt-3 mb-2">
+                      <H2 className="text-lg text-primary mt-3 mb-2">
                         {children}
                       </H2>
                     ),
@@ -65,7 +65,7 @@ export const Message = ({
                       </p>
                     ),
                     strong: ({ children }) => (
-                      <strong className="font-bold text-primary">
+                      <strong className="text-primary">
                         {children}
                       </strong>
                     ),

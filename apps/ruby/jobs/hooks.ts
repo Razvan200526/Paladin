@@ -8,10 +8,6 @@ import type {
 } from '@sdk/JobFetcher';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
-// ============================================
-// Job Matches Hooks
-// ============================================
-
 export const useJobMatches = (
   userId: string | undefined,
   options?: {
