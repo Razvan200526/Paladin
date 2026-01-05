@@ -1,4 +1,3 @@
-
 export const statusConfig = {
   Applied: {
     color: 'bg-blue-500/10 text-blue-700 border-blue-500/20',

@@ -7,11 +7,7 @@ import {
   JobPreferencesForm,
 } from '../components';
 import { JobPageHeader } from '../components/JobPageHeader';
-import {
-  useJobMatches,
-  useJobPreferences,
-  useRefreshJobMatches,
-} from '../hooks';
+import { useJobMatches, useJobPreferences } from '../hooks';
 import { useJobsStore } from '../store';
 
 export const JobsPage = () => {
@@ -36,7 +32,7 @@ export const JobsPage = () => {
   );
 
   const { data: preferences } = useJobPreferences(userId);
-  const { mutate: refreshMatches } = useRefreshJobMatches();
+  // const { mutate: refreshMatches } = useRefreshJobMatches();
 
   const selectedMatch = matches.find((m) => m.id === selectedMatchId);
 
@@ -65,11 +61,11 @@ export const JobsPage = () => {
     }
   }, [filteredMatches, selectedMatchId, setSelectedMatchId]);
 
-  const handleRefresh = () => {
-    if (userId) {
-      refreshMatches(userId);
-    }
-  };
+  // const handleRefresh = () => {
+  //   if (userId) {
+  //     refreshMatches(userId);
+  //   }
+  // };
 
   return (
     <div className="h-[calc(100dvh-2rem)] m-4 rounded border border-border flex flex-col bg-background">

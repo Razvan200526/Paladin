@@ -22,7 +22,6 @@ import {
   useNavigate,
   useOutletContext,
 } from 'react-router';
-import { useChatSessions } from './hooks';
 import { useCoverLetters, useResumes } from './resumes/hooks';
 import { DeleteResourceModal } from './resumes/modals/DeleteResourceModal';
 import {

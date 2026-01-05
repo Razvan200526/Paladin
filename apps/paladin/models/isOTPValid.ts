@@ -1,8 +1,4 @@
-import {
-  registerDecorator,
-  type ValidationArguments,
-  type ValidationOptions,
-} from 'class-validator';
+import { registerDecorator, type ValidationOptions } from 'class-validator';
 
 export function IsOTP(validationOptions?: ValidationOptions) {
   return (object: Object, propertyName: string) => {
@@ -13,7 +9,7 @@ export function IsOTP(validationOptions?: ValidationOptions) {
       constraints: [],
       options: validationOptions,
       validator: {
-        validate(value: any, args: ValidationArguments) {
+        validate(value: any) {
           if (typeof value !== 'string') return false;
           for (const ch of value) {
             if (ch < '0' || ch > '9') return false;

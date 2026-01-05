@@ -12,13 +12,13 @@ import { BreadcrumbItem, Breadcrumbs, Divider, Spinner } from '@heroui/react';
 import { useAuth } from '@ruby/shared/hooks';
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
+import { ApplicationDetails } from '../components/ApplicationDetails';
 import { DeleteApplicationModal } from '../components/modals/DeleteApplicationModal';
 import { EditApplicationModal } from '../components/modals/EditApplicationModal';
 import {
   useGetApplication,
   useUpdateApplicationStatus,
 } from '../hooks/applicationHooks';
-import { ApplicationDetails } from '../components/ApplicationDetails';
 
 type ApplicationStatus = 'Applied' | 'Interviewing' | 'Accepted' | 'Rejected';
 
