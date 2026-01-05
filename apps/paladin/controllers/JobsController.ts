@@ -26,7 +26,7 @@ export class JobsController {
     @inject(UserJobPreferencesRepository)
     private preferences: UserJobPreferencesRepository,
     @inject(JobListingRepository) private listings: JobListingRepository,
-  ) { }
+  ) {}
 
   // ============================================
   // Job Listings

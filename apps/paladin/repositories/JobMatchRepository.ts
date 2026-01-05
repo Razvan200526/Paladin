@@ -16,7 +16,7 @@ interface FindMatchesOptions {
 
 @repository()
 export class JobMatchRepository {
-  constructor(@inject(PrimaryDatabase) private db: PrimaryDatabase) { }
+  constructor(@inject(PrimaryDatabase) private db: PrimaryDatabase) {}
 
   async findByUserId(
     userId: string,
@@ -319,9 +319,9 @@ export class JobMatchRepository {
     // Calculate overall score (weighted average)
     const overall = Math.round(
       skillsScore * 0.35 +
-      keywordsScore * 0.25 +
-      experienceScore * 0.25 +
-      educationScore * 0.15,
+        keywordsScore * 0.25 +
+        experienceScore * 0.25 +
+        educationScore * 0.15,
     );
 
     return {

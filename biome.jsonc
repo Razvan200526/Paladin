@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.3.11/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.10/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -18,9 +18,7 @@
     "indentStyle": "space",
     "indentWidth": 2,
     "lineEnding": "lf",
-    "includes": [
-      "**"
-    ]
+    "includes": ["**"]
   },
   "javascript": {
     "formatter": {
@@ -49,13 +47,7 @@
         "noConsole": {
           "level": "error",
           "options": {
-            "allow": [
-              "assert",
-              "error",
-              "info",
-              "warn",
-              "debug"
-            ]
+            "allow": ["assert", "error", "info", "warn", "debug"]
           }
         },
         "noArrayIndexKey": "off",
@@ -97,9 +89,6 @@
     }
   },
   "files": {
-    "includes": [
-      "!node_modules",
-      "!**/dist"
-    ]
+    "includes": ["**", "!node_modules", "!**/dist"]
   }
 }

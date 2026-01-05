@@ -14,6 +14,7 @@ export type DropdownItemDataType = {
   shortcut?: string; // ⌘N ⌘⇧E
   icon?: ReactNode;
   endContent?: ReactNode;
+  startContent?: ReactNode;
   subMenu?: ReactNode;
   onAction?: () => void;
 };
@@ -71,6 +72,7 @@ export const Dropdown = ({
                         'hover:bg-primary-100 cursor-pointer',
                       )}
                     >
+                      {item.startContent}
                       <span className="flex items-center gap-2">
                         {item.icon}
                         {item.label}

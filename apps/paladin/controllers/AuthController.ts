@@ -12,7 +12,7 @@ import { AuthService } from '../services/AuthService';
 
 @controller('/api/auth')
 export class AuthController {
-  constructor(@inject(AuthService) private readonly authService: AuthService) { }
+  constructor(@inject(AuthService) private readonly authService: AuthService) {}
 
   @get('/reference')
   async getOpenAPIReference(c: Context) {

@@ -1,14 +1,27 @@
 import { Button } from '@common/components/button';
+import { PdfPreviewImage } from '@common/components/pdf/PDFPreviewImage';
 import { H6 } from '@common/components/typography';
 import { Divider } from '@heroui/react';
 import { Icon } from '@iconify/react';
 import type { ApplicationType } from '@sdk/types';
+import { useState } from 'react';
 
 export const DocumentsSection = ({
   application,
 }: {
   application: ApplicationType;
 }) => {
+  const [isShowingResume, setIsShowingResume] = useState(false);
+  const [isShowingCoverLetter, setIsShowingCoverLetter] = useState(false);
+
+  const handleResumeClick = () => {
+    setIsShowingResume(!isShowingResume);
+  };
+
+  const handleCoverLetterClick = () => {
+    setIsShowingCoverLetter(!isShowingCoverLetter);
+  };
+
   return (
     <div>
       {(application.resume || application.coverletter) && (
@@ -31,7 +44,13 @@ export const DocumentsSection = ({
                       {application.resume.name}
                     </p>
                   </div>
-                  <Button variant="light" size="sm" isIconOnly radius="full">
+                  <Button
+                    variant="light"
+                    size="sm"
+                    isIconOnly
+                    radius="full"
+                    onClick={handleResumeClick}
+                  >
                     <Icon icon="heroicons:eye" className="size-4" />
                   </Button>
                 </div>
@@ -52,7 +71,13 @@ export const DocumentsSection = ({
                       {application.coverletter.name}
                     </p>
                   </div>
-                  <Button variant="light" size="sm" isIconOnly radius="full">
+                  <Button
+                    variant="light"
+                    size="sm"
+                    isIconOnly
+                    radius="full"
+                    onClick={handleCoverLetterClick}
+                  >
                     <Icon icon="heroicons:eye" className="size-4" />
                   </Button>
                 </div>
@@ -61,6 +86,69 @@ export const DocumentsSection = ({
           </div>
         </>
       )}
+      <div
+        className={`fixed inset-0 z-50 transition-opacity duration-300 ${
+          isShowingResume ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}
+      >
+        <div
+          className="absolute inset-0 bg-black/50"
+          onClick={handleResumeClick}
+        />
+        <div
+          className={`absolute top-0 right-0 h-full w-full max-w-xl bg-white dark:bg-zinc-900 shadow-2xl transition-transform duration-300 ease-out ${
+            isShowingResume ? 'translatex-0' : 'translate-x-full'
+          }`}
+        >
+          <div className="flex items-center justify-between p-4 border-b border-border">
+            <h3 className="text-lg font-semibold text-primary">Resume</h3>
+            <Button
+              variant="light"
+              size="sm"
+              isIconOnly
+              radius="full"
+              onClick={handleResumeClick}
+            >
+              <Icon icon="heroicons:x-mark" className="size-5" />
+            </Button>
+          </div>
+          <div className="p-4 h-[calc(100%-65px)] overflow-auto">
+            <PdfPreviewImage src={application.resume?.url || ''} />
+          </div>
+        </div>
+      </div>
+
+      <div
+        className={`fixed inset-0 z-50 transition-opacity duration-300 ${
+          isShowingCoverLetter ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}
+      >
+        <div
+          className="absolute inset-0 bg-black/50"
+          onClick={handleCoverLetterClick}
+        />
+        <div
+          className={`absolute top-0 right-0 h-full w-full max-w-xl bg-white dark:bg-zinc-900 shadow-2xl transition-transform duration-300 ease-out ${
+            isShowingCoverLetter ? 'translate-x-0' : 'translate-x-full'
+          }`}
+        >
+          <div className="flex items-center justify-between p-4 border-b border-border">
+            <h3 className="text-lg font-semibold text-primary">Cover Letter</h3>
+            <Button
+              variant="light"
+              size="sm"
+              isIconOnly
+              radius="full"
+              onClick={handleCoverLetterClick}
+            >
+              <Icon icon="heroicons:x-mark" className="size-5" />
+            </Button>
+          </div>
+          <div className="p-4 h-[calc(100%-65px)] overflow-auto">
+            <PdfPreviewImage src={application.coverletter?.url || ''} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

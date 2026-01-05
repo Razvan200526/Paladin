@@ -1,7 +1,5 @@
 import { Button } from '@common/components/button';
-import {
-  AdjustmentsHorizontalIcon,
-} from '@heroicons/react/24/outline';
+import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline';
 import {
   addToast,
   Checkbox,
