@@ -303,10 +303,7 @@ export const EditApplicationModal = ({
 
         {/* Footer */}
         <div className="flex justify-end gap-3 mt-8 pt-4 border-t border-border">
-          <Button
-            variant="light"
-            onPress={() => modalRef.current?.close()}
-          >
+          <Button variant="light" onPress={() => modalRef.current?.close()}>
             Cancel
           </Button>
           <Button

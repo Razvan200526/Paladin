@@ -1,5 +1,4 @@
 import { Button } from '@common/components/button';
-import { Card } from '@common/components/card';
 import type { ModalRefType } from '@common/components/Modal';
 import { ErrorFallback } from '@common/components/pages/ErrorFallback';
 import { Tooltip } from '@common/components/Tooltip';
@@ -38,6 +37,8 @@ import {
   useGetApplication,
   useUpdateApplicationStatus,
 } from '../hooks/applicationHooks';
+import { DocumentsSection } from '../components/DocumentsSection';
+import { NotesSection } from '../components/NotesSection';
 
 const statusConfig = {
   Applied: {
@@ -154,9 +155,9 @@ export const ApplicationInspectPage = () => {
                 <Button
                   variant="light"
                   isIconOnly
-                  size='sm'
+                  size="sm"
                   radius="full"
-                  className='rounded-full'
+                  className="rounded-full"
                   onPress={() => navigate('/home/applications')}
                 >
                   <ArrowLeftIcon className=" size-4 text-primary" />
@@ -399,93 +400,9 @@ export const ApplicationInspectPage = () => {
               )}
             </div>
 
-            {/* Documents Section */}
-            {(application.resume || application.coverletter) && (
-              <>
-                <Divider />
-                <div>
-                  <H6 className="text-primary mb-3">Attached Documents</H6>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {application.resume && (
-                      <div className="flex items-center gap-3 p-4 rounded-xl bg-light border border-border hover:border-blue-500/30 transition-colors cursor-pointer">
-                        <div className="p-2.5 rounded-lg bg-blue-500/10">
-                          <Icon
-                            icon="heroicons:document-text"
-                            className="size-5 text-blue-600"
-                          />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium text-primary">
-                            Resume
-                          </p>
-                          <p className="text-xs text-muted truncate">
-                            {application.resume.name}
-                          </p>
-                        </div>
-                        <Button
-                          variant="light"
-                          size="sm"
-                          isIconOnly
-                          radius="full"
-                        >
-                          <Icon icon="heroicons:eye" className="size-4" />
-                        </Button>
-                      </div>
-                    )}
-                    {application.coverletter && (
-                      <div className="flex items-center gap-3 p-4 rounded-xl bg-light border border-border hover:border-green-500/30 transition-colors cursor-pointer">
-                        <div className="p-2.5 rounded-lg bg-green-500/10">
-                          <Icon
-                            icon="heroicons:document-text"
-                            className="size-5 text-green-600"
-                          />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium text-primary">
-                            Cover Letter
-                          </p>
-                          <p className="text-xs text-muted truncate">
-                            {application.coverletter.name}
-                          </p>
-                        </div>
-                        <Button
-                          variant="light"
-                          size="sm"
-                          isIconOnly
-                          radius="full"
-                        >
-                          <Icon icon="heroicons:eye" className="size-4" />
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </>
-            )}
+            <DocumentsSection application={application}/>
 
-            {/* Notes Section */}
-            {application.comments?.length > 0 && (
-              <>
-                <Divider />
-                <div>
-                  <H6 className="text-primary mb-3">Notes</H6>
-                  <div className="space-y-2">
-                    {application.comments.map((comment, index) => (
-                      <div
-                        key={index}
-                        className="flex items-start gap-3 p-3 rounded-xl bg-light border border-border"
-                      >
-                        <Icon
-                          icon="heroicons:chat-bubble-left"
-                          className="size-4 text-primary mt-0.5 shrink-0"
-                        />
-                        <p className="text-sm text-secondary-text">{comment}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </>
-            )}
+            <NotesSection application={application}/>
 
             {/* Suggestions Section */}
             {application.suggestions?.length > 0 && (

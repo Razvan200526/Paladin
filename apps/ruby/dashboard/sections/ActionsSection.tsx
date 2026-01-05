@@ -35,7 +35,7 @@ export const ActionsSection = () => {
       iconBgColor: 'bg-secondary-200',
       titleColor: 'text-secondary-800',
       descriptionColor: 'text-secondary-600',
-      onClick: () => navigate('/home/resources' , {replace :true}),
+      onClick: () => navigate('/home/resources', { replace: true }),
     },
     {
       title: 'AI Assistant',

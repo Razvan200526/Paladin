@@ -56,7 +56,7 @@ export const SigninPage = () => {
   return (
     <div className="bg-background h-[calc(100dvh)] flex flex-col gap-8 items-center justify-center px-4 sm:px-6 pt-8">
       <H3>Sign In</H3>
-      <Card className="w-full max-w-120 p-8 flex flex-col gap-8">
+      <Card className="w-full shadow-none border border-border max-w-120 p-8 flex flex-col gap-8">
         <Form
           className="flex flex-col gap-8 justify-center items-center"
           validationBehavior="aria"
@@ -81,7 +81,10 @@ export const SigninPage = () => {
               label="Password"
               ref={passwordRef}
             />
-            <Link to="/reset-password" className="text-xs font-primary">
+            <Link
+              to="/reset-password"
+              className="text-xs text-secondary-text font-normal"
+            >
               Forgot Password?
             </Link>
           </div>
@@ -94,9 +97,9 @@ export const SigninPage = () => {
             Sign In
           </Button>
         </Form>
-        <H6 className="text-center text-sm font-primary font-semibold flex items-center justify-center gap-1">
+        <H6 className="text-center text-sm font-primary font-normal flex items-center justify-center gap-1">
           Need to create an Account?
-          <Link className="text-secondary-text font-semibold" to="/signup">
+          <Link className="text-secondary-text" to="/signup">
             Sign up
           </Link>
         </H6>

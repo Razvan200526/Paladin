@@ -41,10 +41,9 @@ export const HeroNavbar = () => {
           </Link>
         ))}
       </div>
-      <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+      <div className="lg:flex lg:flex-1 lg:justify-end">
         <Link to="/signin" className="flex items-center gap-2">
           <H6>Sign In</H6>
-          <ArrowRightIcon className="text-primary size-3.5" />
         </Link>
       </div>
     </nav>

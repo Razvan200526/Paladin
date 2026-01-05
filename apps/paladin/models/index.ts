@@ -1,10 +1,5 @@
-/**
- * Validation Models
- * Zod schemas migrated from easyres for request validation
- */
 import * as z from 'zod';
 
-// Application Models
 export const CreateApplicationModel = z.object({
   userId: z.string().length(15),
   data: z.object({

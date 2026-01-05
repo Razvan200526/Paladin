@@ -8,6 +8,7 @@ import { AskAiPage } from '@ruby/ask/AskAiPage';
 import { DashboardLayout } from '@ruby/dashboard/DashboardLayout';
 import { HeroPage } from '@ruby/hero/HeroPage';
 import { JobsPage } from '@ruby/jobs';
+import { ForgotPasswordPage } from '@ruby/reset-password/ForgotPasswordPage';
 import { CoverLettersPage } from '@ruby/resources/cover-letter/pages/CoverLettersPage';
 import { CoverLetterInspectPage } from '@ruby/resources/cover-letter/pages/CoverletterInspectPage';
 import { FeatureNotImplemented } from '@ruby/resources/FeatureNotImplementedYet';
@@ -44,6 +45,10 @@ export const router = createBrowserRouter([
       {
         path: '/signin',
         element: <SigninPage />,
+      },
+      {
+        path: '/reset-password',
+        element: <ForgotPasswordPage />,
       },
       {
         path: '/signup',

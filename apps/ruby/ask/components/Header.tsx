@@ -1,10 +1,10 @@
 import { Button } from '@common/components/button';
+import { H2, H6 } from '@common/components/typography';
 import { AiChatIcon } from '@common/icons/AiChatIcon';
 import { useAuth } from '@ruby/shared/hooks';
 import { Trash2Icon, WifiOffIcon } from 'lucide-react';
 import { useAiChat } from '../useAiChat';
 import { useAiChatHistory } from '../useAiChatHistory';
-import { H2, H6 } from '@common/components/typography';
 
 export const Header = () => {
   const { data: user } = useAuth();
@@ -31,9 +31,7 @@ export const Header = () => {
             <AiChatIcon className="size-5 " />
           </div>
           <div className="flex flex-col">
-            <H6 className="text-primary">
-              {sessionTitle || 'Ask AI'}
-            </H6>
+            <H6 className="text-primary">{sessionTitle || 'Ask AI'}</H6>
             <span className="text-xs text-secondary-text">
               Career Assistant
             </span>

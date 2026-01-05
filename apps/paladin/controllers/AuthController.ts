@@ -3,9 +3,12 @@
  * Migrated from easyres individual controller files to @razvan11/paladin pattern
  */
 
+import { isEmailValid } from '@common/validators/isEmailValid';
 import { apiResponse } from '@paladin/client';
-import { controller, get, inject, post } from '@razvan11/paladin';
+import type { ResetPasswordModel } from '@paladin/models/ResetPasswordModel';
+import { controller, get, inject, logger, post } from '@razvan11/paladin';
 import type { Context } from 'hono';
+import { success } from 'zod';
 import { AuthService } from '../services/AuthService';
 
 @controller('/api/auth')
@@ -171,14 +174,64 @@ export class AuthController {
     const result = await this.authService.sendForgetPasswordEmail(
       payload.email,
     );
-    return c.json({ data: { success: true, data: result ?? null } }, 201);
+    return c.json({ data: result ?? null, success: true }, 201);
   }
 
-  // POST /api/auth/reset-password
-  @post('/reset-password')
+  @post('/forget-password/check-otp')
+  async checkOtp(c: Context) {
+    try {
+      const payload = await c.req.json();
+      const { email, otp } = payload;
+
+      if (!isEmailValid(email)) {
+        return apiResponse(c, {
+          data: null,
+          isClientError: true,
+          message: 'Invalid email',
+        });
+      }
+      if (!otp) {
+        return apiResponse(c, {
+          data: null,
+          isClientError: true,
+          message: 'Invalid otp',
+        });
+      }
+
+      const result = await this.authService.forgotPasswordOtp(email, otp);
+      if (result) {
+        return apiResponse(c, {
+          data: result,
+          isClientError: false,
+          message: 'OTP verified',
+        });
+      }
+    } catch (error) {
+      return apiResponse(c, {
+        data: null,
+        isClientError: true,
+        message: 'Failed to verify OTP',
+      });
+    }
+  }
+  // POST /api/auth/forgot-password/reset-password
+  @post('/forgot-password/reset-password')
   async resetPassword(c: Context) {
-    const payload = await c.req.json();
-    const result = await this.authService.resetPassword(payload);
-    return c.json({ data: { success: true, data: result ?? null } }, 201);
+    try {
+      const payload = await c.req.json<ResetPasswordModel>();
+      const result = await this.authService.resetPassword(payload);
+      return apiResponse(c, {
+        data: result,
+        success: true,
+        message: 'Password reset successfully',
+      });
+    } catch (error) {
+      logger.error(error as Error);
+      return apiResponse(c, {
+        data: null,
+        success: false,
+        message: 'Failed to reset password',
+      });
+    }
   }
 }

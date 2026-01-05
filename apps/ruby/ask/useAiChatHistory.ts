@@ -13,7 +13,6 @@ export const useAiChatHistory = (options: UseAiChatHistoryOptions) => {
   const { userId, enabled = true } = options;
   const queryClient = useQueryClient();
 
-  // Fetch chat history
   const historyQuery = useQuery<ChatHistoryItemType[]>({
     queryKey: ['chat-history', userId],
     queryFn: async () => {
@@ -25,10 +24,9 @@ export const useAiChatHistory = (options: UseAiChatHistoryOptions) => {
       return response.data || [];
     },
     enabled: !!userId && enabled,
-    staleTime: 30000, // 30 seconds
+    staleTime: 30000,
   });
 
-  // Create new session
   const createSessionMutation = useMutation({
     mutationFn: async (title?: string) => {
       if (!userId) throw new Error('User ID required');
@@ -46,7 +44,6 @@ export const useAiChatHistory = (options: UseAiChatHistoryOptions) => {
     },
   });
 
-  // Delete session
   const deleteSessionMutation = useMutation({
     mutationFn: async (sessionId: string) => {
       if (!userId) throw new Error('User ID required');
@@ -64,7 +61,6 @@ export const useAiChatHistory = (options: UseAiChatHistoryOptions) => {
     },
   });
 
-  // Rename session
   const renameSessionMutation = useMutation({
     mutationFn: async ({
       sessionId,

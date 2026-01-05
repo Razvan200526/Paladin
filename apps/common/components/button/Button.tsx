@@ -23,8 +23,6 @@ export const Button = (props: ButtonPropsType) => {
       variant={variant}
       className={cn(
         'font-medium tracking-wide rounded',
-        'data-[focus=true]:outline-2 data-[focus=true]:outline-offset-2',
-        'data-[focus=true]:outline-primary',
         size === 'sm' ? 'text-xs' : 'text-sm',
         variant === 'bordered' ? 'border-small' : '',
         color === 'primary' && variant === 'light'

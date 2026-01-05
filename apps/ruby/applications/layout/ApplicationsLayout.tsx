@@ -41,7 +41,8 @@ export const ApplicationsLayout = () => {
   }, [applications, applicationFilters]);
 
   const pathParts = location.pathname.split('/applications/');
-  const isInspectPage = pathParts.length > 1 && pathParts[1].length > 0 && pathParts[1] !== '';
+  const isInspectPage =
+    pathParts.length > 1 && pathParts[1].length > 0 && pathParts[1] !== '';
   const showFilterSidebar = !isInspectPage;
   const sidebarFilteredCount = filteredApplications?.length || 0;
 

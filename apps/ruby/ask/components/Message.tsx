@@ -65,9 +65,7 @@ export const Message = ({
                       </p>
                     ),
                     strong: ({ children }) => (
-                      <strong className="text-primary">
-                        {children}
-                      </strong>
+                      <strong className="text-primary">{children}</strong>
                     ),
                     ul: ({ children }) => (
                       <ul className="list-disc ml-5 mb-2 space-y-1 text-secondary-text">

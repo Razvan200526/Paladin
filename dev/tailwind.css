@@ -2,6 +2,7 @@
 @source ".";
 @plugin "./hero.ts";
 @source "../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}";
+
 @theme {
   /* Colors */
   --color-primary: oklch(29.41% 0.153 296.97);
@@ -33,14 +34,14 @@
   --color-secondary-950: oklch(15.77% 0.066 31.73);
 
   --color-muted: var(--color-gray-500);
-  --color-background: oklch(96.06% 0.018 296.07); /* primary-50 */
-  --color-border: oklch(
-    36.02% 0.183 297.74 / 0.22
-  ); /* primary-800 with opacity */
-  --color-border-hover: oklch(48.31% 0.224 296.71); /* primary-600 */
-  --color-hover: oklch(
-    93.05% 0.037 296.05 / 0.5
-  ); /* primary-100 with opacity */
+  --color-background: oklch(96.06% 0.018 296.07);
+  /* primary-50 */
+  --color-border: oklch(36.02% 0.183 297.74 / 0.22);
+  /* primary-800 with opacity */
+  --color-border-hover: oklch(48.31% 0.224 296.71);
+  /* primary-600 */
+  --color-hover: oklch(93.05% 0.037 296.05 / 0.5);
+  /* primary-100 with opacity */
   --color-placeholder: var(--color-primary-300);
 
   --color-light: oklch(100% 0 0);
@@ -167,11 +168,13 @@
   input::-webkit-inner-spin-button {
     /* display: none; <- Crashes Chrome on hover */
     -webkit-appearance: none;
-    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+    margin: 0;
+    /* <-- Apparently some margin are still there even though it's hidden */
   }
 
   input[type="number"] {
-    -moz-appearance: textfield; /* Firefox */
+    -moz-appearance: textfield;
+    /* Firefox */
     appearance: textfield;
   }
 
@@ -220,6 +223,7 @@
     from {
       transform: translateX(100%);
     }
+
     to {
       transform: translateX(0);
     }

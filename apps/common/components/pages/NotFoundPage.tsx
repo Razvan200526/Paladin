@@ -1,10 +1,11 @@
+import { useAuth } from '@ruby/shared/hooks';
 import { Link as RouterLink } from 'react-router';
 import { Button } from '../button';
 import { Link } from '../Link';
-
 import { H1, H6 } from '../typography';
 
 export const NotFoundPage = () => {
+  const { data: user } = useAuth();
   return (
     <div className="min-h-screen border border-border flex items-center justify-center bg-background px-6 py-24 sm:py-32 lg:px-8 dark:bg-gray-900">
       <div className="text-center">
@@ -19,7 +20,9 @@ export const NotFoundPage = () => {
         </p>
         <div className="mt-10 flex items-center justify-center gap-x-6">
           <Button size="md" variant="solid">
-            <RouterLink to="/home/dashboard">Go back home</RouterLink>
+            <RouterLink to={user?.id ? '/home/dashboard' : '/signin'}>
+              Go back home
+            </RouterLink>
           </Button>
           <Link to="/support">
             Contact support <span aria-hidden="true">&rarr;</span>

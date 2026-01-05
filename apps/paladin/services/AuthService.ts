@@ -1,6 +1,6 @@
 import { pe } from '@common/pretty-error';
 import { random } from '@common/utils';
-import { inject, service } from '@razvan11/paladin';
+import { inject, logger, service } from '@razvan11/paladin';
 import { betterAuth } from 'better-auth';
 import { emailOTP, openAPI } from 'better-auth/plugins';
 import { Pool } from 'pg';
@@ -27,7 +27,7 @@ export class AuthService {
           }: {
             email: string;
             otp: string;
-            type: string;
+            type?: string;
           }) {
             try {
               if (type === 'email-verification') {
@@ -37,7 +37,7 @@ export class AuthService {
                 // optional: send sign-in OTP via email if you enable that flow
               } else {
                 const mailer = new ForgetPasswordEmailCheckMailer();
-                await mailer.send({ to: email, otp, lang: 'en' });
+                await mailer.send({ to: email, otp });
               }
             } catch (e) {
               console.error('Failed to send OTP email:', e);
@@ -177,21 +177,43 @@ export class AuthService {
 
   public async verifyEmailOTP(email: string, otp: string) {
     const auth = this.getAuth();
-    const api: any = auth.api;
-    const res = await api.verifyEmailOTP({
+    const res = await auth.api.verifyEmailOTP({
       body: { email, otp },
     });
     return res;
   }
 
-  public async sendForgetPasswordEmail(email: string, headers?: Headers) {
-    const auth = this.getAuth();
-    const api: any = auth.api;
-    return await api.sendPasswordResetEmail({
-      returnHeaders: true,
-      body: { email },
-      headers,
-    });
+  public async forgotPasswordOtp(email: string, otp: string) {
+    try {
+      const auth = this.getAuth();
+      const res = await auth.api.checkVerificationOTP({
+        body: {
+          email,
+          otp,
+          type: 'forget-password',
+        },
+      });
+      return res;
+    } catch (error) {
+      if (error instanceof Error) {
+        logger.error(error);
+        logger.warn(`Failed to verify OTP for forgot password: ${error}`);
+      }
+    }
+  }
+
+  public async sendForgetPasswordEmail(email: string) {
+    try {
+      const auth = this.getAuth();
+      logger.info(`Sending forget password email to ${email}`);
+      const res = await auth.api.forgetPasswordEmailOTP({
+        body: { email },
+      });
+      logger.info(`Forget password email sent to ${email}`);
+      return res;
+    } catch (error) {
+      if (error instanceof Error) logger.error(error);
+    }
   }
 
   public async resetPassword(
@@ -203,10 +225,9 @@ export class AuthService {
     headers?: Headers,
   ) {
     const auth = this.getAuth();
-    const api: any = auth.api;
-    return await api.resetPassword({
+    return await auth.api.resetPasswordEmailOTP({
       returnHeaders: true,
-      body: { email: data.email, code: data.otp, password: data.password },
+      body: { email: data.email, otp: data.otp, password: data.password },
       headers,
     });
   }

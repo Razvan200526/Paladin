@@ -3,11 +3,11 @@ import { Card } from '@common/components/card';
 import { PdfViewer } from '@common/components/pdf/PDFViewer';
 import { Tooltip } from '@common/components/Tooltip';
 import { H6 } from '@common/components/typography';
-import { formatDate } from '@common/utils';
 import { CoverLetterIcon } from '@common/icons/CoverletterIcon';
+import { formatDate } from '@common/utils';
 import {
-  ArrowLeftIcon,
   ArrowDownTrayIcon,
+  ArrowLeftIcon,
   ShareIcon,
 } from '@heroicons/react/24/outline';
 import {
@@ -141,7 +141,10 @@ export const CoverLetterInspectPage = () => {
               >
                 Cover Letters
               </BreadcrumbItem>
-              <BreadcrumbItem isCurrent className="text-coverletter font-medium">
+              <BreadcrumbItem
+                isCurrent
+                className="text-coverletter font-medium"
+              >
                 {coverLetterData.name?.split('.')[0] || 'Document'}
               </BreadcrumbItem>
             </Breadcrumbs>

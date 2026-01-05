@@ -54,6 +54,25 @@ export class AuthFetcher {
   };
 
   public readonly forgetPassword = {
+    checkOtp: async (payload: {
+      email: string;
+      otp: string;
+    }): Promise<ResponseType<{ success: boolean }>> => {
+      return await this.fetcher.post(
+        '/auth/forget-password/check-otp',
+        payload,
+      );
+    },
+    resetPassword: async (payload: {
+      email: string;
+      otp: string;
+      password: string;
+    }): Promise<ResponseType<{ success: boolean }>> => {
+      return await this.fetcher.post(
+        '/auth/forgot-password/reset-password',
+        payload,
+      );
+    },
     email: async (
       email: string,
     ): Promise<ResponseType<{ success: boolean }>> => {
