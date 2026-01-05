@@ -1,4 +1,4 @@
-import type { ApplicationType } from '@client/sdk/types';
+import type { ApplicationType } from '@sdk/types';
 
 export const FilteredApplicationsHeader = ({
   filteredApplications,

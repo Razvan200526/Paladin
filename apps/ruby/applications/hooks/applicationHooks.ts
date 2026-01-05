@@ -4,6 +4,7 @@ import { backend } from '@ruby/shared/backend';
 import { queryClient } from '@ruby/shared/QueryClient';
 import type { ApplicationType } from '@sdk/types';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { useParams } from 'react-router';
 import type { UpdateApplicationData } from '../../../sdk/ApplicationFetcher';
 import type { CreateApplicationFormData } from '../components/CreateApplicationButton';
 
@@ -20,12 +21,13 @@ export const useApplications = (userId: string) => {
   });
 };
 
-export const useGetApplication = (applicationId: string) => {
+export const useGetApplication = () => {
+  const { id } = useParams<{ id: string }>();
   return useQuery({
-    queryKey: ['applications', 'retrieve', applicationId],
+    queryKey: ['applications', 'retrieve', id],
     queryFn: async () => {
       const res = await backend.apps.apps.getApp({
-        applicationId: applicationId,
+        applicationId: id || '',
       });
       return res.data as ApplicationType;
     },
@@ -73,9 +75,6 @@ export const useFilterApplications = (userId: string) => {
   });
 };
 
-/**
- * Hook to update an application
- */
 export const useUpdateApplication = () => {
   return useMutation({
     mutationFn: async (variables: {
@@ -96,14 +95,12 @@ export const useUpdateApplication = () => {
       return response;
     },
     onSuccess: (_data, variables) => {
-      // Invalidate both the list and the individual application
       queryClient.invalidateQueries({
         queryKey: ['applications', 'retrieve'],
       });
       queryClient.invalidateQueries({
         queryKey: ['applications', 'retrieve', variables.applicationId],
       });
-      // Also invalidate analytics since status might have changed
       queryClient.invalidateQueries({
         queryKey: ['analytics'],
       });
@@ -114,9 +111,6 @@ export const useUpdateApplication = () => {
   });
 };
 
-/**
- * Hook to update only the status of an application
- */
 export const useUpdateApplicationStatus = () => {
   return useMutation({
     mutationFn: async (variables: {
@@ -155,9 +149,6 @@ export const useUpdateApplicationStatus = () => {
   });
 };
 
-/**
- * Hook to delete one or more applications
- */
 export const useDeleteApplication = (userId: string) => {
   return useMutation({
     mutationFn: async (variables: { applicationIds: string[] }) => {
@@ -186,9 +177,6 @@ export const useDeleteApplication = (userId: string) => {
   });
 };
 
-/**
- * Hook to delete a single application
- */
 export const useDeleteSingleApplication = () => {
   return useMutation({
     mutationFn: async (variables: {

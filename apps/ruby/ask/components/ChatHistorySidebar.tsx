@@ -54,7 +54,8 @@ export const ChatHistorySidebar = ({
               <div key={dateLabel}>
                 <div className="space-y-1">
                   {items.map((item) => (
-                    <div
+                    // biome-ignore lint/a11y/useSemanticElements: <trust me>
+<div
                       key={item.id}
                       onClick={() => onSelectSession(item.id)}
                       onKeyDown={(e) => {

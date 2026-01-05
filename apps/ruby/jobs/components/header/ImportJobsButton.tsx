@@ -1,7 +1,6 @@
 import { Button } from '@common/components/button';
 import {
   AdjustmentsHorizontalIcon,
-  ArrowDownTrayIcon,
 } from '@heroicons/react/24/outline';
 import {
   addToast,

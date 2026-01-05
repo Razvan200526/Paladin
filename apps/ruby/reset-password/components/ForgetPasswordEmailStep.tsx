@@ -12,7 +12,8 @@ export const ForgotPasswordEmailStep = () => {
   const emailRef = useRef<InputEmailRefType | null>(null);
 
   const { step, setEmail, setStep } = useResetPasswordStore();
-  const { mutateAsync: sendResetPasswordOtp , isPending } = useSendResetPasswordEmail();
+  const { mutateAsync: sendResetPasswordOtp, isPending } =
+    useSendResetPasswordEmail();
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -38,7 +39,7 @@ export const ForgotPasswordEmailStep = () => {
     } catch (err) {
       console.error(err);
       Toast.error({
-        description:'Failed to send reset link. Please try again.',
+        description: 'Failed to send reset link. Please try again.',
       });
     }
   };
@@ -74,7 +75,12 @@ export const ForgotPasswordEmailStep = () => {
           Back
         </Button>
 
-        <Button isLoading={isPending} variant="solid" color="primary" type="submit">
+        <Button
+          isLoading={isPending}
+          variant="solid"
+          color="primary"
+          type="submit"
+        >
           Send Reset Link
         </Button>
       </div>

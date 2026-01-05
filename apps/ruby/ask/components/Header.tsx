@@ -1,5 +1,5 @@
 import { Button } from '@common/components/button';
-import { H2, H6 } from '@common/components/typography';
+import { H6 } from '@common/components/typography';
 import { AiChatIcon } from '@common/icons/AiChatIcon';
 import { useAuth } from '@ruby/shared/hooks';
 import { Trash2Icon, WifiOffIcon } from 'lucide-react';

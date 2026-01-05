@@ -1,7 +1,7 @@
 import { AiChatIcon } from '@common/icons/AiChatIcon';
 import { ResumeIcon } from '@common/icons/ResumeIcon';
 import { PlusIcon } from '@heroicons/react/24/outline';
-import { CreateApplicationModal } from '@ruby/applications/components/CreateApplicationModal';
+import { CreateApplicationModal } from '@ruby/applications/components/modals/CreateApplicationModal';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { ActionCard } from '../components/ActionCard';

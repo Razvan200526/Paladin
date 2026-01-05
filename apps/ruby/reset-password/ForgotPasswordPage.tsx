@@ -1,7 +1,5 @@
 import { Card } from '@common/components/card';
 import { HorizontalSteps } from '@common/components/HorizontalSteps';
-import { H3 } from '@common/components/typography';
-import { BackToSignIn, ForgotPasswordForm } from './components';
 import { ForgotPasswordEmailStep } from './components/ForgetPasswordEmailStep';
 import { ForgotPasswordOTPStep } from './components/ForgotPasswordOTPStep';
 import { ForgotPasswordUpdateStep } from './components/ForgotPasswordUpdateStep';

@@ -3,7 +3,6 @@ import { InputOTP } from '@common/components/input/InputOTP';
 import { Toast } from '@common/components/toast';
 import { H6 } from '@common/components/typography';
 import { Form, Spinner } from '@heroui/react';
-import { backend } from '@ruby/shared/backend';
 import { useState } from 'react';
 import { useVerifyOtp } from '../hooks';
 import { useResetPasswordStore } from '../store';
@@ -12,7 +11,7 @@ export const ForgotPasswordOTPStep = () => {
   const [isInvalid, setIsInvalid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { email, setStep, step, setOtp } = useResetPasswordStore();
-  const { mutateAsync: verifyOtp, isError, isPending } = useVerifyOtp();
+  const { mutateAsync: verifyOtp, isPending } = useVerifyOtp();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

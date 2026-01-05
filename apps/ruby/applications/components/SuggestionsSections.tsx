@@ -3,29 +3,29 @@ import { Divider } from '@heroui/react';
 import { Icon } from '@iconify/react';
 import type { ApplicationType } from '@sdk/types';
 
-export const NotesSection = ({
+export const SuggestionsSections = ({
   application,
 }: {
   application: ApplicationType;
 }) => {
   return (
     <div>
-      {application.comments?.length > 0 && (
+      {application && application.suggestions?.length > 0 && (
         <>
           <Divider />
           <div>
-            <H6 className="text-primary mb-3">Notes</H6>
+            <H6 className="text-primary mb-3">Suggestions</H6>
             <div className="space-y-2">
-              {application.comments.map((comment, index) => (
+              {application.suggestions.map((suggestion, index) => (
                 <div
                   key={index}
-                  className="flex items-start gap-3 p-3 rounded-xl bg-light border border-border"
+                  className="flex items-start gap-3 p-3 rounded-xl bg-amber-500/5 border border-amber-500/20"
                 >
                   <Icon
-                    icon="heroicons:chat-bubble-left"
-                    className="size-4 text-primary mt-0.5 shrink-0"
+                    icon="heroicons:light-bulb"
+                    className="size-4 text-amber-500 mt-0.5 shrink-0"
                   />
-                  <p className="text-sm text-secondary-text">{comment}</p>
+                  <p className="text-sm text-secondary-text">{suggestion}</p>
                 </div>
               ))}
             </div>

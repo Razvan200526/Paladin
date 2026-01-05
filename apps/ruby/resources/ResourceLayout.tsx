@@ -59,7 +59,7 @@ export const ResourceLayout = () => {
   );
   const { data: coverletters, isLoading: coverlettersLoading } =
     useCoverLetters(user?.id || '');
-  const { data: chats } = useChatSessions(user?.id || '');
+  // const { data: chats } = useChatSessions(user?.id || '');
   const {
     state,
     startDeleting,

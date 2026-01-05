@@ -31,6 +31,7 @@ export const ForgotPasswordForm = () => {
       }
       Toast.success({ description: 'Reset link sent to your email!' });
     } catch (err) {
+      console.error(err);
       Toast.error({
         description: 'Failed to send reset link. Please try again.',
       });

@@ -4,7 +4,7 @@ import { formatDate } from '@common/utils';
 import { Chip, cn } from '@heroui/react';
 import { Icon } from '@iconify/react';
 import type { ApplicationType } from '@sdk/types';
-import { statusConfig } from '../utils/applicationData';
+import { statusConfig } from '../../utils/applicationData';
 
 const platformConfig = {
   Linkedin: {

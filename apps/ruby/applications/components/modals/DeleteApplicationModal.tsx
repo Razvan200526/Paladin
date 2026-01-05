@@ -3,11 +3,11 @@ import { Modal, type ModalRefType } from '@common/components/Modal';
 import { Toast } from '@common/components/toast';
 import { H5, P } from '@common/components/typography';
 import { Icon } from '@iconify/react';
+import { useDeleteApplication } from '@ruby/applications/hooks/applicationHooks';
 import { useAuth } from '@ruby/shared/hooks';
 import type { ApplicationType } from '@sdk/types';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { useDeleteApplication } from '../hooks/applicationHooks';
 
 interface DeleteApplicationModalProps {
   modalRef: React.RefObject<ModalRefType | null>;

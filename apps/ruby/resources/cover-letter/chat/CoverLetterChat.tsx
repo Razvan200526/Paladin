@@ -8,7 +8,6 @@ import { InputChat } from '@common/components/input/InputChat';
 import type { ModalRefType } from '@common/components/Modal';
 import { H1, H2, H3, H6 } from '@common/components/typography';
 import { AiChatIcon } from '@common/icons/AiChatIcon';
-import { MessageIcon } from '@common/icons/MessageIcon';
 import { MoreIcon } from '@common/icons/MoreIcon';
 import { ThinkingIcon } from '@common/icons/ThinkingIcon';
 import type { EditorRefType } from '@common/types';

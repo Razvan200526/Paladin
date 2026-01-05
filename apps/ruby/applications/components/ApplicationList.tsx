@@ -1,6 +1,6 @@
 import type { ApplicationType } from '@client/sdk/types';
 import { Link } from 'react-router';
-import { ApplicationCard } from './ApplicationCard';
+import { ApplicationCard } from './cards/ApplicationCard';
 
 export const ApplicationList = ({
   applications,

@@ -183,7 +183,7 @@ export const AiQuickChat = ({ onClose }: AiQuickChatProps) => {
       const scrollElement = scrollRef.current;
       scrollElement.scrollTop = scrollElement.scrollHeight;
     }
-  }, [messages]);
+  }, []);
 
   const handleClose = () => {
     setIsClosing(true);

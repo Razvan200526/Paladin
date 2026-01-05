@@ -13,7 +13,7 @@ import { LocationIcon } from '@common/icons/LocationIcon';
 import { useAuth } from '@ruby/shared/hooks';
 import type { ApplicationType } from '@sdk/types';
 import { useEffect, useState } from 'react';
-import { useUpdateApplication } from '../hooks/applicationHooks';
+import { useUpdateApplication } from '../../hooks/applicationHooks';
 
 interface EditApplicationModalProps {
   modalRef: React.RefObject<ModalRefType | null>;

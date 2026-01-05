@@ -26,7 +26,7 @@ export class JobsController {
     @inject(UserJobPreferencesRepository)
     private preferences: UserJobPreferencesRepository,
     @inject(JobListingRepository) private listings: JobListingRepository,
-  ) {}
+  ) { }
 
   // ============================================
   // Job Listings
@@ -100,7 +100,7 @@ export class JobsController {
   @post('/listings')
   async createListing(c: Context) {
     try {
-      const body = await c.req.json();
+      const _body = await c.req.json();
       // TODO: Implement with JobListingRepository
       return apiResponse(c, {
         data: { id: 'placeholder' },

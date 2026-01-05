@@ -2,18 +2,14 @@ import { Button } from '@common/components/button';
 import type { ModalRefType } from '@common/components/Modal';
 import { ErrorFallback } from '@common/components/pages/ErrorFallback';
 import { Tooltip } from '@common/components/Tooltip';
-import { H4, H6 } from '@common/components/typography';
+import { H4 } from '@common/components/typography';
 import { ApplicationsIcon } from '@common/icons/ApplicationsIcon';
 import {
   ArrowLeftIcon,
-  ArrowTopRightOnSquareIcon,
-  CalendarIcon,
-  ClockIcon,
   CurrencyDollarIcon,
   MapPinIcon,
   PencilIcon,
   TrashIcon,
-  UserIcon,
 } from '@heroicons/react/24/outline';
 import {
   BreadcrumbItem,
@@ -30,61 +26,22 @@ import {
 import { Icon } from '@iconify/react';
 import { useAuth } from '@ruby/shared/hooks';
 import { useRef, useState } from 'react';
-import { useNavigate, useParams } from 'react-router';
-import { DeleteApplicationModal } from '../components/DeleteApplicationModal';
-import { EditApplicationModal } from '../components/EditApplicationModal';
+import { useNavigate } from 'react-router';
+import { DocumentsSection } from '../components/DocumentsSection';
+import { DeleteApplicationModal } from '../components/modals/DeleteApplicationModal';
+import { EditApplicationModal } from '../components/modals/EditApplicationModal';
+import { NotesSection } from '../components/NotesSection';
+import { SuggestionsSections } from '../components/SuggestionsSections';
 import {
   useGetApplication,
   useUpdateApplicationStatus,
 } from '../hooks/applicationHooks';
-import { DocumentsSection } from '../components/DocumentsSection';
-import { NotesSection } from '../components/NotesSection';
-
-const statusConfig = {
-  Applied: {
-    color: 'bg-blue-500/10 text-blue-700 border-blue-500/20',
-    label: 'Applied',
-    icon: 'heroicons:document-text',
-  },
-  Interviewing: {
-    color: 'bg-amber-500/10 text-amber-700 border-amber-500/20',
-    label: 'Interviewing',
-    icon: 'heroicons:chat-bubble-left-right',
-  },
-  Accepted: {
-    color: 'bg-green-500/10 text-green-700 border-green-500/20',
-    label: 'Accepted',
-    icon: 'heroicons:check-circle',
-  },
-  Rejected: {
-    color: 'bg-red-500/10 text-red-700 border-red-500/20',
-    label: 'Rejected',
-    icon: 'heroicons:x-circle',
-  },
-};
-
-const platformConfig = {
-  Linkedin: {
-    icon: 'mdi:linkedin',
-    color: 'text-[#0077B5]',
-    label: 'LinkedIn',
-  },
-  Glassdoor: {
-    icon: 'simple-icons:glassdoor',
-    color: 'text-[#0CAA41]',
-    label: 'Glassdoor',
-  },
-  Other: {
-    icon: 'heroicons:briefcase',
-    color: 'text-primary',
-    label: 'Other',
-  },
-};
+import { QuickStats } from '../components/QuickStats';
+import { platformConfig, statusConfig } from '../utils/applicationData';
 
 type ApplicationStatus = 'Applied' | 'Interviewing' | 'Accepted' | 'Rejected';
 
 export const ApplicationInspectPage = () => {
-  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { data: user } = useAuth();
   const {
@@ -92,7 +49,7 @@ export const ApplicationInspectPage = () => {
     isError,
     isFetching,
     refetch,
-  } = useGetApplication(id || '');
+  } = useGetApplication();
 
   const { mutate: updateStatus, isPending: isUpdatingStatus } =
     useUpdateApplicationStatus();
@@ -337,98 +294,16 @@ export const ApplicationInspectPage = () => {
 
             <Divider />
 
-            {/* Quick Stats Row */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              <div className="p-4 rounded-xl bg-light border border-border">
-                <div className="flex items-center gap-2 text-muted text-xs mb-1">
-                  <CalendarIcon className="size-4" />
-                  Applied
-                </div>
-                <p className="font-semibold text-primary text-sm">
-                  {new Date(application.createdAt).toLocaleDateString(
-                    undefined,
-                    {
-                      month: 'short',
-                      day: 'numeric',
-                      year: 'numeric',
-                    },
-                  )}
-                </p>
-              </div>
-              <div className="p-4 rounded-xl bg-light border border-border">
-                <div className="flex items-center gap-2 text-muted text-xs mb-1">
-                  <ClockIcon className="size-4" />
-                  Last Updated
-                </div>
-                <p className="font-semibold text-primary text-sm">
-                  {new Date(application.updatedAt).toLocaleDateString(
-                    undefined,
-                    {
-                      month: 'short',
-                      day: 'numeric',
-                      year: 'numeric',
-                    },
-                  )}
-                </p>
-              </div>
-              {application.contact && (
-                <div className="p-4 rounded-xl bg-light border border-border">
-                  <div className="flex items-center gap-2 text-muted text-xs mb-1">
-                    <UserIcon className="size-4" />
-                    Contact
-                  </div>
-                  <p className="font-semibold text-primary text-sm truncate">
-                    {application.contact}
-                  </p>
-                </div>
-              )}
-              {application.jobUrl && (
-                <a
-                  href={application.jobUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-4 rounded-xl bg-light border border-border hover:border-primary/30 hover:bg-primary/5 transition-colors group"
-                >
-                  <div className="flex items-center gap-2 text-muted text-xs mb-1">
-                    <ArrowTopRightOnSquareIcon className="size-4" />
-                    Job Posting
-                  </div>
-                  <p className="font-semibold text-primary text-sm group-hover:underline">
-                    View Original
-                  </p>
-                </a>
-              )}
+            <div className='flex flex-col space-y-2'>
+              <QuickStats application={application} />
+
+              <DocumentsSection application={application} />
+
+              <NotesSection application={application} />
+
+              <SuggestionsSections application={application} />
+
             </div>
-
-            <DocumentsSection application={application}/>
-
-            <NotesSection application={application}/>
-
-            {/* Suggestions Section */}
-            {application.suggestions?.length > 0 && (
-              <>
-                <Divider />
-                <div>
-                  <H6 className="text-primary mb-3">Suggestions</H6>
-                  <div className="space-y-2">
-                    {application.suggestions.map((suggestion, index) => (
-                      <div
-                        key={index}
-                        className="flex items-start gap-3 p-3 rounded-xl bg-amber-500/5 border border-amber-500/20"
-                      >
-                        <Icon
-                          icon="heroicons:light-bulb"
-                          className="size-4 text-amber-500 mt-0.5 shrink-0"
-                        />
-                        <p className="text-sm text-secondary-text">
-                          {suggestion}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </>
-            )}
           </div>
         </ScrollShadow>
       </div>

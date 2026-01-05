@@ -11,7 +11,7 @@ import { Outlet, useLocation, useOutletContext } from 'react-router';
 import type { ApplicationType } from '../../../sdk/types';
 import { useApplicationFilterStore } from '../applicationStore';
 import { ApplicationFilterSidebar } from '../components/ApplicationFilterSidebar';
-import { CreateApplicationModal } from '../components/CreateApplicationModal';
+import { CreateApplicationModal } from '../components/modals/CreateApplicationModal';
 import { useApplications } from '../hooks/applicationHooks';
 
 export type ApplicationsResourceOutletContext = {

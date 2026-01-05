@@ -8,12 +8,11 @@ import { apiResponse } from '@paladin/client';
 import type { ResetPasswordModel } from '@paladin/models/ResetPasswordModel';
 import { controller, get, inject, logger, post } from '@razvan11/paladin';
 import type { Context } from 'hono';
-import { success } from 'zod';
 import { AuthService } from '../services/AuthService';
 
 @controller('/api/auth')
 export class AuthController {
-  constructor(@inject(AuthService) private readonly authService: AuthService) {}
+  constructor(@inject(AuthService) private readonly authService: AuthService) { }
 
   @get('/reference')
   async getOpenAPIReference(c: Context) {
@@ -207,6 +206,12 @@ export class AuthController {
         });
       }
     } catch (error) {
+      if (error instanceof Error) {
+        logger.error(error);
+      } else {
+        console.error(error);
+        logger.error(new Error('Unknown error in checkOtp'));
+      }
       return apiResponse(c, {
         data: null,
         isClientError: true,

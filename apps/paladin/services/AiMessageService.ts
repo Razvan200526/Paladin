@@ -28,8 +28,8 @@ export class AiQueryService {
    */
   async streamResponse(
     message: string,
-    context: ChatContext[] = [],
     onChunk: (chunk: StreamChunk) => void,
+    context: ChatContext[] = [],
   ): Promise<string> {
     try {
       // Build conversation history for context

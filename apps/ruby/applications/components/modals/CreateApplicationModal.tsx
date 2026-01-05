@@ -10,10 +10,10 @@ import { CompanyIcon } from '@common/icons/CompanyIcon';
 import { JobIcon } from '@common/icons/JobIcon';
 import { LocationIcon } from '@common/icons/LocationIcon';
 import { XMarkIcon } from '@heroicons/react/24/outline';
+import { useCreateApplication } from '@ruby/applications/hooks/applicationHooks';
 import { useCoverLetters, useResumes } from '@ruby/resources/resumes/hooks';
 import { useAuth } from '@ruby/shared/hooks';
 import { useState } from 'react';
-import { useCreateApplication } from '../hooks/applicationHooks';
 
 interface CreateApplicationFormData {
   employer: string;
