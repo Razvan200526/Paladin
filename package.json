@@ -5,8 +5,8 @@
   "private": true,
   "scripts": {
     "dev": "bun dev/run.ts",
-    "fmt": "bunx @biomejs/biome check --write",
-    "lint": "bunx @biomejs/biome lint",
+    "fmt": "bun x @biomejs/biome check --write",
+    "lint": "bun x @biomejs/biome lint",
     "test": "bun test tests",
     "test:watch": "bun test tests --watch",
     "test:coverage": "bun test tests --coverage",
@@ -15,7 +15,7 @@
     "db:revert": "bun run --bun node_modules/typeorm/cli.js migration:revert -d ./apps/paladin/shared/database/data-source.ts",
     "db": "bun db:migrate && bun db:run",
     "seeds": "bun run seeds/index.ts",
-    "build:css": "bunx @tailwindcss/cli -i ./dev/tailwind.css -o ./apps/ruby/shared/public/static/dist/style.css",
+    "build:css": "bun x @tailwindcss/cli -i ./dev/tailwind.css -o ./apps/ruby/shared/public/static/dist/style.css",
     "build:spa": "bun build ./apps/ruby/__init__/App.tsx --outdir ./apps/ruby/shared/public/static/dist --target browser --entry-naming app.[ext] --asset-naming [name].[ext] --public-path /static/dist/",
     "build": "bun run build:css && bun run build:spa",
     "prod": "bun run build && bun run apps/ruby/index.ts"
