@@ -1,14 +1,14 @@
 import { H4 } from '@common/components/typography';
 import { ApplicationsIcon } from '@common/icons/ApplicationsIcon';
-import { CurrencyDollarIcon, MapPinIcon } from '@heroicons/react/24/outline';
 import { Chip, Divider, ScrollShadow } from '@heroui/react';
 import { Icon } from '@iconify/react';
 import type { ApplicationType } from '@sdk/types';
 import { platformConfig } from '../utils/applicationData';
+import { CurrencyDollarIcon, MapPinIcon } from '@heroicons/react/24/outline';
+import { StatusDropdown } from './StatusDropdown';
+import { QuickStats } from './QuickStats';
 import { DocumentsSection } from './DocumentsSection';
 import { NotesSection } from './NotesSection';
-import { QuickStats } from './QuickStats';
-import { StatusDropdown } from './StatusBreakdown';
 import { SuggestionsSections } from './SuggestionsSections';
 
 export const ApplicationDetails = ({
