@@ -43,7 +43,7 @@ export const useUnreadNotificationCount = (userId: string | undefined) => {
     queryKey: ['notifications', 'unread-count', userId],
     queryFn: async () => {
       if (!userId) return 0;
-      console.debug(Bun.env.VITE_WS_URL);
+      console.debug(process.env.VITE_WS_URL);
       const res = await backend.notifications.notifications.getUnreadCount({
         userId,
       });

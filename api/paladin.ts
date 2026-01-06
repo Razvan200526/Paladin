@@ -6,11 +6,12 @@ import { NotificationHandler } from '@paladin/handlers/NotificationHandler';
 import { AiChatHandler } from '@paladin/handlers/AiChatHandler';
 import { EnvValidator } from '@common/EnvValidator';
 
+(globalThis as any).Bun = { env: process.env };
 container.bind(CONTAINER_KEYS.APP_IS_PRODUCTION).toConstantValue(true);
 
 const app = new App({
   name: 'paladin',
-  cors: [Bun.env.APP_URL || 'http://localhost:3000'],
+  cors: [process.env.APP_URL || 'http://localhost:3000'],
   validators: { env: [EnvValidator] },
 });
 

@@ -15,7 +15,7 @@ export class DevMailer implements Mailer {
     fromName,
   }: SendMailParams): Promise<void> {
     logger.info('sending email');
-    const from = `${fromName || 'EasyResPlus'} <${fromEmail || Bun.env.MAIL_FROM || 'no-reply@easyresplus'}>`;
+    const from = `${fromName || 'EasyResPlus'} <${fromEmail || process.env.MAIL_FROM || 'no-reply@easyresplus'}>`;
     const result = await this.transporter.sendMail({
       from,
       to,
