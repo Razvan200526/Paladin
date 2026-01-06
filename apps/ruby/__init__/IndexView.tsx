@@ -1,4 +1,4 @@
-import { asset, LayoutView } from '@razvan11/paladin';
+import { asset, LayoutView } from './LayoutView';
 import { PageLoader } from '../shared/components/PageLoader';
 
 export interface IndexViewProps {
