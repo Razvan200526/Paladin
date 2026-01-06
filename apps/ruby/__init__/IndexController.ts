@@ -2,7 +2,8 @@
  * Example Index Controller
  * Serves the React SPA with server-side rendered shell
  */
-import { controller, get, inject, render } from '@razvan11/paladin';
+import { controller, get, inject } from '@razvan11/paladin';
+import { render } from './render';
 import type { Context } from 'hono';
 import { IndexView } from './IndexView';
 

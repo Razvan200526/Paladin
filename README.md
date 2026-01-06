@@ -57,6 +57,7 @@ Easyres solves these problems by providing:
 ## Features
 
 ### Application Tracking
+
 - Create, update, and delete job applications
 - Track application status (Applied, Interviewing, Offered, Rejected, etc.)
 - Store job details including employer, title, location, salary range, and platform
@@ -64,49 +65,57 @@ Easyres solves these problems by providing:
 - Link resumes and cover letters to specific applications
 
 ### Resume Management
+
 - Upload and store multiple resumes
 - Rename and organize resumes
 - Cloud storage with Cloudflare R2
 
 ### Cover Letter Management
+
 - Upload and manage cover letters
 - Associate cover letters with specific applications
 - Cloud-based storage for easy access
 
 ### AI-Powered Assistant
+
 - Chat-based AI assistant powered by Google Gemini
 - Career guidance and job search advice
 - Resume and cover letter improvement suggestions
 - Persistent chat history with session management
 
 ### User Management
+
 - User authentication and authorization
 - Email verification
 - Session management
 - Job preferences configuration
 
 ### Analytics and Dashboard
+
 - Application tracking statistics
 - Visual analytics charts
 - Progress monitoring over time
 
 ### Notifications
+
 - In-app notifications for important events
 - Read/unread status tracking
 
 ## Tech Stack
 
 ### Backend
+
 - **Runtime**: [Bun](https://bun.sh) - Fast JavaScript/TypeScript runtime
 - **Framework**: [@razvan11/paladin](https://www.npmjs.com/package/@razvan11/paladin) - Backend framework built on top of Hono
 - **HTTP**: [Hono](https://hono.dev) - Lightweight web framework
 - **Database**: PostgreSQL with [TypeORM](https://typeorm.io)
 - **Validation**: class-validator
 - **AI**: Google Gemini AI (@google/genai)
-- **Storage**: Cloudflare R2 
+- **Storage**: Cloudflare R2
 - **Authentication**: Better Auth with JWT
 
 ### Frontend
+
 - **Library**: React 19 with TypeScript
 - **Router**: React Router v7
 - **State Management**: Zustand
@@ -120,6 +129,7 @@ Easyres solves these problems by providing:
 - **PDF Handling**: react-pdf, pdfjs-dist
 
 ### Development Tools
+
 - **Linting/Formatting**: Biome
 - **Build**: Bun bundler
 - **CSS Processing**: Tailwind CLI
@@ -168,15 +178,15 @@ The application requires the following environment variables to be configured. C
 
 ### Required Environment Variables
 
-| Variable | Description |
-|----------|-------------|
-| `APP_DATABASE_URL` | PostgreSQL connection string for the primary database. Format: `postgresql://user:password@host:port/database` |
-| `APP_URL` | Base URL of the application (e.g., `http://localhost:3000` for development) |
-| `R2_ACCESS_KEY` | Cloudflare R2 access key ID for file storage |
-| `R2_SECRET_ACCESS_KEY` | Cloudflare R2 secret access key for file storage |
-| `R2_ENDPOINT` | Cloudflare R2 endpoint URL |
-| `R2_BUCKET_NAME` | Name of the R2 bucket for storing files (resumes, cover letters) |
-| `GEMINI_API_KEY` | Google Gemini API key for AI chat functionality |
+| Variable               | Description                                                                                                    |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `APP_DATABASE_URL`     | PostgreSQL connection string for the primary database. Format: `postgresql://user:password@host:port/database` |
+| `APP_URL`              | Base URL of the application (e.g., `http://localhost:3000` for development)                                    |
+| `R2_ACCESS_KEY`        | Cloudflare R2 access key ID for file storage                                                                   |
+| `R2_SECRET_ACCESS_KEY` | Cloudflare R2 secret access key for file storage                                                               |
+| `R2_ENDPOINT`          | Cloudflare R2 endpoint URL                                                                                     |
+| `R2_BUCKET_NAME`       | Name of the R2 bucket for storing files (resumes, cover letters)                                               |
+| `GEMINI_API_KEY`       | Google Gemini API key for AI chat functionality                                                                |
 
 ### Example `.env` File
 
@@ -208,17 +218,20 @@ GEMINI_API_KEY=your_gemini_api_key
 ### Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/your-username/easyres.git
    cd easyres
    ```
 
 2. Install dependencies:
+
    ```bash
    bun install
    ```
 
 3. Set up environment variables:
+
    ```bash
    cp .env.example .env
    # Edit .env with your configuration
@@ -230,6 +243,7 @@ GEMINI_API_KEY=your_gemini_api_key
    ```
 
 This command will:
+
 - Start a PostgreSQL database in Docker
 - Compile Tailwind CSS in watch mode
 - Build the React frontend with hot reloading
@@ -239,15 +253,15 @@ This command will:
 
 ### Available Scripts
 
-| Command | Description |
-|---------|-------------|
-| `bun run dev` | Start the full development environment |
-| `bun run fmt` | Format code with Biome |
-| `bun run lint` | Lint code with Biome |
-| `bun run test` | Run tests |
-| `bun run test:watch` | Run tests in watch mode |
-| `bun run test:coverage` | Run tests with coverage |
-| `bun run wrangler` | Start Wrangler dev server (for Cloudflare Workers) |
+| Command                 | Description                                        |
+| ----------------------- | -------------------------------------------------- |
+| `bun run dev`           | Start the full development environment             |
+| `bun run fmt`           | Format code with Biome                             |
+| `bun run lint`          | Lint code with Biome                               |
+| `bun run test`          | Run tests                                          |
+| `bun run test:watch`    | Run tests in watch mode                            |
+| `bun run test:coverage` | Run tests with coverage                            |
+| `bun run wrangler`      | Start Wrangler dev server (for Cloudflare Workers) |
 
 ### Development Architecture
 
@@ -303,11 +317,13 @@ bun run test:coverage
 ## API Endpoints
 
 ### Authentication
+
 - `POST /api/auth/signin` - Sign in user
 - `POST /api/auth/signup` - Register new user
 - `POST /api/auth/signout` - Sign out user
 
 ### Applications
+
 - `GET /api/applications/:userId` - Get all applications for a user
 - `GET /api/applications/single/:id` - Get single application
 - `POST /api/applications/create` - Create new application
@@ -315,6 +331,7 @@ bun run test:coverage
 - `DELETE /api/applications/delete` - Delete applications
 
 ### Resumes
+
 - `GET /api/resumes/:userId` - Get all resumes for a user
 - `GET /api/resumes/single/:id` - Get single resume
 - `POST /api/resumes/upload` - Upload new resume
@@ -322,6 +339,7 @@ bun run test:coverage
 - `DELETE /api/resumes/delete` - Delete resumes
 
 ### Cover Letters
+
 - `GET /api/coverletters/:userId` - Get all cover letters for a user
 - `GET /api/coverletters/single/:id` - Get single cover letter
 - `POST /api/coverletters/upload` - Upload new cover letter
@@ -329,6 +347,7 @@ bun run test:coverage
 - `DELETE /api/coverletters/delete` - Delete cover letters
 
 ### Jobs
+
 - `GET /api/jobs/listings` - Get job listings
 - `GET /api/jobs/listing/:id` - Get single job listing
 - `GET /api/jobs/matches/:userId` - Get job matches for user
@@ -336,18 +355,22 @@ bun run test:coverage
 - `PUT /api/jobs/preferences/:userId` - Update job preferences
 
 ### Chat History
+
 - `GET /api/chat-history/sessions/:userId` - Get chat sessions
 - `POST /api/chat-history/sessions` - Create new chat session
 - `DELETE /api/chat-history/sessions/:sessionId` - Delete chat session
 
 ### Users
+
 - `GET /api/users/:id` - Get user by ID
 - `PUT /api/users/:id` - Update user
 
 ### Analytics
+
 - `GET /api/analytics/:userId` - Get user analytics data
 
 ### Notifications
+
 - `GET /api/notifications/:userId` - Get user notifications
 - `PUT /api/notifications/:id/read` - Mark notification as read
 
@@ -382,40 +405,45 @@ The backend follows a layered architecture pattern using the `@razvan11/paladin`
 
 Controllers handle incoming HTTP requests and delegate business logic to services. They use decorators for routing and dependency injection.
 
-| Controller | Path | Description |
-|------------|------|-------------|
-| `AuthController` | `/api/auth` | User authentication (signup, signin, signout, email verification, password reset) |
-| `ApplicationsController` | `/api/applications` | Job application CRUD operations |
-| `ResumesController` | `/api/resumes` | Resume upload, retrieval, rename, and deletion |
-| `CoverlettersController` | `/api/coverletters` | Cover letter management |
-| `ChatHistoryController` | `/api/chat-history` | AI chat session management |
-| `AnalyticsController` | `/api/analytics` | User analytics and statistics |
-| `JobsController` | `/api/jobs` | Job listings, matches, and preferences |
-| `NotificationsController` | `/api/notifications` | User notification management |
-| `UsersController` | `/api/users` | User profile operations |
-| `UploadController` | `/api/upload` | File upload handling |
+| Controller                | Path                 | Description                                                                       |
+| ------------------------- | -------------------- | --------------------------------------------------------------------------------- |
+| `AuthController`          | `/api/auth`          | User authentication (signup, signin, signout, email verification, password reset) |
+| `ApplicationsController`  | `/api/applications`  | Job application CRUD operations                                                   |
+| `ResumesController`       | `/api/resumes`       | Resume upload, retrieval, rename, and deletion                                    |
+| `CoverlettersController`  | `/api/coverletters`  | Cover letter management                                                           |
+| `ChatHistoryController`   | `/api/chat-history`  | AI chat session management                                                        |
+| `AnalyticsController`     | `/api/analytics`     | User analytics and statistics                                                     |
+| `JobsController`          | `/api/jobs`          | Job listings, matches, and preferences                                            |
+| `NotificationsController` | `/api/notifications` | User notification management                                                      |
+| `UsersController`         | `/api/users`         | User profile operations                                                           |
+| `UploadController`        | `/api/upload`        | File upload handling                                                              |
 
 **Controller Example:**
 
 ```typescript
-import { controller, get, post, inject } from '@razvan11/paladin';
-import type { Context } from 'hono';
+import { controller, get, post, inject } from "@razvan11/paladin";
+import type { Context } from "hono";
 
-@controller('/api/applications')
+@controller("/api/applications")
 export class ApplicationsController {
   constructor(
     @inject(PrimaryDatabase) private readonly db: PrimaryDatabase,
     @inject(UserRepository) private readonly userRepo: UserRepository,
-    @inject(ApplicationRepository) private readonly appRepo: ApplicationRepository,
+    @inject(ApplicationRepository)
+    private readonly appRepo: ApplicationRepository,
   ) {}
 
-  @get('/:userId')
-  async retrieveAll(c: Context): Promise<ApiResponse<ApplicationEntity[] | null>> {
+  @get("/:userId")
+  async retrieveAll(
+    c: Context,
+  ): Promise<ApiResponse<ApplicationEntity[] | null>> {
     // Implementation
   }
 
-  @post('/create')
-  async create(c: Context): Promise<ApiResponse<{ newApplication: ApplicationEntity } | null>> {
+  @post("/create")
+  async create(
+    c: Context,
+  ): Promise<ApiResponse<{ newApplication: ApplicationEntity } | null>> {
     // Implementation
   }
 }
@@ -425,16 +453,17 @@ export class ApplicationsController {
 
 Services encapsulate business logic and external integrations. They are decorated with `@service()` and injected into controllers.
 
-| Service | Purpose |
-|---------|---------|
-| `AuthService` | Authentication logic using Better Auth, email OTP verification, password management |
-| `StorageService` | File uploads to Cloudflare R2 (resumes, cover letters, avatars) |
-| `AiChatSessionService` | AI chat session management, message history, context building |
-| `AiMessageService` | Google Gemini AI integration for generating responses |
-| `NotificationService` | Creating and managing user notifications |
-| `JobFetchingService` | External job listing aggregation |
+| Service                | Purpose                                                                             |
+| ---------------------- | ----------------------------------------------------------------------------------- |
+| `AuthService`          | Authentication logic using Better Auth, email OTP verification, password management |
+| `StorageService`       | File uploads to Cloudflare R2 (resumes, cover letters, avatars)                     |
+| `AiChatSessionService` | AI chat session management, message history, context building                       |
+| `AiMessageService`     | Google Gemini AI integration for generating responses                               |
+| `NotificationService`  | Creating and managing user notifications                                            |
+| `JobFetchingService`   | External job listing aggregation                                                    |
 
 **AuthService Features:**
+
 - User registration with email verification
 - OTP-based email verification
 - Password reset flow
@@ -442,11 +471,13 @@ Services encapsulate business logic and external integrations. They are decorate
 - Custom database field mappings
 
 **StorageService Features:**
+
 - S3-compatible client for Cloudflare R2
 - Separate buckets for avatars, resumes, and cover letters
 - Automatic file naming with timestamps
 
 **AiChatSessionService Features:**
+
 - Create and manage chat sessions
 - Persistent message storage
 - Conversation context building for AI
@@ -456,20 +487,20 @@ Services encapsulate business logic and external integrations. They are decorate
 
 Repositories provide a data access layer with common CRUD operations. They abstract database queries and use TypeORM.
 
-| Repository | Entity | Key Methods |
-|------------|--------|-------------|
+| Repository              | Entity              | Key Methods                                              |
+| ----------------------- | ------------------- | -------------------------------------------------------- |
 | `ApplicationRepository` | `ApplicationEntity` | `findByUser()`, `findByUserAndStatus()`, `countByUser()` |
-| `ResumeRepository` | `ResumeEntity` | `findByUserId()`, `findByIds()` |
-| `CoverletterRepository` | `CoverletterEntity` | `findByUserId()`, `findByIds()` |
-| `UserRepository` | `UserEntity` | `findOne()`, `findOneOrFail()`, `findByEmail()` |
-| `ChatSessionRepository` | `ChatSessionEntity` | `findByUserId()`, `findWithMessages()` |
-| `ChatMessageRepository` | `ChatMessageEntity` | `findBySessionId()`, `createMessage()` |
+| `ResumeRepository`      | `ResumeEntity`      | `findByUserId()`, `findByIds()`                          |
+| `CoverletterRepository` | `CoverletterEntity` | `findByUserId()`, `findByIds()`                          |
+| `UserRepository`        | `UserEntity`        | `findOne()`, `findOneOrFail()`, `findByEmail()`          |
+| `ChatSessionRepository` | `ChatSessionEntity` | `findByUserId()`, `findWithMessages()`                   |
+| `ChatMessageRepository` | `ChatMessageEntity` | `findBySessionId()`, `createMessage()`                   |
 
 **Repository Pattern:**
 
 ```typescript
-import { inject, repository } from '@razvan11/paladin';
-import { PrimaryDatabase } from '@paladin/shared/database/PrimaryDatabase';
+import { inject, repository } from "@razvan11/paladin";
+import { PrimaryDatabase } from "@paladin/shared/database/PrimaryDatabase";
 
 @repository()
 export class ApplicationRepository {
@@ -484,7 +515,7 @@ export class ApplicationRepository {
     return await repository.find({
       where: { user: { id: userId } },
       relations: { user: true, resume: true, coverletter: true },
-      order: { createdAt: 'DESC' },
+      order: { createdAt: "DESC" },
     });
   }
 }
@@ -494,59 +525,59 @@ export class ApplicationRepository {
 
 TypeORM entities define the database schema. All entities use `nanoid` for primary key generation.
 
-| Entity | Table | Description |
-|--------|-------|-------------|
-| `UserEntity` | `users` | User profiles with authentication fields |
-| `UserSessionEntity` | `user_sessions` | Active user sessions |
-| `UserAccountEntity` | `user_accounts` | OAuth/provider accounts |
-| `UserVerificationEntity` | `user_verifications` | Email verification tokens |
-| `UserJobPreferencesEntity` | `user_job_preferences` | Job search preferences |
-| `ApplicationEntity` | `applications` | Job applications with status tracking |
-| `ResumeEntity` | `resumes` | Uploaded resume files |
-| `CoverletterEntity` | `coverletters` | Uploaded cover letters |
-| `ChatSessionEntity` | `chat_sessions` | AI chat sessions |
-| `ChatMessageEntity` | `chat_messages` | Individual chat messages |
-| `NotificationEntity` | `notifications` | User notifications |
-| `JobListingEntity` | `job_listings` | Scraped job listings |
-| `JobMatchEntity` | `job_matches` | User-job matching results |
+| Entity                     | Table                  | Description                              |
+| -------------------------- | ---------------------- | ---------------------------------------- |
+| `UserEntity`               | `users`                | User profiles with authentication fields |
+| `UserSessionEntity`        | `user_sessions`        | Active user sessions                     |
+| `UserAccountEntity`        | `user_accounts`        | OAuth/provider accounts                  |
+| `UserVerificationEntity`   | `user_verifications`   | Email verification tokens                |
+| `UserJobPreferencesEntity` | `user_job_preferences` | Job search preferences                   |
+| `ApplicationEntity`        | `applications`         | Job applications with status tracking    |
+| `ResumeEntity`             | `resumes`              | Uploaded resume files                    |
+| `CoverletterEntity`        | `coverletters`         | Uploaded cover letters                   |
+| `ChatSessionEntity`        | `chat_sessions`        | AI chat sessions                         |
+| `ChatMessageEntity`        | `chat_messages`        | Individual chat messages                 |
+| `NotificationEntity`       | `notifications`        | User notifications                       |
+| `JobListingEntity`         | `job_listings`         | Scraped job listings                     |
+| `JobMatchEntity`           | `job_matches`          | User-job matching results                |
 
 **ApplicationEntity Example:**
 
 ```typescript
-@Entity({ name: 'applications' })
+@Entity({ name: "applications" })
 export class ApplicationEntity {
-  @PrimaryColumn({ name: 'id', type: 'varchar', length: 15 })
+  @PrimaryColumn({ name: "id", type: "varchar", length: 15 })
   id: string = random.nanoid(15);
 
-  @ManyToOne('UserEntity', { nullable: false })
-  @JoinColumn({ name: 'user_id' })
+  @ManyToOne("UserEntity", { nullable: false })
+  @JoinColumn({ name: "user_id" })
   user: UserEntity;
 
   @ManyToOne(() => ResumeEntity, { nullable: true })
-  @JoinColumn({ name: 'resume_id' })
+  @JoinColumn({ name: "resume_id" })
   resume?: ResumeEntity;
 
-  @Column({ name: 'employer', type: 'varchar' })
+  @Column({ name: "employer", type: "varchar" })
   employer: string;
 
-  @Column({ name: 'job_title', type: 'varchar' })
+  @Column({ name: "job_title", type: "varchar" })
   jobTitle: string;
 
   @Column({
-    name: 'status',
-    type: 'enum',
-    enum: ['Applied', 'Interviewing', 'Accepted', 'Rejected'],
-    default: 'Applied',
+    name: "status",
+    type: "enum",
+    enum: ["Applied", "Interviewing", "Accepted", "Rejected"],
+    default: "Applied",
   })
-  status: 'Applied' | 'Interviewing' | 'Accepted' | 'Rejected';
+  status: "Applied" | "Interviewing" | "Accepted" | "Rejected";
 
-  @Column({ name: 'comments', type: 'text', array: true, default: '{}' })
+  @Column({ name: "comments", type: "text", array: true, default: "{}" })
   comments: string[];
 
-  @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
+  @CreateDateColumn({ name: "created_at", type: "timestamptz" })
   createdAt: Date;
 
-  @DeleteDateColumn({ name: 'deleted_at', type: 'timestamptz', nullable: true })
+  @DeleteDateColumn({ name: "deleted_at", type: "timestamptz", nullable: true })
   deletedAt?: Date | null; // Soft delete support
 }
 ```
@@ -556,16 +587,17 @@ export class ApplicationEntity {
 The `PrimaryDatabase` class manages database connections using TypeORM with PostgreSQL.
 
 **Features:**
+
 - Lazy connection initialization
 - Connection pooling
 - Migration support
 - Entity manager access
 
 ```typescript
-@database({ migrations: 'migrations' })
+@database({ migrations: "migrations" })
 export class PrimaryDatabase {
   constructor(
-    @inject('APP_DATABASE_URL')
+    @inject("APP_DATABASE_URL")
     private readonly url: string,
   ) {}
 
@@ -573,7 +605,7 @@ export class PrimaryDatabase {
     if (this.source) return this.source;
 
     this.source = new DataSource({
-      type: 'postgres',
+      type: "postgres",
       url: this.url,
       synchronize: false,
       entities: PrimaryEntities,
@@ -582,7 +614,9 @@ export class PrimaryDatabase {
     return this.source;
   }
 
-  public async open<Entity>(entity: EntityTarget<Entity>): Promise<Repository<Entity>> {
+  public async open<Entity>(
+    entity: EntityTarget<Entity>,
+  ): Promise<Repository<Entity>> {
     const source = this.getSource();
     if (!source.isInitialized) await source.initialize();
     return source.getRepository(entity);
@@ -598,11 +632,11 @@ Authentication middleware validates user sessions and attaches user context to r
 export function createAuthMiddleware(authService: AuthService) {
   return async function authMiddleware(c: Context, next: Next) {
     const session = await authService.getSession(c.req.raw.headers);
-    
+
     if (session?.user) {
-      c.set('userId', session.user.id);
+      c.set("userId", session.user.id);
     }
-    
+
     await next();
   };
 }
@@ -612,14 +646,15 @@ export function createAuthMiddleware(authService: AuthService) {
 
 The mailer system handles transactional emails with support for multiple templates and localization.
 
-| Component | Purpose |
-|-----------|---------|
-| `PrimaryMailer` | Production email sending via Resend |
-| `DevMailer` | Development mode with console logging |
-| `SignupEmailCheckMailer` | OTP verification for new signups |
-| `ForgetPasswordEmailCheckMailer` | Password reset OTP emails |
+| Component                        | Purpose                               |
+| -------------------------------- | ------------------------------------- |
+| `PrimaryMailer`                  | Production email sending via Resend   |
+| `DevMailer`                      | Development mode with console logging |
+| `SignupEmailCheckMailer`         | OTP verification for new signups      |
+| `ForgetPasswordEmailCheckMailer` | Password reset OTP emails             |
 
 **Mailer Structure:**
+
 ```
 apps/paladin/mailer/
 ├── PrimaryMailer.ts      # Production mailer (Resend)
@@ -638,17 +673,17 @@ apps/paladin/mailer/
 
 The `@razvan11/paladin` framework provides decorator-based dependency injection:
 
-| Decorator | Purpose |
-|-----------|---------|
-| `@controller('/path')` | Registers a class as an HTTP controller |
-| `@service()` | Registers a class as a singleton service |
-| `@repository()` | Registers a class as a data repository |
-| `@database()` | Registers a database connection provider |
-| `@inject(Token)` | Injects a dependency by class or string token |
-| `@get('/path')` | Maps method to GET request |
-| `@post('/path')` | Maps method to POST request |
-| `@put('/path')` | Maps method to PUT request |
-| `@del('/path')` | Maps method to DELETE request |
+| Decorator              | Purpose                                       |
+| ---------------------- | --------------------------------------------- |
+| `@controller('/path')` | Registers a class as an HTTP controller       |
+| `@service()`           | Registers a class as a singleton service      |
+| `@repository()`        | Registers a class as a data repository        |
+| `@database()`          | Registers a database connection provider      |
+| `@inject(Token)`       | Injects a dependency by class or string token |
+| `@get('/path')`        | Maps method to GET request                    |
+| `@post('/path')`       | Maps method to POST request                   |
+| `@put('/path')`        | Maps method to PUT request                    |
+| `@del('/path')`        | Maps method to DELETE request                 |
 
 ### API Response Pattern
 
@@ -671,15 +706,19 @@ interface ApiResponse<T> {
 ```typescript
 return apiResponse(c, {
   data: applications,
-  message: 'Applications retrieved successfully',
+  message: "Applications retrieved successfully",
 });
 
 // Error response
-return apiResponse(c, {
-  data: null,
-  message: 'User not found',
-  isNotFound: true,
-}, 404);
+return apiResponse(
+  c,
+  {
+    data: null,
+    message: "User not found",
+    isNotFound: true,
+  },
+  404,
+);
 ```
 
 ---
