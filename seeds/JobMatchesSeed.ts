@@ -215,4 +215,3 @@ export async function seedJobMatches(
   await matchRepo.save(matches);
   return matches.length;
 }
-

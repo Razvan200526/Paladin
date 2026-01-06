@@ -44,7 +44,7 @@ export const Env = z.discriminatedUnion('NODE_ENV', [
 
 export type Env = z.infer<typeof Env>;
 
-const parseResult = Env.safeParse(process.env);
+const parseResult = Env.safeParse(Bun.env);
 if (!parseResult.success) {
   printEnvErrors(parseResult.error.issues);
   process.exit(1);

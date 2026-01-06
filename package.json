@@ -17,7 +17,8 @@
     "seeds": "bun run seeds/index.ts",
     "build:css": "bunx @tailwindcss/cli -i ./dev/tailwind.css -o ./apps/ruby/shared/public/static/dist/style.css",
     "build:spa": "bun build ./apps/ruby/__init__/App.tsx --outdir ./apps/ruby/shared/public/static/dist --target browser --entry-naming app.[ext] --asset-naming [name].[ext] --public-path /static/dist/",
-    "build": "bun run build:css && bun run build:spa"
+    "build": "bun run build:css && bun run build:spa",
+    "prod": "bun run build && bun run apps/ruby/index.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.11",

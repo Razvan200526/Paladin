@@ -32,7 +32,7 @@ export function apiResponse<T, S extends ContentfulStatusCode = 200>(
     isForbidden: response.isForbidden ?? status === 403,
     debug: response.debug ?? false,
     app: {
-      url: process.env.APP_URL || '',
+      url: Bun.env.APP_URL || '',
     },
   };
 

@@ -3,10 +3,7 @@ import { DevMailer } from './DevMailer';
 import { PrimaryMailer } from './PrimaryMailer';
 
 export const getMailer = () => {
-  if (
-    process.env.APP_ENV === 'development' ||
-    process.env.APP_ENV === 'local'
-  ) {
+  if (Bun.env.APP_ENV === 'development' || Bun.env.APP_ENV === 'local') {
     logger.success('Development environment detected');
     return new DevMailer();
   }

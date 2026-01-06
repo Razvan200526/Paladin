@@ -3,5 +3,5 @@ import { PrimaryDatabase } from './PrimaryDatabase';
 
 export const AppDataSource = getDataSourceForCLI(
   PrimaryDatabase,
-  process.env.APP_DATABASE_URL || '',
+  Bun.env.APP_DATABASE_URL || '',
 );

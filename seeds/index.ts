@@ -1,18 +1,18 @@
 import { color } from 'console-log-colors';
 import { PrimaryDatabase } from '../apps/paladin/shared/database/PrimaryDatabase';
-import { seedUsers } from './01-users.seed';
-import { seedUserAccounts } from './02-user-accounts.seed';
-import { seedUserSessions } from './03-user-sessions.seed';
-import { seedUserVerifications } from './04-user-verifications.seed';
-import { seedResumes } from './05-resumes.seed';
-import { seedCoverletters } from './06-coverletters.seed';
-import { seedUserJobPreferences } from './07-user-job-preferences.seed';
-import { seedJobListings } from './08-job-listings.seed';
-import { seedChatSessions } from './09-chat-sessions.seed';
-import { seedChatMessages } from './10-chat-messages.seed';
-import { seedApplications } from './11-applications.seed';
-import { seedNotifications } from './12-notifications.seed';
-import { seedJobMatches } from './13-job-matches.seed';
+import { seedUsers } from './UserSeeds';
+import { seedUserAccounts } from './UserAccountsSeed';
+import { seedUserSessions } from './UserSessionsSeed';
+import { seedUserVerifications } from './UserVerificationSeed';
+import { seedResumes } from './ResumeSeed';
+import { seedCoverletters } from './CoverlettersSeed';
+import { seedUserJobPreferences } from './UserJobPreferencesSeed';
+import { seedJobListings } from './JobListingsSeed';
+import { seedChatSessions } from './ChatSessionsSeed';
+import { seedChatMessages } from './ChatMessagesSeed';
+import { seedApplications } from './ApplicationSeed';
+import { seedNotifications } from './NotificationSeed';
+import { seedJobMatches } from './JobMatchesSeed';
 
 interface SeedResult {
   name: string;
@@ -22,7 +22,7 @@ interface SeedResult {
 }
 
 async function main() {
-  const dbUrl = process.env.APP_DATABASE_URL;
+  const dbUrl = Bun.env.APP_DATABASE_URL;
 
   if (!dbUrl) {
     console.error(
@@ -133,4 +133,3 @@ main().catch((error) => {
   console.error(color.red('✘ Unhandled error:'), error);
   process.exit(1);
 });
-

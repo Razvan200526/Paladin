@@ -14,8 +14,8 @@ import { IndexController } from './__init__/IndexController';
 
 try {
   const app = new App({
-    name: 'example-app',
-    cors: ['http://localhost:3000'],
+    name: 'Paladin',
+    cors: [Bun.env.APP_URL || ''],
     validators: { env: [EnvValidator] },
   });
 

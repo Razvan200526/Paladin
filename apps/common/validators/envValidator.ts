@@ -16,10 +16,10 @@ export class StorageValidator {
     ];
 
     requiredEnvVars.forEach((envVar) => {
-      if (!process.env[envVar]) {
+      if (!Bun.env[envVar]) {
         this.missingVars.push(envVar);
       } else {
-        this.vars[envVar] = process.env[envVar];
+        this.vars[envVar] = Bun.env[envVar];
       }
     });
 
