@@ -16,7 +16,7 @@
     "db": "bun db:migrate && bun db:run",
     "seeds": "bun run seeds/index.ts",
     "build:css": "bun x @tailwindcss/cli -i ./dev/tailwind.css -o ./apps/ruby/shared/public/static/dist/style.css",
-    "build:spa": "bun build ./apps/ruby/__init__/App.tsx --outdir ./apps/ruby/shared/public/static/dist --target browser --entry-naming app.[ext] --asset-naming [name].[ext] --public-path /static/dist/",
+    "build:spa": "NODE_ENV=production bun build ./apps/ruby/__init__/App.tsx --outdir ./apps/ruby/shared/public/static/dist --target browser --entry-naming app.[ext] --asset-naming [name].[ext] --public-path /static/dist/ --define process.env.NODE_ENV='\"production\"'",
     "build": "bun run build:css && bun run build:spa",
     "prod": "bun run build && bun run apps/ruby/index.ts"
   },
