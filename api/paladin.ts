@@ -20,7 +20,7 @@ app.registerWebSockets(NotificationHandler, AiChatHandler);
 
 const hono = app.getAppInstance();
 
-export const config = { runtime: 'bun' }; // lets Vercel know to use Bun
+export const config = { runtime: 'nodejs' }; // lets Vercel know to use Bun
 export default {
   async fetch(request: Request, server: any) {
     return hono.fetch(request, server);
