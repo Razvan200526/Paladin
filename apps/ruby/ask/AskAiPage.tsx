@@ -36,6 +36,10 @@ export const AskAiPage = () => {
     userId: user?.id,
     enabled: !!user?.id,
     onError: (error) => {
+      Toast.error({
+        description:
+          'An error occurred while communicating with the AI chatbot.',
+      });
       console.error('[AI Chat Error]:', error);
     },
     onSessionChange: () => {

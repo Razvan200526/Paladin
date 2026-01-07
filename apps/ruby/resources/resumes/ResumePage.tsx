@@ -6,11 +6,20 @@ import { NoResumes } from './components/NoResumes';
 import { ResumeList } from './components/ResumeList';
 
 export const ResumePage = () => {
-  const { resumesLoading, filteredResumes, totalResumes } =
-    useOutletContext<ResourceOutletContext>();
-  if (totalResumes === 0) {
+  const {
+    resumesLoading,
+    resumeBuildersLoading,
+    filteredResumes,
+    resumeBuilders,
+    totalResumes,
+  } = useOutletContext<ResourceOutletContext>();
+
+  const totalCount = totalResumes + (resumeBuilders?.length || 0);
+
+  if (totalCount === 0) {
     return <NoResumes />;
   }
+
   return (
     <div className="m-4 bg-background h-[calc(100dvh-7rem)] rounded">
       <ScrollShadow size={8} className="h-full overflow-y-scroll">
@@ -18,12 +27,14 @@ export const ResumePage = () => {
           {filteredResumes && (
             <FilteredResumeHeader
               filteredResumes={filteredResumes}
-              totalResumes={totalResumes || 0}
+              totalResumes={totalCount}
             />
           )}
           <ResumeList
             resumesLoading={resumesLoading}
+            resumeBuildersLoading={resumeBuildersLoading}
             filteredResumes={filteredResumes}
+            resumeBuilders={resumeBuilders}
           />
         </div>
       </ScrollShadow>

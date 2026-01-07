@@ -14,7 +14,11 @@ import { PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { cn, DropdownItem, DropdownMenu, Tab, Tabs } from '@heroui/react';
 import { backend } from '@ruby/shared/backend';
 import { useAuth } from '@ruby/shared/hooks';
-import type { CoverLetterType, ResumeType } from '@sdk/types';
+import type {
+  CoverLetterType,
+  ResumeBuilderType,
+  ResumeType,
+} from '@sdk/types';
 import { useMemo, useRef } from 'react';
 import {
   Outlet,
@@ -22,7 +26,11 @@ import {
   useNavigate,
   useOutletContext,
 } from 'react-router';
-import { useCoverLetters, useResumes } from './resumes/hooks';
+import {
+  useCoverLetters,
+  useResumeBuilders,
+  useResumes,
+} from './resumes/hooks';
 import { DeleteResourceModal } from './resumes/modals/DeleteResourceModal';
 import {
   coverLetterFilterConfig,
@@ -36,7 +44,9 @@ import { useDeleteStore } from './store';
 export type ResourceOutletContext = {
   filteredResumes: ResumeType[];
   filteredCoverLetters: CoverLetterType[];
+  resumeBuilders: ResumeBuilderType[];
   resumesLoading: boolean;
+  resumeBuildersLoading: boolean;
   coverlettersLoading: boolean;
   totalResumes: number;
   totalCoverLetters: number;
@@ -56,9 +66,10 @@ export const ResourceLayout = () => {
   const { data: resumes, isLoading: resumesLoading } = useResumes(
     user?.id || '',
   );
+  const { data: resumeBuilders, isLoading: resumeBuildersLoading } =
+    useResumeBuilders(user?.id || '');
   const { data: coverletters, isLoading: coverlettersLoading } =
     useCoverLetters(user?.id || '');
-  // const { data: chats } = useChatSessions(user?.id || '');
   const {
     state,
     startDeleting,
@@ -83,20 +94,12 @@ export const ResourceLayout = () => {
   }, [coverletters, coverLetterFilters]);
 
   const handleUploadResume = async (urls: string[]) => {
-    // if (!isUrlValid(urls[0])) {
-    //   Toast.error({ description: 'Invalid pdf URL' });
-    //   return;
-    // }
     backend.resume.create({
       url: urls[0] || '',
     });
   };
 
   const handleUploadCoverLetter = async (urls: string[]) => {
-    // if (!isUrlValid(urls[0])) {
-    //   Toast.error({ description: 'Invalid pdf URL' });
-    //   return;
-    // }
     await backend.coverLetter.create({
       url: urls[0] || '',
     });
@@ -295,7 +298,9 @@ export const ResourceLayout = () => {
               {
                 filteredResumes,
                 filteredCoverLetters,
+                resumeBuilders: resumeBuilders || [],
                 resumesLoading,
+                resumeBuildersLoading,
                 coverlettersLoading: coverlettersLoading,
                 totalResumes: resumes?.length || 0,
                 totalCoverLetters: coverletters?.length || 0,

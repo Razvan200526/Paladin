@@ -15,3 +15,8 @@ export {
   notificationService,
 } from './NotificationService';
 export { StorageService } from './StorageService';
+export { ResumeAIService } from './ResumeAIService';
+export { ResumePDFService } from './ResumePDFService';
+export { AiChatSessionService } from './AiChatSessionService';
+export { AiQueryService } from './AiMessageService';
+export { DocumentTextService } from './DocumentTextService';

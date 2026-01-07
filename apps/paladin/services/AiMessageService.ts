@@ -55,7 +55,7 @@ You help users with:
 Be concise, helpful, and encouraging. Format responses with markdown when appropriate.`;
 
       const response = await this.geminiClient.models.generateContentStream({
-        model: 'gemini-flash-latest',
+        model: 'gemini-2.5-flash',
         contents,
         config: {
           systemInstruction,
@@ -112,7 +112,7 @@ Be concise, helpful, and encouraging. Format responses with markdown when approp
     ];
 
     const response = await this.geminiClient.models.generateContent({
-      model: 'gemini-flash-latest',
+      model: 'gemini-2.5-flash',
       contents,
     });
 

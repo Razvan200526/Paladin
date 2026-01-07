@@ -127,6 +127,111 @@ export type ResumeType = {
   uploadedAt: Date;
 };
 
+/**
+ * Resume Builder contact information
+ */
+export type ResumeBuilderContactInfo = {
+  fullName: string;
+  email: string;
+  phone?: string;
+  location?: string;
+  linkedin?: string;
+  website?: string;
+  github?: string;
+};
+
+/**
+ * Resume Builder experience entry
+ */
+export type ResumeBuilderExperienceEntry = {
+  id: string;
+  company: string;
+  position: string;
+  location?: string;
+  startDate: string;
+  endDate?: string;
+  current: boolean;
+  description: string;
+};
+
+/**
+ * Resume Builder education entry
+ */
+export type ResumeBuilderEducationEntry = {
+  id: string;
+  institution: string;
+  degree: string;
+  field?: string;
+  location?: string;
+  startDate: string;
+  endDate?: string;
+  gpa?: string;
+  description: string;
+};
+
+/**
+ * Resume Builder skill category
+ */
+export type ResumeBuilderSkillCategory = {
+  id: string;
+  name: string;
+  skills: string[];
+};
+
+/**
+ * Resume Builder project entry
+ */
+export type ResumeBuilderProjectEntry = {
+  id: string;
+  name: string;
+  url?: string;
+  technologies: string[];
+  description: string;
+};
+
+/**
+ * Resume Builder custom section
+ */
+export type ResumeBuilderCustomSection = {
+  id: string;
+  title: string;
+  content: string;
+};
+
+/**
+ * Resume Builder data structure
+ */
+export type ResumeBuilderData = {
+  contact: ResumeBuilderContactInfo;
+  summary?: string;
+  experience: ResumeBuilderExperienceEntry[];
+  education: ResumeBuilderEducationEntry[];
+  skills: ResumeBuilderSkillCategory[];
+  projects: ResumeBuilderProjectEntry[];
+  customSections: ResumeBuilderCustomSection[];
+};
+
+/**
+ * Resume Builder type - for resumes created with the builder
+ */
+export type ResumeBuilderType = {
+  id: string;
+  name: string;
+  templateId: string;
+  data: ResumeBuilderData;
+  status: 'draft' | 'published';
+  thumbnailUrl?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  user?: {
+    id: string;
+    email: string;
+    name: string;
+    firstName: string;
+    lastName: string;
+  };
+};
+
 export type CoverLetterType = {
   id: string;
   name: string;

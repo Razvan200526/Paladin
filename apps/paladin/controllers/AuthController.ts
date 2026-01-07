@@ -1,8 +1,3 @@
-/**
- * Consolidated Auth Controller
- * Migrated from easyres individual controller files to @razvan11/paladin pattern
- */
-
 import { isEmailValid } from '@common/validators/isEmailValid';
 import { apiResponse } from '@paladin/client';
 import type { ResetPasswordModel } from '@paladin/models/ResetPasswordModel';

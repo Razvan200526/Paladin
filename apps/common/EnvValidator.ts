@@ -13,6 +13,10 @@ export class EnvValidator {
 
   @IsString()
   @env()
+  private readonly WS_URL: string;
+
+  @IsString()
+  @env()
   private readonly RESEND_API_KEY: string;
 
   @IsString()

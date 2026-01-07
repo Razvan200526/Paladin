@@ -5,6 +5,17 @@ import type { Fetcher } from './Fetcher';
 import { Socket, type SocketResponseType } from './Socket';
 import type { ResponseType, ResumeChatResponseType, ResumeType } from './types';
 
+/**
+ * Get WebSocket URL based on current browser location
+ */
+function getWsUrl(): string {
+  if (typeof window === 'undefined') {
+    return 'ws://localhost:3000';
+  }
+  const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+  return `${protocol}//${window.location.host}`;
+}
+
 export class ResumeFetcher {
   constructor(readonly fetcher: Fetcher) {}
 
@@ -34,9 +45,7 @@ export class ResumeFetcher {
       return this.fetcher.get(`/api/resumes/single/${payload.id}`);
     },
     getSuggestions: async (payload: { id: string }): Promise<ResponseType> => {
-      this.fetcher.config.baseURL = 'ws://localhost:8080';
       const res = this.fetcher.get(`/api/suggestions/resume/${payload.id}`);
-      this.fetcher.config.baseURL = 'http://localhost:3000';
       return res;
     },
     rename: async (payload: {
@@ -50,7 +59,7 @@ export class ResumeFetcher {
   };
 
   public readonly create = (payload: { url: string }) => {
-    const socket = new Socket('ws://localhost:8080');
+    const socket = new Socket(getWsUrl());
 
     socket.on<{ resume: ResumeType }>('message', (response) => {
       queryClient.invalidateQueries();
@@ -85,7 +94,7 @@ export class ResumeFetcher {
       ws: Socket,
     ) => void;
   }) => {
-    const socket = new Socket('ws://localhost:8080');
+    const socket = new Socket(`${getWsUrl()}/ws/document-chat`);
     socket.on(
       'message',
       (response: SocketResponseType<ResumeChatResponseType>) => {

@@ -20,6 +20,12 @@ interface FindListingsOptions {
 export class JobListingRepository {
   constructor(@inject(PrimaryDatabase) private db: PrimaryDatabase) {}
 
+  async create(listing: Partial<JobListingEntity>): Promise<JobListingEntity> {
+    const repo = await this.db.open(JobListingEntity);
+    const newListing = repo.create(listing);
+    return repo.save(newListing);
+  }
+
   async findAll(options?: FindListingsOptions): Promise<JobListingEntity[]> {
     const repo = await this.db.open(JobListingEntity);
 

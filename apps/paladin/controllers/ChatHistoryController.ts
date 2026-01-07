@@ -1,7 +1,3 @@
-/**
- * Chat History Controller
- * REST API endpoints for managing AI chat sessions and history
- */
 import { controller, del, get, inject, post } from '@razvan11/paladin';
 import type { Context } from 'hono';
 import { apiResponse } from '../client';

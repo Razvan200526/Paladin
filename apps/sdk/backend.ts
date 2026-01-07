@@ -9,6 +9,8 @@ import { JobFetcher } from './JobFetcher';
 import { MessageFetcher } from './MessageFetcher';
 import { NotificationFetcher } from './NotificationFetcher';
 import { ResumeFetcher } from './ResumeFetcher';
+import { ResumeAIFetcher } from './ResumeAIFetcher';
+import { ResumeBuilderFetcher } from './ResumeBuilderFetcher';
 import { Socket } from './Socket';
 import { UploadFetcher } from './UploadFetcher';
 import { UserFetcher } from './UserFetcher';
@@ -18,6 +20,8 @@ export class Backend {
   public readonly users: UserFetcher;
   public readonly upload: UploadFetcher;
   public readonly resume: ResumeFetcher;
+  public readonly resumeAI: ResumeAIFetcher;
+  public readonly resumeBuilder: ResumeBuilderFetcher;
   public readonly coverLetter: CoverLetterFetcher;
   public readonly message: MessageFetcher;
   public readonly chat: ChatFetcher;
@@ -32,6 +36,8 @@ export class Backend {
     this.users = new UserFetcher(this.fetcher);
     this.upload = new UploadFetcher(this.fetcher);
     this.resume = new ResumeFetcher(this.fetcher);
+    this.resumeAI = new ResumeAIFetcher(this.fetcher);
+    this.resumeBuilder = new ResumeBuilderFetcher(this.fetcher);
     this.coverLetter = new CoverLetterFetcher(this.fetcher);
     this.message = new MessageFetcher(this.fetcher);
     this.chat = new ChatFetcher(this.fetcher);

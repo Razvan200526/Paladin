@@ -9,12 +9,9 @@ export class MessageFetcher {
       question: string;
       id: string;
     }): Promise<ResponseType> => {
-      this.fetcher.config.baseURL = 'ws://localhost:8080';
-      const res = this.fetcher.post(`/api/coverletters/message/${payload.id}`, {
+      return this.fetcher.post(`/api/coverletters/message/${payload.id}`, {
         message: payload.question,
       });
-      this.fetcher.config.baseURL = 'http://localhost:3000';
-      return res;
     },
   };
 
@@ -23,12 +20,9 @@ export class MessageFetcher {
       question: string;
       id: string;
     }): Promise<ResponseType> => {
-      this.fetcher.config.baseURL = 'ws://localhost:8080';
-      const res = this.fetcher.post(`/api/resumes/message/${payload.id}`, {
+      return this.fetcher.post(`/api/resumes/message/${payload.id}`, {
         message: payload.question,
       });
-      this.fetcher.config.baseURL = 'http://localhost:3000';
-      return res;
     },
   };
 }

@@ -3,6 +3,7 @@
  * Full implementation with apiResponse pattern - routes aligned with SDK
  */
 import { apiResponse } from '@paladin/client';
+import { JobListingEntity } from '@paladin/entities';
 import { JobListingRepository } from '@paladin/repositories/JobListingRepository';
 import { JobMatchRepository } from '@paladin/repositories/JobMatchRepository';
 import { UserJobPreferencesRepository } from '@paladin/repositories/UserJobPreferenceRepository';
@@ -100,12 +101,60 @@ export class JobsController {
   @post('/listings')
   async createListing(c: Context) {
     try {
-      const _body = await c.req.json();
-      // TODO: Implement with JobListingRepository
-      return apiResponse(c, {
-        data: { id: 'placeholder' },
-        message: 'Job listing created successfully',
-      });
+      const body = await c.req.json();
+
+      const { title, company, location, description, url } = body;
+
+      if (!title || !company || !location || !description || !url) {
+        return apiResponse(
+          c,
+          {
+            data: null,
+            message: 'Missing required fields',
+            isClientError: true,
+          },
+          400,
+        );
+      }
+      const listing = new JobListingEntity();
+      listing.title = title;
+      listing.company = company;
+      listing.companyLogo = body.companyLogo;
+      listing.location = location;
+      listing.isRemote = body.isRemote ?? false;
+      listing.description = description;
+      listing.descriptionHtml = body.descriptionHtml;
+      listing.jobType = body.jobType ?? 'full-time';
+      listing.experienceLevel = body.experienceLevel;
+      listing.salaryMin = body.salaryMin;
+      listing.salaryMax = body.salaryMax;
+      listing.salaryCurrency = body.salaryCurrency ?? 'USD';
+      listing.url = url;
+      listing.applyUrl = body.applyUrl;
+      listing.requiredSkills = body.requiredSkills ?? [];
+      listing.preferredSkills = body.preferredSkills ?? [];
+      listing.keywords = body.keywords ?? [];
+      listing.yearsExperienceMin = body.yearsExperienceMin;
+      listing.yearsExperienceMax = body.yearsExperienceMax;
+      listing.educationRequirement = body.educationRequirement;
+      listing.benefits = body.benefits ?? [];
+      listing.source = body.source ?? 'manual';
+      listing.externalId = body.externalId;
+      listing.postedAt = body.postedAt ? new Date(body.postedAt) : new Date();
+      listing.expiresAt = body.expiresAt ? new Date(body.expiresAt) : undefined;
+
+      const saved = await this.listings.create(listing);
+
+      logger.info(`Job listing created successfully: ${saved.id}`);
+
+      return apiResponse(
+        c,
+        {
+          data: saved,
+          message: 'Job listing created successfully',
+        },
+        201,
+      );
     } catch (e) {
       logger.error(e as Error);
       return apiResponse(
@@ -173,16 +222,22 @@ export class JobsController {
         );
       }
 
-      const stats = await this.matches.getStatsByUserId(userId);
+      const [stats, averageScore, highMatchCount, topSkillGaps] =
+        await Promise.all([
+          this.matches.getStatsByUserId(userId),
+          this.matches.getAverageScoreByUserId(userId),
+          this.matches.getHighMatchCountByUserId(userId, 70),
+          this.matches.getTopSkillGapsByUserId(userId, 5),
+        ]);
       return apiResponse(c, {
         data: {
           totalMatches: stats.total,
           newMatches: stats.new,
           savedMatches: stats.saved,
           appliedMatches: stats.applied,
-          averageScore: 0, // TODO: implement
-          highMatchCount: 0, // TODO: implement
-          topSkillGaps: [], // TODO: implement
+          averageScore: Math.round(averageScore * 100) / 100,
+          highMatchCount,
+          topSkillGaps,
         },
         message: 'Match stats retrieved successfully',
       });

@@ -141,7 +141,6 @@ export class JobMatchRepository {
   ): Promise<{ refreshed: boolean; newMatches: number; totalMatches: number }> {
     const repo = await this.db.open(JobMatchEntity);
 
-    // Import required entities/repos for matching
     const { JobListingEntity } = await import('../entities/JobListingEntity');
     const { UserJobPreferencesEntity } = await import(
       '../entities/UserJobPreferencesEntity'
@@ -150,12 +149,10 @@ export class JobMatchRepository {
     const jobRepo = await this.db.open(JobListingEntity);
     const prefsRepo = await this.db.open(UserJobPreferencesEntity);
 
-    // Get user preferences
     const preferences = await prefsRepo.findOne({
       where: { user: { id: userId } },
     });
 
-    // Get all active jobs
     const jobs = await jobRepo.find({
       where: { isActive: true },
       order: { postedAt: 'DESC' },
@@ -166,7 +163,6 @@ export class JobMatchRepository {
       return { refreshed: true, newMatches: 0, totalMatches: 0 };
     }
 
-    // Get existing matches for this user to avoid duplicates
     const existingMatches = await repo
       .createQueryBuilder('match')
       .leftJoin('match.user', 'user')
@@ -180,13 +176,10 @@ export class JobMatchRepository {
     let newMatchCount = 0;
 
     for (const job of jobs) {
-      // Skip if already matched
       if (existingJobIds.has(job.id)) continue;
 
-      // Calculate compatibility score
       const score = this.calculateCompatibilityScore(job, preferences);
 
-      // Only create match if score is above threshold (e.g., 30%)
       if (score.overall >= 30) {
         const match = new JobMatchEntity();
         match.user = { id: userId } as any;
@@ -208,7 +201,6 @@ export class JobMatchRepository {
           newMatchCount++;
         } catch (error) {
           logger.error(error as Error);
-          // Skip duplicate entries
         }
       }
     }
@@ -335,5 +327,61 @@ export class JobMatchRepository {
       matchedKeywords,
       missingKeywords: missingKeywords.slice(0, 10),
     };
+  }
+  async getAverageScoreByUserId(userId: string): Promise<number> {
+    const repo = await this.db.open(JobMatchEntity);
+
+    const result = await repo
+      .createQueryBuilder('match')
+      .leftJoin('match.user', 'user')
+      .where('user.id = :userId', { userId })
+      .select('AVG(match.compatibilityScore)', 'averageScore')
+      .getRawOne();
+
+    return result?.averageScore ? Number.parseFloat(result.averageScore) : 0;
+  }
+
+  async getHighMatchCountByUserId(
+    userId: string,
+    threshold = 70,
+  ): Promise<number> {
+    const repo = await this.db.open(JobMatchEntity);
+
+    return repo
+      .createQueryBuilder('match')
+      .leftJoin('match.user', 'user')
+      .where('user.id = :userId', { userId })
+      .andWhere('match.compatibilityScore >= :threshold', { threshold })
+      .getCount();
+  }
+
+  async getTopSkillGapsByUserId(
+    userId: string,
+    limit = 5,
+  ): Promise<Array<{ skill: string; count: number }>> {
+    const repo = await this.db.open(JobMatchEntity);
+
+    const matches = await repo
+      .createQueryBuilder('match')
+      .leftJoin('match.user', 'user')
+      .where('user.id = :userId', { userId })
+      .select(['match.missingSkills'])
+      .getMany();
+
+    // Aggregate missing skills across all matches
+    const skillCounts: Record<string, number> = {};
+
+    for (const match of matches) {
+      for (const skill of match.missingSkills || []) {
+        const normalizedSkill = skill.toLowerCase().trim();
+        skillCounts[normalizedSkill] = (skillCounts[normalizedSkill] || 0) + 1;
+      }
+    }
+
+    // Sort by count and return top N
+    return Object.entries(skillCounts)
+      .map(([skill, count]) => ({ skill, count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, limit);
   }
 }

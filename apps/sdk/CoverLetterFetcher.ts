@@ -10,6 +10,17 @@ import type {
   SocketResponseType,
 } from './types';
 
+/**
+ * Get WebSocket URL based on current browser location
+ */
+function getWsUrl(): string {
+  if (typeof window === 'undefined') {
+    return 'ws://localhost:3000';
+  }
+  const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+  return `${protocol}//${window.location.host}`;
+}
+
 export class CoverLetterFetcher {
   constructor(readonly fetcher: Fetcher) {}
 
@@ -49,17 +60,15 @@ export class CoverLetterFetcher {
       );
     },
     getSuggestions: async (payload: { id: string }): Promise<ResponseType> => {
-      this.fetcher.config.baseURL = 'ws://localhost:8080';
       const res = this.fetcher.get(
         `/api/suggestions/coverletter/${payload.id}`,
       );
-      this.fetcher.config.baseURL = 'http://localhost:3000';
       return res;
     },
   };
 
   public readonly create = async (payload: { url: string }) => {
-    const socket = new Socket('ws://localhost:8080');
+    const socket = new Socket(getWsUrl());
 
     socket.on<{ coverletter: CoverLetterType }>('message', (response) => {
       queryClient.invalidateQueries();
@@ -94,7 +103,7 @@ export class CoverLetterFetcher {
       ws: Socket,
     ) => void;
   }) => {
-    const socket = new Socket('ws://localhost:8080');
+    const socket = new Socket(`${getWsUrl()}/ws/document-chat`);
     socket.on(
       'message',
       (response: SocketResponseType<ResumeChatResponseType>) => {

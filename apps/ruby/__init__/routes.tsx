@@ -96,6 +96,10 @@ export const router = createBrowserRouter([
                 element: <ResumeBuilderPage />,
               },
               {
+                path: 'resumes/builder/:id',
+                element: <ResumeBuilderPage />,
+              },
+              {
                 path: 'resumes/:id',
                 element: <ResumeInspectPage />,
               },

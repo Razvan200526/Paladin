@@ -1,7 +1,3 @@
-/**
- * Applications Controller
- * Full implementation migrated from easyres with apiResponse pattern
- */
 import { controller, del, get, inject, post, put } from '@razvan11/paladin';
 import type { Context } from 'hono';
 import { apiResponse } from '../client';

@@ -169,7 +169,6 @@ export class AiChatHandler {
     try {
       await this.aiService.streamResponse(
         data.message,
-        context.slice(0, -1), // Exclude empty AI message from context
         (chunk) => {
           if (chunk.type === 'token') {
             fullContent += chunk.content;
@@ -205,6 +204,7 @@ export class AiChatHandler {
             this.sendError(ws, chunk.content);
           }
         },
+        context.slice(0, -1),
       );
     } catch (error) {
       this.sendError(ws, error instanceof Error ? error.message : 'AI error');

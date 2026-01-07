@@ -23,14 +23,14 @@ const groupHistoryByDate = (history: ChatHistoryItem[]) => {
 export const ChatHistorySidebar = ({
   history,
   isLoading,
-  // onNewChat,
+  onNewChat,
   currentSessionId,
   onSelectSession,
   onDeleteSession,
 }: {
   history: ChatHistoryItem[];
   isLoading: boolean;
-  // onNewChat: () => void;
+  onNewChat: () => void;
   currentSessionId: string | null;
   onSelectSession: (sessionId: string) => void;
   onDeleteSession: (sessionId: string) => void;

@@ -1,6 +1,11 @@
 import { backend } from '@ruby/shared/backend';
 import { queryClient } from '@ruby/shared/QueryClient';
-import type { CoverLetterType, ResponseType, ResumeType } from '@sdk/types';
+import type {
+  CoverLetterType,
+  ResumeBuilderType,
+  ResponseType,
+  ResumeType,
+} from '@sdk/types';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router';
 
@@ -12,6 +17,17 @@ export const useResumes = (userId: string) => {
 
       return response.data as ResumeType[];
     },
+  });
+};
+
+export const useResumeBuilders = (userId: string) => {
+  return useQuery({
+    queryKey: ['resume-builders', userId],
+    queryFn: async () => {
+      const response = await backend.resumeBuilder.getByUser(userId);
+      return (response.data || []) as ResumeBuilderType[];
+    },
+    enabled: !!userId,
   });
 };
 

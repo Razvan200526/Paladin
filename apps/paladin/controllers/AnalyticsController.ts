@@ -1,8 +1,3 @@
-/**
- * Analytics Controller
- * Full implementation with apiResponse pattern
- */
-
 import type {
   StatusBreakdownData,
   TrendsData,
