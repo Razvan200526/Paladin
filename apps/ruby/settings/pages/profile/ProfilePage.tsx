@@ -5,7 +5,6 @@ import {
   InputName,
   type InputNameRefType,
 } from '@common/components/input/InputFirstName';
-import type { InputTextRefType } from '@common/components/input/InputText';
 import { Toast } from '@common/components/toast';
 import { Avatar } from '@heroui/react';
 import { backend } from '@ruby/shared/backend';
@@ -18,37 +17,46 @@ export const ProfilePage = () => {
   const { data: user, refetch } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
 
   const firstNameRef = useRef<InputNameRefType | null>(null);
   const lastNameRef = useRef<InputNameRefType | null>(null);
   const emailRef = useRef<InputEmailRefType | null>(null);
-  const urlRef = useRef<InputTextRefType | null>(null);
-
-  const [formData, setFormData] = useState({
-    name: user?.name || '',
-    firstName: user?.firstName || '',
-    lastName: user?.lastName || '',
-    email: user?.email || '',
-    image: user?.image || '',
-  });
 
   const handleSave = async () => {
     if (!user?.id) return;
 
     setIsSaving(true);
     try {
-      const response = await backend.users.update(user.id, {
-        name: formData.name,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-        image: formData.image,
-      });
+      const firstName = firstNameRef.current?.getValue()?.trim() || undefined;
+      const lastName = lastNameRef.current?.getValue()?.trim() || undefined;
+      const email = emailRef.current?.getValue()?.trim() || undefined;
+      const image = imageUrl || undefined;
+
+      const payload: {
+        name?: string;
+        firstName?: string;
+        lastName?: string;
+        email?: string;
+        image?: string;
+      } = {};
+
+      if (firstName) payload.firstName = firstName;
+      if (lastName) payload.lastName = lastName;
+      if (email) payload.email = email;
+      if (image) payload.image = image;
+
+      if (firstName || lastName) {
+        payload.name =
+          `${firstName || user.firstName || ''} ${lastName || user.lastName || ''}`.trim();
+      }
+
+      const response = await backend.users.update(user.id, payload);
 
       if (response.success) {
         Toast.success({ description: 'Profile updated successfully' });
         setIsEditing(false);
-        refetch();
+        await refetch();
       } else {
         Toast.error({
           description: response.message || 'Failed to update profile',
@@ -65,13 +73,6 @@ export const ProfilePage = () => {
   };
 
   const handleCancel = () => {
-    setFormData({
-      name: user?.name || '',
-      firstName: user?.firstName || '',
-      lastName: user?.lastName || '',
-      email: user?.email || '',
-      image: user?.image || '',
-    });
     setIsEditing(false);
   };
 
@@ -114,12 +115,12 @@ export const ProfilePage = () => {
       >
         <div className="flex items-center gap-6 pb-4 border-b border-border">
           <Avatar
-            src={formData.image || user?.image}
+            src={user?.image}
             size="lg"
             color="primary"
             isBordered
             className="w-20 h-20"
-            name={formData.name || user?.name}
+            name={user?.name}
           />
           <div className="flex-1">
             <h4 className="font-semibold text-primary">{user?.name}</h4>
@@ -133,9 +134,9 @@ export const ProfilePage = () => {
         >
           <InputAvatar
             size={20}
-            value={urlRef.current?.getValue()}
+            value={imageUrl || user?.image}
             onAvatarChange={(url) => {
-              urlRef.current?.setValue(url);
+              setImageUrl(url);
             }}
           />
         </SettingsField>
@@ -165,6 +166,7 @@ export const ProfilePage = () => {
 
           <SettingsField className="w-1/3">
             <InputEmail
+              ref={emailRef}
               onChange={(e) => emailRef.current?.setValue(e)}
               placeholder={user?.email || 'example@gmail.com'}
             />

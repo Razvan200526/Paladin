@@ -3,11 +3,15 @@ import { apiResponse } from '@paladin/client';
 import type { ResetPasswordModel } from '@paladin/models/ResetPasswordModel';
 import { controller, get, inject, logger, post } from '@razvan11/paladin';
 import type { Context } from 'hono';
+import { UserRepository } from '../repositories/UserRepository';
 import { AuthService } from '../services/AuthService';
 
 @controller('/api/auth')
 export class AuthController {
-  constructor(@inject(AuthService) private readonly authService: AuthService) {}
+  constructor(
+    @inject(AuthService) private readonly authService: AuthService,
+    @inject(UserRepository) private readonly userRepo: UserRepository,
+  ) {}
 
   @get('/reference')
   async getOpenAPIReference(c: Context) {
@@ -148,7 +152,11 @@ export class AuthController {
   async getSession(c: Context) {
     try {
       const session = await this.authService.getSession(c.req.raw.headers);
-      return c.json({ data: { user: session?.user || null }, success: true });
+      if (!session?.user?.id) {
+        return c.json({ data: { user: null }, success: true });
+      }
+      const freshUser = await this.userRepo.findOne(session.user.id);
+      return c.json({ data: { user: freshUser || null }, success: true });
     } catch (e) {
       console.error(e);
       return c.json(

@@ -1,8 +1,8 @@
-import type { ResumeBuilderType, ResumeType } from '@sdk/types';
 import NoFilteredResources from '@ruby/resources/shared/components/NoFilteredResources';
+import type { ResumeBuilderType, ResumeType } from '@sdk/types';
 import { Link } from 'react-router';
-import { ResumeCard } from '../cards/ResumeCard';
 import { ResumeBuilderCard } from '../cards/ResumeBuilderCard';
+import { ResumeCard } from '../cards/ResumeCard';
 import { ResumeCardSkeleton } from '../skeletons/ResumeCardSkeleton';
 
 export const ResumeList = ({

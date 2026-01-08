@@ -2,8 +2,8 @@ import { backend } from '@ruby/shared/backend';
 import { queryClient } from '@ruby/shared/QueryClient';
 import type {
   CoverLetterType,
-  ResumeBuilderType,
   ResponseType,
+  ResumeBuilderType,
   ResumeType,
 } from '@sdk/types';
 import { useMutation, useQuery } from '@tanstack/react-query';

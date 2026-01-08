@@ -155,9 +155,7 @@ export class ResumeAIController {
    * Suggest skills based on job title and industry
    */
   @post('/suggest-skills')
-  async suggestSkills(
-    c: Context,
-  ): Promise<
+  async suggestSkills(c: Context): Promise<
     ApiResponse<{
       categories: Array<{ name: string; skills: string[] }>;
     } | null>

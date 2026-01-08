@@ -1,5 +1,5 @@
 export { ClassicTemplate } from './ClassicTemplate';
-export { ModernTemplate } from './ModernTemplate';
-export { MinimalTemplate } from './MinimalTemplate';
-export { ProfessionalTemplate } from './ProfessionalTemplate';
 export { CreativeTemplate } from './CreativeTemplate';
+export { MinimalTemplate } from './MinimalTemplate';
+export { ModernTemplate } from './ModernTemplate';
+export { ProfessionalTemplate } from './ProfessionalTemplate';

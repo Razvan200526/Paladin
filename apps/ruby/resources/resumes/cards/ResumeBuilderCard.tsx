@@ -28,7 +28,7 @@ export const ResumeBuilderCard = ({ resume }: ResumeBuilderCardProps) => {
   // Get a preview summary
   const getPreviewText = () => {
     if (resume.data?.summary) {
-      return resume.data.summary.substring(0, 80) + '...';
+      return `${resume.data.summary.substring(0, 80)}...`;
     }
     if (resume.data?.experience?.length > 0) {
       const exp = resume.data.experience[0];
