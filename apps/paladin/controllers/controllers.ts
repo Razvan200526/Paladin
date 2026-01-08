@@ -11,9 +11,9 @@ export { ChatHistoryController } from './ChatHistoryController';
 export { CoverlettersController } from './CoverlettersController';
 export { JobsController } from './JobsController';
 export { NotificationsController } from './NotificationsController';
-export { ResumesController } from './ResumesController';
 export { ResumeAIController } from './ResumeAIController';
 export { ResumeBuilderController } from './ResumeBuilderController';
+export { ResumesController } from './ResumesController';
 
 export { UsersController } from './UsersController';
 
@@ -24,9 +24,9 @@ import { ChatHistoryController } from './ChatHistoryController';
 import { CoverlettersController } from './CoverlettersController';
 import { JobsController } from './JobsController';
 import { NotificationsController } from './NotificationsController';
-import { ResumesController } from './ResumesController';
 import { ResumeAIController } from './ResumeAIController';
 import { ResumeBuilderController } from './ResumeBuilderController';
+import { ResumesController } from './ResumesController';
 import { UploadController } from './UploadController';
 import { UsersController } from './UsersController';
 

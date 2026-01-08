@@ -2,6 +2,7 @@ import { Button } from '@common/components/button';
 import { ChatHistorySkeleton } from '@common/components/skeletons/ChatHistorySkeleton';
 import { H6 } from '@common/components/typography';
 import { formatDate } from '@common/utils';
+import { PlusIcon } from '@heroicons/react/24/outline';
 import { cn, ScrollShadow } from '@heroui/react';
 import { MessageSquareIcon, Trash2Icon } from 'lucide-react';
 import { useMemo } from 'react';
@@ -48,7 +49,17 @@ export const ChatHistorySidebar = ({
           </div>
         ) : (
           <div className="space-y-4">
-            <H6 className="px-4 pt-4">History</H6>
+            <div className="p-4 flex items-center justify-between">
+              <H6 className="">History</H6>
+              <Button
+                onPress={onNewChat}
+                color="primary"
+                variant="light"
+                isIconOnly
+                className="rounded-full"
+                startContent={<PlusIcon className="size-3.5" />}
+              />
+            </div>
             {Object.entries(groupedHistory).map(([dateLabel, items]) => (
               <div key={dateLabel}>
                 <div className="space-y-1">

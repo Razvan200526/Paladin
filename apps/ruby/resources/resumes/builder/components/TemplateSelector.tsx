@@ -2,9 +2,9 @@ import { H3, H5, H6 } from '@common/components/typography';
 import { cn } from '@heroui/react';
 import { CheckIcon, LayoutTemplateIcon } from 'lucide-react';
 import {
-  type TemplateId,
   getAllTemplates,
   type TemplateConfig,
+  type TemplateId,
 } from '../types/templates';
 
 interface TemplateSelectorProps {

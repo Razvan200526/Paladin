@@ -3,9 +3,9 @@
  * Serves the React SPA with server-side rendered shell
  */
 import { controller, get, inject } from '@razvan11/paladin';
-import { render } from './render';
 import type { Context } from 'hono';
 import { IndexView } from './IndexView';
+import { render } from './render';
 
 @controller()
 export class IndexController {

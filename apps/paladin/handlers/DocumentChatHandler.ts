@@ -3,10 +3,10 @@
  * Handles WebSocket connections for resume and cover letter AI chat
  */
 
-import { AiQueryService } from '@paladin/services/AiMessageService';
-import { DocumentTextService } from '@paladin/services/DocumentTextService';
 import { CoverletterRepository } from '@paladin/repositories/CoverletterRepository';
 import { ResumeRepository } from '@paladin/repositories/ResumeRepository';
+import { AiQueryService } from '@paladin/services/AiMessageService';
+import { DocumentTextService } from '@paladin/services/DocumentTextService';
 import {
   inject,
   logger,

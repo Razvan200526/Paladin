@@ -127,21 +127,16 @@ export class UserRepository {
     return await repository.save(entities, options);
   }
 
-  public async update(
-    entity: UserEntity,
-    _options?: SaveOptions,
-  ): Promise<UserEntity> {
+  public async update(entity: UserEntity): Promise<UserEntity> {
     const repository = await this.open();
-    const updateData = {
+    await repository.update(entity.id, {
       name: entity.name,
       email: entity.email,
       firstName: entity.firstName,
       lastName: entity.lastName,
       image: entity.image,
-    };
-    await repository.update(entity.id, updateData);
-    const updated = await this.findOne(entity.id);
-    return updated ?? entity;
+    });
+    return (await this.findOne(entity.id)) ?? entity;
   }
 
   public async updateMany(

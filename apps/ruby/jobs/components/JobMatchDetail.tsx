@@ -51,8 +51,7 @@ export const JobMatchDetail = ({ match }: JobMatchDetailProps) => {
   };
 
   return (
-    <div className="h-full flex flex-col bg-background">
-      {/* Header */}
+    <div className="h-full w-full flex flex-col bg-background">
       <div className="p-4 border-b border-border">
         <div className="flex items-start gap-4">
           {job.companyLogo ? (
@@ -206,7 +205,6 @@ export const JobMatchDetail = ({ match }: JobMatchDetailProps) => {
 
           <Divider />
 
-          {/* Skills Analysis */}
           <SkillsAnalysis
             matchedSkills={match.matchedSkills}
             missingSkills={match.missingSkills}
@@ -214,7 +212,6 @@ export const JobMatchDetail = ({ match }: JobMatchDetailProps) => {
 
           <Divider />
 
-          {/* Improvement Suggestions */}
           {match.improvementSuggestions.length > 0 && (
             <>
               <div>

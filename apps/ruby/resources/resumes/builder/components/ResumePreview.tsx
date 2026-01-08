@@ -2,10 +2,10 @@ import { H3, H6 } from '@common/components/typography';
 import { ResumeIcon } from '@common/icons/ResumeIcon';
 import {
   ClassicTemplate,
-  ModernTemplate,
-  MinimalTemplate,
-  ProfessionalTemplate,
   CreativeTemplate,
+  MinimalTemplate,
+  ModernTemplate,
+  ProfessionalTemplate,
 } from '../templates';
 import type { ResumeData } from '../types/resume-builder';
 import { getTemplate, type TemplateId } from '../types/templates';
@@ -69,7 +69,6 @@ export const ResumePreview = ({
         return <ProfessionalTemplate data={data} config={config} />;
       case 'creative':
         return <CreativeTemplate data={data} config={config} />;
-      case 'classic':
       default:
         return <ClassicTemplate data={data} config={config} />;
     }

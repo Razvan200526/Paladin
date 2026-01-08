@@ -152,6 +152,7 @@ export const InputChat = ({
       onStop?.();
     } else if (inputValue.trim()) {
       onSubmit?.(inputValue);
+      ref?.current?.setValue('');
     }
   };
 

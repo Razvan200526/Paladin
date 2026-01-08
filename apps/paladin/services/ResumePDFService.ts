@@ -584,7 +584,7 @@ export class ResumePDFService {
     if (lines.every((line) => line.startsWith('•') || line.startsWith('-'))) {
       // It's a bullet list
       const items = lines
-        .map((line) => `<li>${escapeXml(line.replace(/^[•\-]\s*/, ''))}</li>`)
+        .map((line) => `<li>${escapeXml(line.replace(/^[• -]\s*/, ''))}</li>`)
         .join('');
       return `<ul>${items}</ul>`;
     }

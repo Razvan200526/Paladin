@@ -2,7 +2,9 @@
  * Users Controller
  * Full implementation with apiResponse pattern
  */
-import { controller, get, inject, post } from '@razvan11/paladin';
+
+import type { UpdateUserModel } from '@paladin/models/UpdateUserModel';
+import { controller, get, inject, logger, post, put } from '@razvan11/paladin';
 import type { Context } from 'hono';
 import { apiResponse } from '../client';
 import { CoverletterRepository } from '../repositories/CoverletterRepository';
@@ -59,6 +61,52 @@ export class UsersController {
     }
   }
 
+  @put('/update/:id')
+  async updateUser(c: Context): Promise<ApiResponse<string | null>> {
+    try {
+      const userId = c.req.param('id');
+      const payload = await c.req.json<UpdateUserModel>();
+
+      const { name, email, firstName, lastName, image } = payload;
+
+      const user = await this.userRepo.findOne(userId);
+      if (!user) {
+        return apiResponse(
+          c,
+          {
+            data: null,
+            message: 'User not found',
+            isNotFound: true,
+          },
+          404,
+        );
+      }
+
+      if (name && name !== '') user.name = name;
+      if (email && email !== '') user.email = email;
+      if (firstName && firstName !== '') user.firstName = firstName;
+      if (lastName && lastName !== '') user.lastName = lastName;
+      if (image && image !== '') user.image = image;
+      const updatedUser = await this.userRepo.update(user);
+
+      return apiResponse(c, {
+        data: updatedUser.id,
+        success: true,
+        message: 'User updated successfully',
+      });
+    } catch (e) {
+      logger.error(e as Error);
+      return apiResponse(
+        c,
+        {
+          data: null,
+          message: 'Failed to update user',
+          isServerError: true,
+        },
+        500,
+      );
+    }
+  }
   // GET /api/users/:id/resumes
   @get('/:id/resumes')
   async getResumes(c: Context): Promise<ApiResponse<any[] | null>> {

@@ -40,6 +40,7 @@ export const LayoutView = ({
           <script
             id="__CLIENT_DATA__"
             type="application/json"
+            // biome-ignore lint/security/noDangerouslySetInnerHtml: <trust me>
             dangerouslySetInnerHTML={{ __html: JSON.stringify(clientData) }}
           />
         )}

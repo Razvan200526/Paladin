@@ -2,7 +2,11 @@
  * Services Index
  * Export all services for convenient importing
  */
+
+export { AiChatSessionService } from './AiChatSessionService';
+export { AiQueryService } from './AiMessageService';
 export { AuthService } from './AuthService';
+export { DocumentTextService } from './DocumentTextService';
 export { JobFetchingService, REMOTIVE_CATEGORIES } from './JobFetchingService';
 export type {
   Notification,
@@ -14,9 +18,6 @@ export {
   NotificationService,
   notificationService,
 } from './NotificationService';
-export { StorageService } from './StorageService';
 export { ResumeAIService } from './ResumeAIService';
 export { ResumePDFService } from './ResumePDFService';
-export { AiChatSessionService } from './AiChatSessionService';
-export { AiQueryService } from './AiMessageService';
-export { DocumentTextService } from './DocumentTextService';
+export { StorageService } from './StorageService';

@@ -4,7 +4,10 @@ import {
   type DropdownItemDataType,
 } from '@common/components/dropdown/Dropdown';
 import { EmptyChat } from '@common/components/empty/EmptyChat';
-import { InputChat } from '@common/components/input/InputChat';
+import {
+  InputChat,
+  type InputChatRefType,
+} from '@common/components/input/InputChat';
 import type { ModalRefType } from '@common/components/Modal';
 import { H1, H2, H3, H6 } from '@common/components/typography';
 import { AiChatIcon } from '@common/icons/AiChatIcon';
@@ -59,7 +62,7 @@ export const ResumeChat = ({ resume }: { resume: ResumeType }) => {
   const [messages, setMessages] = useState<
     { role: 'user' | 'assistant'; content: string }[]
   >([]);
-  const [inputValue, setInputValue] = useState('');
+  const messageRef = useRef<InputChatRefType | null>(null);
   const [isThinking, setIsThinking] = useState(false);
   const deleteResumeRef = useRef<ModalRefType | null>(null);
   const editorRef = useRef<EditorRefType | null>(null);
@@ -76,7 +79,7 @@ export const ResumeChat = ({ resume }: { resume: ResumeType }) => {
 
   const handleSubmit = (value: string) => {
     setMessages((prev) => [...prev, { role: 'user', content: value }]);
-    setInputValue('');
+    messageRef.current?.setValue('');
     setIsThinking(true);
 
     wsRef.current = backend.resume.chat({
@@ -269,17 +272,17 @@ export const ResumeChat = ({ resume }: { resume: ResumeType }) => {
                                 remarkPlugins={[remarkGfm]}
                                 components={{
                                   h1: ({ children }) => (
-                                    <H1 className="text-xl font-semibold text-primary mt-4 mb-2">
+                                    <H1 className="text-xs font-semibold text-primary mt-4 mb-2">
                                       {children}
                                     </H1>
                                   ),
                                   h2: ({ children }) => (
-                                    <H2 className="text-lg font-semibold text-primary mt-3 mb-2">
+                                    <H2 className="text-xs font-semibold text-primary mt-3 mb-2">
                                       {children}
                                     </H2>
                                   ),
                                   h3: ({ children }) => (
-                                    <H3 className="text-base text-primary font-semibold mt-2 mb-1">
+                                    <H3 className="text-xs text-primary font-semibold mt-2 mb-1">
                                       {children}
                                     </H3>
                                   ),
@@ -289,7 +292,7 @@ export const ResumeChat = ({ resume }: { resume: ResumeType }) => {
                                     </p>
                                   ),
                                   strong: ({ children }) => (
-                                    <strong className="font-bold text-secondary-text">
+                                    <strong className="font-xs text-secondary-text">
                                       {children}
                                     </strong>
                                   ),
@@ -333,9 +336,10 @@ export const ResumeChat = ({ resume }: { resume: ResumeType }) => {
               </ScrollShadow>
               <div className="p-4 pt-1">
                 <InputChat
+                  ref={messageRef}
                   placeholder="Chat about your resume..."
-                  value={inputValue}
-                  onChange={setInputValue}
+                  value={messageRef.current?.getValue()}
+                  onChange={(e) => messageRef.current?.setValue(e)}
                   onSubmit={handleSubmit}
                   isPending={isThinking}
                   onStop={handleStop}
@@ -350,7 +354,6 @@ export const ResumeChat = ({ resume }: { resume: ResumeType }) => {
                 'h-full flex flex-col justify-center items-center gap-2',
               )}
             >
-              {/*<ShowResourceState state={resume.state} />*/}
               <p className="text-muted">
                 {resume.state === 'failed'
                   ? 'Failed to process your document. Please try again.'

@@ -1,5 +1,5 @@
-import { asset, LayoutView } from './LayoutView';
 import { PageLoader } from '../shared/components/PageLoader';
+import { asset, LayoutView } from './LayoutView';
 
 export interface IndexViewProps {
   apiUrl: string;
