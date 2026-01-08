@@ -14,7 +14,6 @@ export const ResumeBuilderCard = ({ resume }: ResumeBuilderCardProps) => {
   const { state, addToDeleteResumes, removeFromDeleteResumes } =
     useDeleteStore();
 
-  // Get initials from contact name for placeholder
   const getInitials = () => {
     const name = resume.data?.contact?.fullName || resume.name;
     if (!name) return 'R';
@@ -25,7 +24,6 @@ export const ResumeBuilderCard = ({ resume }: ResumeBuilderCardProps) => {
     return name.substring(0, 2).toUpperCase();
   };
 
-  // Get a preview summary
   const getPreviewText = () => {
     if (resume.data?.summary) {
       return `${resume.data.summary.substring(0, 80)}...`;
@@ -76,7 +74,7 @@ export const ResumeBuilderCard = ({ resume }: ResumeBuilderCardProps) => {
         )}
 
         {/* Preview placeholder */}
-        <div className="h-2/3 w-full flex flex-col items-center justify-center bg-gradient-to-br from-primary/5 to-primary/10 p-4">
+        <div className="h-2/3 w-full flex flex-col items-center justify-center bg-linear-to-br from-primary/5 to-primary/10 p-4">
           {resume.thumbnailUrl ? (
             <img
               src={resume.thumbnailUrl}

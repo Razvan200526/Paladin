@@ -7,26 +7,29 @@ import {
 } from '@common/components/input/InputFirstName';
 import { Toast } from '@common/components/toast';
 import { Avatar } from '@heroui/react';
-import { backend } from '@ruby/shared/backend';
 import { useAuth } from '@ruby/shared/hooks';
 import { useRef, useState } from 'react';
 import { SettingsCard } from '../../components/SettingsCard';
 import { SettingsField } from '../../components/SettingsField';
+import { useUpdateProfile } from '@ruby/settings/hooks';
+import type { ModalRefType } from '@common/components/Modal';
+import { ConfirmModal } from '@ruby/settings/components/ConfirmModal';
 
 export const ProfilePage = () => {
   const { data: user, refetch } = useAuth();
-  const [isEditing, setIsEditing] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
 
+  const modalRef = useRef<ModalRefType | null>(null);
   const firstNameRef = useRef<InputNameRefType | null>(null);
   const lastNameRef = useRef<InputNameRefType | null>(null);
   const emailRef = useRef<InputEmailRefType | null>(null);
 
+  const { mutateAsync: updateProfile, isPending } = useUpdateProfile(
+    user?.id || '',
+  );
   const handleSave = async () => {
     if (!user?.id) return;
 
-    setIsSaving(true);
     try {
       const firstName = firstNameRef.current?.getValue()?.trim() || undefined;
       const lastName = lastNameRef.current?.getValue()?.trim() || undefined;
@@ -51,29 +54,23 @@ export const ProfilePage = () => {
           `${firstName || user.firstName || ''} ${lastName || user.lastName || ''}`.trim();
       }
 
-      const response = await backend.users.update(user.id, payload);
+      const response = await updateProfile(payload);
 
       if (response.success) {
         Toast.success({ description: 'Profile updated successfully' });
-        setIsEditing(false);
         await refetch();
       } else {
         Toast.error({
           description: response.message || 'Failed to update profile',
         });
       }
+      modalRef.current?.close();
     } catch (error) {
       Toast.error({
         description: 'An error occurred while updating your profile',
       });
       console.error(error);
-    } finally {
-      setIsSaving(false);
     }
-  };
-
-  const handleCancel = () => {
-    setIsEditing(false);
   };
 
   return (
@@ -84,32 +81,13 @@ export const ProfilePage = () => {
         className="w-full h-[calc(100dvh-9rem)]"
         footer={
           <div className="flex justify-end gap-2">
-            {isEditing ? (
-              <>
-                <Button
-                  variant="light"
-                  onPress={handleCancel}
-                  isDisabled={isSaving}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  color="primary"
-                  onPress={handleSave}
-                  isLoading={isSaving}
-                >
-                  Save Changes
-                </Button>
-              </>
-            ) : (
-              <Button
-                color="primary"
-                variant="flat"
-                onPress={() => setIsEditing(true)}
-              >
-                Edit Profile
-              </Button>
-            )}
+            <Button
+              color="primary"
+              onPress={() => modalRef.current?.open()}
+              isLoading={isPending}
+            >
+              Save Changes
+            </Button>
           </div>
         }
       >
@@ -173,6 +151,7 @@ export const ProfilePage = () => {
           </SettingsField>
         </div>
       </SettingsCard>
+      <ConfirmModal modalRef={modalRef} onConfirm={handleSave} />
     </div>
   );
 };
