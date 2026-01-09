@@ -1,0 +1,47 @@
+# Dependencies - will be installed fresh in container
+node_modules
+
+# Git
+.git
+.gitignore
+
+# Environment files (secrets should be passed at runtime)
+.env
+.env.*
+!.env.example
+
+# IDE and editor files
+.idea
+.vscode
+*.swp
+*.swo
+.DS_Store
+
+# Build artifacts that will be regenerated
+apps/ruby/shared/public/static/dist
+
+# Development files
+dev/data
+*.log
+*.tmp
+
+# Test files
+tests
+*.test.ts
+*.spec.ts
+coverage
+.nyc_output
+
+# Documentation
+*.md
+docs
+LICENSE
+
+# Docker files (not needed inside container)
+Dockerfile
+docker-compose*.yml
+.dockerignore
+
+# Misc
+.husky
+biome.json
