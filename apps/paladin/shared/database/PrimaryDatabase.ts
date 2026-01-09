@@ -29,6 +29,7 @@ export class PrimaryDatabase {
       url: this.url,
       synchronize: true,
       entities: PrimaryEntities,
+      ssl : false
     });
 
     return this.source;

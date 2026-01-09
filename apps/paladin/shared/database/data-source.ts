@@ -10,4 +10,5 @@ export const AppDataSource = new DataSource({
   entities: PrimaryEntities,
   migrations: [Initial1767951915831],
   migrationsTableName: 'migrations',
+  ssl: false
 });
