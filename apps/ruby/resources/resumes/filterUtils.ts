@@ -10,7 +10,6 @@ export const filterAndSortResumes = (
 ): ResumeType[] => {
   let filtered = [...resumes];
 
-  // Apply search filter
   if (filters.searchQuery.trim()) {
     const query = filters.searchQuery.toLowerCase();
     filtered = filtered.filter((resume) =>
@@ -18,7 +17,6 @@ export const filterAndSortResumes = (
     );
   }
 
-  // Apply date range filter
   if (filters.dateRange !== 'all') {
     const now = new Date();
     const filterDate = getFilterDate(now, filters.dateRange);
@@ -29,7 +27,6 @@ export const filterAndSortResumes = (
     });
   }
 
-  // Apply state filter
   if (filters.state !== 'all') {
     filtered = filtered.filter((resume) => {
       if (filters.state === 'ready') return resume.state === 'ready';
@@ -39,7 +36,6 @@ export const filterAndSortResumes = (
     });
   }
 
-  // Apply sorting
   filtered.sort((a, b) => {
     let comparison = 0;
 
@@ -88,7 +84,7 @@ const getFilterDate = (now: Date, dateRange: string): Date => {
       date.setFullYear(date.getFullYear() - 1);
       break;
     default:
-      date.setFullYear(1970); // Beginning of time
+      date.setFullYear(1970);
   }
 
   return date;

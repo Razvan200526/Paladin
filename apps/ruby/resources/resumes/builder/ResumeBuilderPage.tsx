@@ -115,10 +115,8 @@ export const ResumeBuilderPage = () => {
     lastSaved,
   } = useResumeBuilder({ resumeId: resumeIdFromUrl });
 
-  // Load existing resume data when editing
   useEffect(() => {
     if (resumeIdFromUrl && resumeBuilder && !isInitialized) {
-      // Convert API data to ResumeData format
       const loadedData: ResumeData = {
         id: resumeBuilder.id,
         name: resumeBuilder.name,
@@ -138,14 +136,12 @@ export const ResumeBuilderPage = () => {
       setSelectedTemplate(resumeBuilder.templateId as TemplateId);
       setSavedResumeId(resumeBuilder.id);
 
-      // Update the name input ref
       if (nameRef.current) {
         nameRef.current.setValue(resumeBuilder.name);
       }
 
       setIsInitialized(true);
     } else if (!resumeIdFromUrl && !isInitialized) {
-      // Creating a new resume
       setIsInitialized(true);
     }
   }, [resumeIdFromUrl, resumeBuilder, isInitialized]);
@@ -167,13 +163,11 @@ export const ResumeBuilderPage = () => {
     updateResumeData('templateId', templateId);
   };
 
-  // Extract job title from the first experience entry for AI context
   const currentJobTitle =
     resumeData.experience.length > 0
       ? resumeData.experience[0].position
       : undefined;
 
-  // Calculate years of experience based on experience entries
   const calculateYearsOfExperience = (): number => {
     if (resumeData.experience.length === 0) return 0;
 
@@ -195,10 +189,8 @@ export const ResumeBuilderPage = () => {
     return Math.round(totalMonths / 12);
   };
 
-  // Extract all skills for AI context
   const allSkills = resumeData.skills.flatMap((cat) => cat.skills);
 
-  // Convert ResumeData to ResumeBuilderData for API
   const getBuilderData = useCallback(() => {
     return {
       contact: resumeData.contact,
@@ -211,13 +203,11 @@ export const ResumeBuilderPage = () => {
     };
   }, [resumeData]);
 
-  // Handle save
   const handleSave = useCallback(async () => {
     const builderData = getBuilderData();
 
     try {
       if (savedResumeId) {
-        // Update existing resume
         await saveResume(savedResumeId, {
           name: resumeData.name,
           templateId: selectedTemplate,
@@ -225,7 +215,6 @@ export const ResumeBuilderPage = () => {
         });
         Toast.success({ description: 'Resume saved successfully' });
       } else {
-        // Create new resume
         const result = await createResume(
           resumeData.name,
           builderData,
@@ -249,7 +238,6 @@ export const ResumeBuilderPage = () => {
     createResume,
   ]);
 
-  // Handle download PDF
   const handleDownloadPDF = useCallback(async () => {
     const builderData = getBuilderData();
 
@@ -264,7 +252,6 @@ export const ResumeBuilderPage = () => {
     );
   }, [getBuilderData, selectedTemplate, resumeData.name, downloadPDFFromData]);
 
-  // Warn about unsaved changes when leaving
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       if (hasUnsavedChanges) {
@@ -277,7 +264,6 @@ export const ResumeBuilderPage = () => {
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, [hasUnsavedChanges]);
 
-  // Format last saved time
   const formatLastSaved = () => {
     if (!lastSaved) return null;
     const now = new Date();
@@ -291,7 +277,6 @@ export const ResumeBuilderPage = () => {
     return `Saved at ${lastSaved.toLocaleTimeString()}`;
   };
 
-  // Show loading state when fetching existing resume
   if (resumeIdFromUrl && isLoading) {
     return (
       <div className="flex h-screen items-center justify-center">

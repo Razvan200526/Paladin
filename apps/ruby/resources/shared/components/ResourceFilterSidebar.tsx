@@ -140,7 +140,7 @@ export const ResourceFilterSidebar = ({
   const isApplying = isFilteringResumes || isFilteringCoverLetters;
 
   return (
-    <div className="my-2 w-72 flex flex-col bg-background rounded border border-border h-fit overflow-hidden">
+    <div className="my-2 w-full lg:w-72 flex flex-col bg-background rounded border border-border h-fit overflow-hidden">
       <FilterHeader
         activeFilterCount={activeFilterCount}
         hasActiveFilters={hasActiveFilters}

@@ -156,7 +156,6 @@ export const useAddCoverLetter = (userId: string) => {
 export const useDeleteResumes = (userId: string) => {
   return useMutation({
     mutationFn: async (ids: string[]) => {
-      // Convert string IDs to numbers for the backend
       return backend.resume.resumes.delete({
         resumeIds: ids,
         userId: userId,
@@ -164,7 +163,6 @@ export const useDeleteResumes = (userId: string) => {
     },
     onSuccess: (response) => {
       if (response.success) {
-        // Invalidate the resumes query to refresh the list
         queryClient.invalidateQueries({
           queryKey: ['resumes', userId],
         });

@@ -72,7 +72,6 @@ export const SkillsSection = ({ categories, onChange }: SkillsSectionProps) => {
     const category = categories.find((c) => c.id === categoryId);
     if (!category) return;
 
-    // Avoid duplicates
     if (category.skills.includes(skillName)) {
       setNewSkillInputs((prev) => ({ ...prev, [categoryId]: '' }));
       return;

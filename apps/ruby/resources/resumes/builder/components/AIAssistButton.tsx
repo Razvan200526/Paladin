@@ -154,7 +154,6 @@ export const AIAssistButton = ({
   );
 };
 
-// Simplified inline button for tight spaces
 export const AIAssistInlineButton = ({
   onClick,
   isLoading = false,

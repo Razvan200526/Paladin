@@ -40,7 +40,7 @@ export const SignupPage = () => {
               title: 'Profile',
             },
             {
-              title: 'Validation',
+              title: 'Verification',
             },
           ]}
         />

@@ -29,20 +29,22 @@ export const EmptyState = ({ sendMessage, isStreaming }: EmptyStateProps) => {
 
   return (
     <>
-      <div className="flex-1 flex flex-col items-center justify-center px-6">
-        <div className="w-full max-w-xl space-y-8">
+      <div className="flex-1 flex flex-col items-center justify-center px-3 sm:px-6">
+        <div className="w-full max-w-xl space-y-4 sm:space-y-8">
           {/* Welcome */}
-          <div className="text-center space-y-3">
-            <H4 className="tracking-tight">What would you like to know?</H4>
-            <p className="text-sm text-secondary-text max-w-md mx-auto">
+          <div className="text-center space-y-2 sm:space-y-3">
+            <H4 className="tracking-tight text-base sm:text-lg md:text-xl">
+              What would you like to know?
+            </H4>
+            <p className="text-xs sm:text-sm text-secondary-text max-w-md mx-auto">
               Get personalized advice on resumes, cover letters, and your job
               search journey
             </p>
           </div>
 
-          {/* Input */}
-          <div className="flex flex-col items-center gap-4">
-            <div className="flex flex-wrap items-center justify-center gap-2">
+          {/* Suggestions */}
+          <div className="flex flex-col items-center gap-3 sm:gap-4">
+            <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2">
               {suggestions.map((suggestion) => (
                 <SuggestionButton
                   key={suggestion.title}
@@ -57,7 +59,7 @@ export const EmptyState = ({ sendMessage, isStreaming }: EmptyStateProps) => {
         </div>
       </div>
       <InputChat
-        className="p-8"
+        className="p-3 sm:p-6 md:p-8"
         ref={messageRef}
         placeholder="Ask me anything..."
         onSubmit={handleSend}

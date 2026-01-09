@@ -1,7 +1,3 @@
-/**
- * SDK Types
- * Migrated from easyres - shared types for API responses and entities
- */
 import type { Context } from 'hono';
 
 export type IController = {

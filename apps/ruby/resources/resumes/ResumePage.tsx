@@ -21,9 +21,9 @@ export const ResumePage = () => {
   }
 
   return (
-    <div className="m-4 bg-background h-[calc(100dvh-7rem)] rounded">
-      <ScrollShadow size={8} className="h-full overflow-y-scroll">
-        <div className="p-4">
+    <div className="mx-2 my-2 sm:mx-3 sm:my-3 md:m-4 bg-background h-[calc(100dvh-5.5rem)] sm:h-[calc(100dvh-6rem)] md:h-[calc(100dvh-7rem)] rounded">
+      <ScrollShadow size={8} className="h-full overflow-y-auto">
+        <div className="p-2 sm:p-3 md:p-4">
           {filteredResumes && (
             <FilteredResumeHeader
               filteredResumes={filteredResumes}

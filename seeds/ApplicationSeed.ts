@@ -104,6 +104,7 @@ function getRandomElements<T>(array: T[], min: number, max: number): T[] {
   return shuffled.slice(0, count);
 }
 
+
 export async function seedApplications(
   db: PrimaryDatabase,
 ): Promise<number> {
@@ -121,7 +122,7 @@ export async function seedApplications(
   const coverletters = await coverletterRepo.find({ relations: ['user'] });
   const applications: ApplicationEntity[] = [];
 
-  for (let i = 0; i < 1000; i++) {
+  for (let i = 0; i < 100; i++) {
     const user = getRandomElement(users);
     const userResumes = resumes.filter((r) => r.user?.id === user.id);
     const userCoverletters = coverletters.filter(
@@ -191,4 +192,3 @@ export async function seedApplications(
   await applicationRepo.save(applications);
   return applications.length;
 }
-

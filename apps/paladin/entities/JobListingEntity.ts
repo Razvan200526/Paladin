@@ -105,7 +105,6 @@ export class JobListingEntity {
   @Column({ name: 'apply_url', type: 'text', nullable: true })
   applyUrl?: string;
 
-  // Extracted skills from job description (stored as JSON array)
   @Column({ name: 'required_skills', type: 'text', array: true, default: '{}' })
   requiredSkills: string[];
 
@@ -117,11 +116,9 @@ export class JobListingEntity {
   })
   preferredSkills: string[];
 
-  // Keywords extracted via NLP
   @Column({ name: 'keywords', type: 'text', array: true, default: '{}' })
   keywords: string[];
 
-  // Vector embedding for semantic matching (stored as JSON for simplicity)
   @Column({ name: 'embedding', type: 'jsonb', nullable: true })
   embedding?: number[];
 

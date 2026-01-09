@@ -5,7 +5,6 @@ import { useAuth } from '@ruby/shared/hooks';
 import { ProgressBar } from '../components/ProgressBar';
 import { useAnalyticsOverview } from '../hooks/useAnalytics';
 
-// Default monthly targets - could be made configurable
 const MONTHLY_TARGET = 30;
 const WEEKLY_TARGET = 8;
 

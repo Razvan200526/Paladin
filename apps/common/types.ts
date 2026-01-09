@@ -19,7 +19,6 @@ export type ApiResponse = {
   success: true;
 };
 
-// Analytics Types
 export type TrendsPeriod =
   | 'last_week'
   | 'last_month'

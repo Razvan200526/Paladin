@@ -19,7 +19,7 @@ export const UserProfile = () => {
   const items = [
     {
       key: 'profile',
-      href: '/profile',
+      href: '/home/settings',
       icon: ProfileIcon,
       title: 'Profile',
       size: 'size-4.5',

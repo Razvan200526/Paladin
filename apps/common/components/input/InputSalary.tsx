@@ -1,11 +1,10 @@
-import { CURRENCIES } from '@common/constants/currencies';
 import { cn } from '@heroui/react';
 import { Icon } from '@iconify/react';
-import { useImperativeHandle, useMemo, useState } from 'react';
-import { Selector } from '../select/Selector';
+import { useImperativeHandle, useState } from 'react';
 import { H6 } from '../typography';
 import { Input } from './Input';
 import 'flag-icons/css/flag-icons.min.css';
+import { CurrencySelector } from '../select/CurrencySelector';
 
 export type InputSalaryRefType = {
   getValue: () => { min: string; max: string; currency: string };
@@ -57,18 +56,6 @@ export const InputSalary = ({
   const [currency, setCurrencyState] = useState(initialCurrency);
   const [isFocusedMin, setIsFocusedMin] = useState(false);
   const [isFocusedMax, setIsFocusedMax] = useState(false);
-
-  const currencyItems = useMemo(
-    () =>
-      CURRENCIES.map((curr: any) => ({
-        value: curr.value,
-        label: curr.value,
-        startContent: (
-          <span className={`fi fi-${curr.countryCode} rounded-sm`} />
-        ),
-      })),
-    [],
-  );
 
   const iconMin = (
     <Icon
@@ -182,17 +169,7 @@ export const InputSalary = ({
           onBlur={() => setIsFocusedMax(false)}
           onChange={handleMaxChange}
         />
-        <Selector
-          classNames={{
-            popoverContent: '!bg-light rounded-lg border border-border w-30',
-          }}
-          items={currencyItems}
-          value={currency}
-          onChange={handleCurrencyChange}
-          size={size}
-          className="w-30"
-          aria-label="Currency"
-        />
+        <CurrencySelector onChange={handleCurrencyChange} />
       </div>
     </div>
   );

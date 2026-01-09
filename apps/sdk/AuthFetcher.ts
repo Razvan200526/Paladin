@@ -14,6 +14,8 @@ export class AuthFetcher {
       firstName: string;
       lastName: string;
       image: string;
+      bio?: string;
+      profession: string;
     }): Promise<ResponseType<{ success: boolean; user: UserType }>> => {
       return await this.fetcher.post('/api/auth/signup/email', payload);
     },

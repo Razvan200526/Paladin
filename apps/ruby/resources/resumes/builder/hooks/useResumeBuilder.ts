@@ -9,7 +9,7 @@ import { useCallback, useState } from 'react';
 export interface UseResumeBuilderOptions {
   resumeId?: string;
   autoSave?: boolean;
-  autoSaveInterval?: number; // in milliseconds
+  autoSaveInterval?: number;
 }
 
 export const useResumeBuilder = (options: UseResumeBuilderOptions = {}) => {
@@ -18,7 +18,6 @@ export const useResumeBuilder = (options: UseResumeBuilderOptions = {}) => {
   const [isSaving, setIsSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
 
-  // Query to fetch all resume builders for the user
   const resumeBuildersQuery = useQuery({
     queryKey: ['resume-builders', user?.id],
     queryFn: async () => {
@@ -32,7 +31,6 @@ export const useResumeBuilder = (options: UseResumeBuilderOptions = {}) => {
     enabled: !!user?.id,
   });
 
-  // Query to fetch a single resume builder
   const resumeBuilderQuery = useQuery({
     queryKey: ['resume-builder', resumeId],
     queryFn: async () => {
@@ -46,7 +44,6 @@ export const useResumeBuilder = (options: UseResumeBuilderOptions = {}) => {
     enabled: !!resumeId,
   });
 
-  // Mutation to create a new resume builder
   const createMutation = useMutation({
     mutationFn: async (params: {
       name: string;
@@ -75,7 +72,6 @@ export const useResumeBuilder = (options: UseResumeBuilderOptions = {}) => {
     },
   });
 
-  // Mutation to update an existing resume builder
   const updateMutation = useMutation({
     mutationFn: async (params: {
       id: string;
@@ -111,7 +107,6 @@ export const useResumeBuilder = (options: UseResumeBuilderOptions = {}) => {
     },
   });
 
-  // Mutation to delete a resume builder
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
       if (!user?.id) throw new Error('User not authenticated');
@@ -132,7 +127,6 @@ export const useResumeBuilder = (options: UseResumeBuilderOptions = {}) => {
     },
   });
 
-  // Mutation to duplicate a resume builder
   const duplicateMutation = useMutation({
     mutationFn: async (id: string) => {
       if (!user?.id) throw new Error('User not authenticated');
@@ -153,7 +147,6 @@ export const useResumeBuilder = (options: UseResumeBuilderOptions = {}) => {
     },
   });
 
-  // Convenience methods
   const createResume = useCallback(
     async (name: string, data: ResumeBuilderData, templateId?: string) => {
       setIsSaving(true);
@@ -206,7 +199,6 @@ export const useResumeBuilder = (options: UseResumeBuilderOptions = {}) => {
     [duplicateMutation],
   );
 
-  // Download PDF
   const downloadPDF = useCallback(
     async (
       id: string,
@@ -231,8 +223,6 @@ export const useResumeBuilder = (options: UseResumeBuilderOptions = {}) => {
     },
     [user?.id],
   );
-
-  // Download PDF from data (without saving)
   const downloadPDFFromData = useCallback(
     async (
       data: ResumeBuilderData,
@@ -267,17 +257,14 @@ export const useResumeBuilder = (options: UseResumeBuilderOptions = {}) => {
   );
 
   return {
-    // Queries
     resumeBuilders: resumeBuildersQuery.data || [],
     resumeBuilder: resumeBuilderQuery.data,
     isLoading: resumeBuildersQuery.isLoading || resumeBuilderQuery.isLoading,
     isError: resumeBuildersQuery.isError || resumeBuilderQuery.isError,
 
-    // State
     isSaving,
     lastSaved,
 
-    // Actions
     createResume,
     saveResume,
     deleteResume,
@@ -285,11 +272,9 @@ export const useResumeBuilder = (options: UseResumeBuilderOptions = {}) => {
     downloadPDF,
     downloadPDFFromData,
 
-    // Refetch
     refetchResumeBuilders: resumeBuildersQuery.refetch,
     refetchResumeBuilder: resumeBuilderQuery.refetch,
 
-    // Raw mutations for more control
     mutations: {
       create: createMutation,
       update: updateMutation,

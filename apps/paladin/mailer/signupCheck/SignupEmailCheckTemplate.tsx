@@ -35,7 +35,7 @@ export const SignupEmailCheckTemplate = ({ otp }: { otp: string }) => {
             backgroundColor: '#ffffff',
             borderRadius: '16px',
             overflow: 'hidden',
-            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.08)', // Deeper, sleeker shadow
+            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.08)',
             border: '1px solid #e5e7eb',
           }}
         >
@@ -45,7 +45,7 @@ export const SignupEmailCheckTemplate = ({ otp }: { otp: string }) => {
                 style={{
                   padding: '48px 40px 32px 40px',
                   textAlign: 'center',
-                  background: 'linear-gradient(to bottom, #ffffff, #FBF7FD)', // Subtle gradient fade
+                  background: 'linear-gradient(to bottom, #ffffff, #FBF7FD)',
                 }}
               >
                 <div style={{ marginBottom: '24px' }}>
@@ -53,7 +53,7 @@ export const SignupEmailCheckTemplate = ({ otp }: { otp: string }) => {
                 </div>
                 <h1
                   style={{
-                    color: '#3E1E60', // Primary Brand Color
+                    color: '#3E1E60',
                     margin: 0,
                     fontSize: '28px',
                     fontWeight: '800',

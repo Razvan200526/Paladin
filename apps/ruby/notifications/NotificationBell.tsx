@@ -149,10 +149,8 @@ export const NotificationBell = () => {
     deleteNotification,
   } = useNotificationCenter(user?.id);
 
-  // Set up real-time notifications
   useRealtimeNotifications(user?.id, {
     onNotification: (notification) => {
-      // Show a toast for new notifications
       Toast.info({
         title: notification.title,
         description: notification.message,

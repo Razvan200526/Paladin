@@ -102,10 +102,8 @@ export class AiChatHandler {
       return;
     }
 
-    // Store userId in ws data
     (ws.data as WSData).userId = data.userId;
 
-    // If sessionId provided, load that session
     if (data.sessionId) {
       const session = await this.sessionService.getSession(data.sessionId);
       if (session && session.userId === data.userId) {
@@ -122,7 +120,6 @@ export class AiChatHandler {
       }
     }
 
-    // No session provided or invalid - send empty state (no session created)
     const response: ChatResponse = {
       type: 'chat:session',
       sessionId: undefined,
@@ -144,27 +141,22 @@ export class AiChatHandler {
       return;
     }
 
-    // Get or create session if not initialized
     const session = sessionId
       ? await this.sessionService.getOrCreateSession(userId, sessionId)
       : await this.sessionService.createSession(userId);
 
     (ws.data as WSData).sessionId = session.id;
 
-    // Add user message to DB
     await this.sessionService.addMessage(session.id, data.message, 'user');
 
-    // Create placeholder AI message in DB
     const aiMessage = await this.sessionService.addMessage(
       session.id,
       '',
       'ai',
     );
 
-    // Get context for multi-turn conversation (exclude empty AI message)
     const context = this.sessionService.getContext(session.id);
 
-    // Stream response
     let fullContent = '';
     try {
       await this.aiService.streamResponse(
@@ -173,14 +165,12 @@ export class AiChatHandler {
           if (chunk.type === 'token') {
             fullContent += chunk.content;
 
-            // Update cached message
             this.sessionService.updateAiMessage(
               session.id,
               aiMessage.id,
               fullContent,
             );
 
-            // Send token to client
             const response: ChatResponse = {
               type: 'chat:token',
               sessionId: session.id,
@@ -189,10 +179,8 @@ export class AiChatHandler {
             };
             ws.send(JSON.stringify(response));
           } else if (chunk.type === 'complete') {
-            // Finalize message in DB
             this.sessionService.finalizeAiMessage(session.id, aiMessage.id);
 
-            // Send completion
             const response: ChatResponse = {
               type: 'chat:complete',
               sessionId: session.id,
@@ -217,10 +205,8 @@ export class AiChatHandler {
       await this.sessionService.deleteSession(sessionId);
     }
 
-    // Clear session from ws data - don't create a new one
     (ws.data as WSData).sessionId = undefined;
 
-    // Send empty state (no new session created)
     const response: ChatResponse = {
       type: 'chat:session',
       sessionId: undefined,
@@ -242,10 +228,8 @@ export class AiChatHandler {
       return;
     }
 
-    // Update ws data
     (ws.data as WSData).sessionId = session.id;
 
-    // Send session info
     const response: ChatResponse = {
       type: 'chat:session',
       sessionId: session.id,

@@ -220,7 +220,6 @@ export class UsersController {
 
       const url = await this.storageService.uploadAvatar(file);
 
-      // Update user image
       user.image = url;
       await this.userRepo.update(user);
 

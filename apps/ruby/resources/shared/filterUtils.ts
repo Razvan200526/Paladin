@@ -86,7 +86,7 @@ const getFilterDate = (now: Date, dateRange: string): Date => {
       date.setFullYear(date.getFullYear() - 1);
       break;
     default:
-      date.setFullYear(1970); // Beginning of time
+      date.setFullYear(1970);
   }
 
   return date;

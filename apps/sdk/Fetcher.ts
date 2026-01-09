@@ -189,7 +189,6 @@ export class Fetcher {
       ...options,
       headers: {
         ...options?.headers,
-        // Don't set Content-Type for FormData, let the browser set it with boundary
       },
     };
 

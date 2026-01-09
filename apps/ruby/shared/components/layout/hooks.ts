@@ -6,8 +6,6 @@ import { SettingsIcon } from '@common/icons/SettingsIcon';
 import { LayoutDashboard } from 'lucide-react';
 
 export const useSideBarItems = () => {
-  // const { id } = useParams();
-
   const mainItems = [
     {
       key: 'Dashboard',

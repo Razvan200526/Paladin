@@ -196,7 +196,6 @@ export class AnalyticsController {
       const period = (c.req.query('period') || 'last_6_months') as TrendsPeriod;
       const applications = await this.appRepo.findByUser(userId);
 
-      // Calculate date range based on period
       const now = new Date();
       let startDate: Date;
       switch (period) {
@@ -219,20 +218,16 @@ export class AnalyticsController {
           startDate = new Date(now.getTime() - 180 * 24 * 60 * 60 * 1000);
       }
 
-      // Filter applications within period
       const filteredApps = applications.filter(
         (app) => new Date(app.createdAt) >= startDate,
       );
 
-      // Determine if we should group by day or month
       const groupByDay = period === 'last_week' || period === 'last_month';
 
-      // Generate all periods in the range (even empty ones)
       const allPeriods: { key: string; label: string; date: Date }[] = [];
       const current = new Date(startDate);
 
       if (groupByDay) {
-        // Group by day for week/month views
         current.setHours(0, 0, 0, 0);
         while (current <= now) {
           const key = `${current.getFullYear()}-${String(current.getMonth() + 1).padStart(2, '0')}-${String(current.getDate()).padStart(2, '0')}`;
@@ -244,7 +239,6 @@ export class AnalyticsController {
           current.setDate(current.getDate() + 1);
         }
       } else {
-        // Group by month for longer periods
         current.setDate(1);
         while (current <= now) {
           const key = `${current.getFullYear()}-${String(current.getMonth() + 1).padStart(2, '0')}`;
@@ -254,7 +248,6 @@ export class AnalyticsController {
         }
       }
 
-      // Initialize all periods with zero values
       const groupedData: Record<
         string,
         {
@@ -277,7 +270,6 @@ export class AnalyticsController {
         };
       });
 
-      // Populate with actual application data
       filteredApps.forEach((app) => {
         const date = new Date(app.createdAt);
         let key: string;
@@ -291,7 +283,6 @@ export class AnalyticsController {
         if (groupedData[key]) {
           groupedData[key].applications += 1;
 
-          // Count based on status
           const status = app.status?.toLowerCase() || '';
           if (status === 'interviewing') {
             groupedData[key].interviews += 1;
@@ -306,7 +297,6 @@ export class AnalyticsController {
         }
       });
 
-      // Sort by key (chronological) and return
       const trends = Object.entries(groupedData)
         .sort(([a], [b]) => a.localeCompare(b))
         .map(([_, data]) => ({

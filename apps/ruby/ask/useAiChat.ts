@@ -134,7 +134,6 @@ export const useAiChat = (options: UseAiChatOptions): UseAiChatReturn => {
             case 'chat:session':
               setSessionId(data.sessionId || null);
               setSessionTitle(data.title || 'New Chat');
-              // Load history if exists
               if (data.messages && data.messages.length > 0) {
                 setMessages(
                   data.messages.map((msg) => ({
@@ -158,7 +157,6 @@ export const useAiChat = (options: UseAiChatOptions): UseAiChatReturn => {
               currentMessageRef.current += data.content || '';
               currentMessageIdRef.current = data.messageId || null;
 
-              // Update streaming message
               setMessages((prev) => {
                 const lastMsg = prev[prev.length - 1];
                 if (lastMsg?.isStreaming) {

@@ -141,7 +141,7 @@ function getRandomElements<T>(array: T[], min: number, max: number): T[] {
 }
 
 function generateJobDescription(title: string, company: string): string {
-  return `We are looking for a ${title} to join our team at ${company}. 
+  return `We are looking for a ${title} to join our team at ${company}.
 
 Responsibilities:
 - Design and develop scalable software solutions
@@ -165,7 +165,7 @@ export async function seedJobListings(
   const repository = await db.open(JobListingEntity);
   const listings: JobListingEntity[] = [];
 
-  for (let i = 0; i < 1000; i++) {
+  for (let i = 0; i < 100; i++) {
     const title = getRandomElement(jobTitles);
     const company = getRandomElement(companies);
     const location = getRandomElement(locations);
@@ -252,4 +252,3 @@ export async function seedJobListings(
   await repository.save(listings);
   return listings.length;
 }
-

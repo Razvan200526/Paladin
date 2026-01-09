@@ -578,7 +578,7 @@ export class ApplicationEntity {
   createdAt: Date;
 
   @DeleteDateColumn({ name: "deleted_at", type: "timestamptz", nullable: true })
-  deletedAt?: Date | null; // Soft delete support
+  deletedAt?: Date | null;
 }
 ```
 

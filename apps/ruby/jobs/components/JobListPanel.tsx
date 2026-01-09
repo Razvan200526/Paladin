@@ -21,7 +21,7 @@ export const JobListPanel = ({
   hasFilters,
 }: JobListPanelProps) => {
   return (
-    <div className="w-full lg:w-96 border-r border-border bg-background flex flex-col">
+    <div className="w-full lg:w-96 lg:border-r border-border bg-background flex flex-col shrink-0">
       {isLoading ? (
         <div className="flex-1 flex items-center justify-center">
           <Spinner size="lg" />
@@ -29,8 +29,8 @@ export const JobListPanel = ({
       ) : filteredMatches.length === 0 ? (
         <JobListEmptyState hasFilters={hasFilters} />
       ) : (
-        <ScrollShadow size={8} className="flex-1">
-          <div className="p-2 space-y-2">
+        <ScrollShadow size={8} className="flex-1 overflow-y-auto">
+          <div className="p-2 sm:p-3 space-y-2">
             {filteredMatches.map((match) => (
               <JobMatchCard
                 key={match.id}

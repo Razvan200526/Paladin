@@ -21,6 +21,7 @@ const groupHistoryByDate = (history: ChatHistoryItem[]) => {
 
   return groups;
 };
+
 export const ChatHistorySidebar = ({
   history,
   isLoading,
@@ -39,7 +40,7 @@ export const ChatHistorySidebar = ({
   const groupedHistory = useMemo(() => groupHistoryByDate(history), [history]);
 
   return (
-    <div className="w-64 rounded border border-border bg-background flex flex-col h-full">
+    <div className="w-full lg:w-64 lg:rounded lg:border border-border bg-background flex flex-col h-full">
       <ScrollShadow className="flex-1 overflow-y-auto p-2">
         {isLoading ? (
           <ChatHistorySkeleton />
@@ -49,8 +50,8 @@ export const ChatHistorySidebar = ({
           </div>
         ) : (
           <div className="space-y-4">
-            <div className="p-4 flex items-center justify-between">
-              <H6 className="">History</H6>
+            <div className="p-3 sm:p-4 flex items-center justify-between">
+              <H6 className="text-sm sm:text-base">History</H6>
               <Button
                 onPress={onNewChat}
                 color="primary"
@@ -76,16 +77,17 @@ export const ChatHistorySidebar = ({
                       role="button"
                       tabIndex={0}
                       className={cn(
-                        'w-full text-left px-3 py-2 rounded-lg transition-colors group cursor-pointer',
+                        'w-full text-left px-3 py-2.5 sm:py-2 rounded-lg transition-colors group cursor-pointer',
+                        'min-h-11 sm:min-h-0 flex items-center',
                         item.id === currentSessionId
                           ? 'bg-primary/10 border border-primary/20'
-                          : 'hover:bg-secondary/10',
+                          : 'hover:bg-secondary/10 active:bg-secondary/20',
                       )}
                     >
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 w-full">
                         <MessageSquareIcon
                           className={cn(
-                            'size-3.5 shrink-0',
+                            'size-4 sm:size-3.5 shrink-0',
                             item.id === currentSessionId
                               ? 'text-primary'
                               : 'text-secondary-text group-hover:text-primary',
@@ -106,6 +108,7 @@ export const ChatHistorySidebar = ({
                           color="secondary"
                           radius="full"
                           isIconOnly
+                          size="sm"
                           tabIndex={0}
                           onClick={(e) => {
                             e.stopPropagation();
@@ -120,7 +123,7 @@ export const ChatHistorySidebar = ({
                             }
                           }}
                           endContent={<Trash2Icon className="size-3.5" />}
-                          className="opacity-0 group-hover:opacity-100 text-secondary-text hover:text-danger transition-opacity cursor-pointer p-1"
+                          className="opacity-100 sm:opacity-0 sm:group-hover:opacity-100 text-secondary-text hover:text-danger transition-opacity cursor-pointer p-1"
                         />
                       </div>
                     </div>

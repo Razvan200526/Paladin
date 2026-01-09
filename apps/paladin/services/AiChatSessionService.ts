@@ -24,7 +24,6 @@ export interface ChatMessage {
 
 @service()
 export class AiChatSessionService {
-  // In-memory cache for active sessions
   private activeSessions: Map<string, ChatSession> = new Map();
 
   constructor(
@@ -42,10 +41,9 @@ export class AiChatSessionService {
       throw new Error('User not found');
     }
 
-    // Create entity
     const sessionEntity = new ChatSessionEntity();
     sessionEntity.user = user;
-    sessionEntity.resourceType = 'resume'; // Default type for AI chat
+    sessionEntity.resourceType = 'resume';
     sessionEntity.resourceId = 'ai-chat';
     sessionEntity.resourceName = title || 'New Chat';
 
@@ -68,16 +66,13 @@ export class AiChatSessionService {
    * Get a session by ID (loads from DB if not in cache)
    */
   async getSession(sessionId: string): Promise<ChatSession | null> {
-    // Check cache first
     if (this.activeSessions.has(sessionId)) {
       return this.activeSessions.get(sessionId) ?? null;
     }
 
-    // Load from DB
     const entity = await this.sessionRepo.findOne(sessionId);
     if (!entity) return null;
 
-    // Load messages
     const messageEntities = await this.messageRepo.findBySessionId(sessionId);
 
     const session: ChatSession = {
@@ -137,7 +132,6 @@ export class AiChatSessionService {
       }
     }
 
-    // Create new session
     return this.createSession(userId);
   }
 
@@ -154,13 +148,11 @@ export class AiChatSessionService {
       throw new Error(`Session ${sessionId} not found`);
     }
 
-    // Get session entity for relation
     const sessionEntity = await this.sessionRepo.findOne(sessionId);
     if (!sessionEntity) {
       throw new Error(`Session entity ${sessionId} not found`);
     }
 
-    // Create message entity
     const messageEntity = new ChatMessageEntity();
     messageEntity.chatSession = sessionEntity;
     messageEntity.content = content;
@@ -175,10 +167,8 @@ export class AiChatSessionService {
       timestamp: savedMessage.timestamp,
     };
 
-    // Update cache
     session.messages.push(message);
 
-    // Update session title from first user message
     if (
       sender === 'user' &&
       session.messages.filter((m) => m.sender === 'user').length === 1
@@ -233,7 +223,6 @@ export class AiChatSessionService {
     const message = session.messages.find((m) => m.id === messageId);
     if (!message || message.sender !== 'ai') return;
 
-    // Update in DB
     const messageEntity = await this.messageRepo.findOne(messageId);
     if (messageEntity) {
       messageEntity.content = message.content;

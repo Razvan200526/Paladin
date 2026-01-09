@@ -112,7 +112,7 @@ export async function seedNotifications(
   const coverletters = await coverletterRepo.find({ relations: ['user'] });
   const notifications: NotificationEntity[] = [];
 
-  for (let i = 0; i < 1000; i++) {
+  for (let i = 0; i < 100; i++) {
     const user = getRandomElement(users);
     const type = getRandomElement(notificationTypes);
     const priority = getRandomElement(priorities);
@@ -198,4 +198,3 @@ export async function seedNotifications(
   await notificationRepo.save(notifications);
   return notifications.length;
 }
-

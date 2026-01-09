@@ -48,7 +48,6 @@ export const RetrieveFilteredApplicationsModel = z.object({
   limit: z.number().int().positive().max(100).optional(),
 });
 
-// Resume Models
 export const UploadResumeModel = z.object({
   userId: z.string().length(15),
   name: z.string().min(1).max(100),
@@ -69,7 +68,6 @@ export const RetrieveFilteredResumesModel = z.object({
   limit: z.number().int().positive().max(100).optional(),
 });
 
-// Coverletter Models
 export const UploadCoverLetterModel = z.object({
   userId: z.string().length(15),
   name: z.string().min(1).max(100),
@@ -90,7 +88,6 @@ export const RetrieveFilteredCoverlettersModel = z.object({
   limit: z.number().int().positive().max(100).optional(),
 });
 
-// Chat Models
 export const CreateChatSessionModel = z.object({
   userId: z.string().length(15),
   resourceId: z.string().length(15),
@@ -101,16 +98,14 @@ export const CreateChatMessageModel = z.object({
   content: z.string().min(1),
 });
 
-// User Models
 export const CreateUserModel = z.object({
-  email: z.string().email(),
+  email: z.email(),
   password: z.string().min(8).max(100),
   firstName: z.string().min(1).max(50),
   lastName: z.string().min(1).max(50),
   name: z.string().optional(),
 });
 
-// Type exports
 export type CreateApplicationType = z.infer<typeof CreateApplicationModel>;
 export type UpdateApplicationType = z.infer<typeof UpdateApplicationModel>;
 export type DeleteApplicationType = z.infer<typeof DeleteApplicationModel>;

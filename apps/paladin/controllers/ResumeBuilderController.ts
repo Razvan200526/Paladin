@@ -219,7 +219,6 @@ export class ResumeBuilderController {
         );
       }
 
-      // Update fields if provided
       if (name !== undefined) resumeBuilder.name = name;
       if (templateId !== undefined) resumeBuilder.templateId = templateId;
       if (data !== undefined) resumeBuilder.data = data;
@@ -345,15 +344,12 @@ export class ResumeBuilderController {
 
       logger.info(`[ResumeBuilder] Generating PDF for resume builder ${id}`);
 
-      // Generate HTML content
       const html = this.pdfService.generateHTML(resumeBuilder.data, {
         templateId: resumeBuilder.templateId,
         includeLinks: options?.includeLinks ?? true,
         fontSize: options?.fontSize ?? 'medium',
       });
 
-      // Return HTML with content-type for browser to render/print as PDF
-      // In production, you would use a library like Puppeteer to convert to actual PDF
       const filename = `${resumeBuilder.name.replace(/[^a-zA-Z0-9]/g, '_')}_Resume.html`;
 
       return new Response(html, {
@@ -412,7 +408,6 @@ export class ResumeBuilderController {
         );
       }
 
-      // Generate HTML content
       const html = this.pdfService.generateHTML(resumeBuilder.data, {
         templateId: resumeBuilder.templateId,
         includeLinks: options?.includeLinks ?? true,
@@ -458,7 +453,6 @@ export class ResumeBuilderController {
         );
       }
 
-      // Verify user exists
       const user = await this.userRepo.findOne(userId);
       if (!user) {
         return c.json(
@@ -475,7 +469,6 @@ export class ResumeBuilderController {
         `[ResumeBuilder] Generating PDF from data for user ${userId}`,
       );
 
-      // Generate HTML content
       const html = this.pdfService.generateHTML(data, {
         templateId: templateId || 'classic',
         includeLinks: options?.includeLinks ?? true,
@@ -557,12 +550,11 @@ export class ResumeBuilderController {
         );
       }
 
-      // Create duplicate
       const duplicate = new ResumeBuilderEntity();
       duplicate.user = user;
       duplicate.name = `${original.name} (Copy)`;
       duplicate.templateId = original.templateId;
-      duplicate.data = JSON.parse(JSON.stringify(original.data)); // Deep copy
+      duplicate.data = JSON.parse(JSON.stringify(original.data));
       duplicate.status = 'draft';
 
       const saved = await this.resumeBuilderRepo.create(duplicate);

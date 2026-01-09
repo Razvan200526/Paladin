@@ -26,7 +26,7 @@ export async function seedUserVerifications(
 
   const verifications: UserVerificationEntity[] = [];
 
-  for (let i = 0; i < 1000; i++) {
+  for (let i = 0; i < 100; i++) {
     const user = getRandomElement(users);
     const type = getRandomElement(verificationTypes);
     const expiresInHours = Math.floor(Math.random() * 24) + 1; // 1-24 hours
@@ -62,4 +62,3 @@ export async function seedUserVerifications(
   await verificationRepo.save(verifications);
   return verifications.length;
 }
-

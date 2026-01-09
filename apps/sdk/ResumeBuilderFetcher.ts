@@ -264,7 +264,6 @@ export class ResumeBuilderFetcher {
     const blob = await this.exportPDF(id, userId, options);
     const url = URL.createObjectURL(blob);
 
-    // Open in new window for printing
     const printWindow = window.open(url, '_blank');
     if (printWindow) {
       printWindow.onload = () => {
@@ -286,7 +285,6 @@ export class ResumeBuilderFetcher {
     const blob = await this.generatePDFFromData(params);
     const url = URL.createObjectURL(blob);
 
-    // Open in new window for printing
     const printWindow = window.open(url, '_blank');
     if (printWindow) {
       printWindow.onload = () => {

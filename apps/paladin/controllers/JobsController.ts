@@ -29,10 +29,6 @@ export class JobsController {
     @inject(JobListingRepository) private listings: JobListingRepository,
   ) {}
 
-  // ============================================
-  // Job Listings
-  // ============================================
-
   // GET /api/jobs/listings
   @get('/listings')
   async getListings(c: Context) {
@@ -164,10 +160,6 @@ export class JobsController {
       );
     }
   }
-
-  // ============================================
-  // Job Matches
-  // ============================================
 
   // GET /api/jobs/matches (query: userId, status, minScore, limit, offset)
   @get('/matches')
@@ -342,10 +334,6 @@ export class JobsController {
     }
   }
 
-  // ============================================
-  // Job Preferences
-  // ============================================
-
   // GET /api/jobs/preferences/:userId
   @get('/preferences/:userId')
   async getPreferences(c: Context) {
@@ -401,10 +389,6 @@ export class JobsController {
       );
     }
   }
-
-  // ============================================
-  // Categories & External Fetching
-  // ============================================
 
   // GET /api/jobs/categories
   @get('/categories')

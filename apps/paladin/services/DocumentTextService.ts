@@ -4,11 +4,7 @@
  */
 
 import { inject, service } from '@razvan11/paladin';
-// Use legacy build for Node.js/Bun environments (no DOM APIs required)
 import * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf.mjs';
-
-// Disable worker for server-side usage
-// pdfjsLib.GlobalWorkerOptions.workerSrc = '';
 
 @service()
 export class DocumentTextService {
@@ -23,7 +19,6 @@ export class DocumentTextService {
     pageCount: number;
   }> {
     try {
-      // Fetch the PDF file
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error(`Failed to fetch document: ${response.statusText}`);
@@ -48,7 +43,6 @@ export class DocumentTextService {
     try {
       const data = new Uint8Array(buffer);
 
-      // Load the PDF document
       const loadingTask = pdfjsLib.getDocument({
         data,
         useSystemFonts: true,
@@ -60,12 +54,10 @@ export class DocumentTextService {
       const pages: number[] = [];
       const textParts: string[] = [];
 
-      // Extract text from each page
       for (let pageNum = 1; pageNum <= pageCount; pageNum++) {
         const page = await pdf.getPage(pageNum);
         const textContent = await page.getTextContent();
 
-        // Combine text items into a single string
         const pageText = textContent.items
           .map((item) => {
             if ('str' in item) {
@@ -104,7 +96,6 @@ export class DocumentTextService {
     pages: number[];
     pageCount: number;
   }> {
-    // Determine file type from URL or provided filetype
     const isPdf =
       filetype?.includes('pdf') ||
       url.toLowerCase().endsWith('.pdf') ||
@@ -114,7 +105,6 @@ export class DocumentTextService {
       return this.extractTextFromUrl(url);
     }
 
-    // For non-PDF text files, try to fetch as text
     try {
       const response = await fetch(url);
       if (!response.ok) {

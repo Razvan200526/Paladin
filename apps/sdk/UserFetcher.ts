@@ -83,7 +83,6 @@ export class UserFetcher {
     return await this.fetcher.delete(`/users/${id}`);
   };
 
-  // User Sessions operations
   public readonly sessions = {
     create: async (payload: {
       userId: string;
@@ -148,7 +147,6 @@ export class UserFetcher {
     },
   };
 
-  // User Types operations
   public readonly types = {
     create: async (payload: {
       name: string;
@@ -207,7 +205,6 @@ export class UserFetcher {
     },
   };
 
-  // User Accounts operations
   public readonly accounts = {
     create: async (payload: {
       user: string;
@@ -278,7 +275,6 @@ export class UserFetcher {
     },
   };
 
-  // User Verifications operations
   public readonly verifications = {
     create: async (payload: {
       user: string;

@@ -40,7 +40,6 @@ export class ResumeAIController {
         );
       }
 
-      // Verify user exists
       const user = await this.userRepo.findOne(userId);
       if (!user) {
         return apiResponse(
@@ -107,7 +106,6 @@ export class ResumeAIController {
         );
       }
 
-      // Verify user exists
       const user = await this.userRepo.findOne(userId);
       if (!user) {
         return apiResponse(
@@ -175,7 +173,6 @@ export class ResumeAIController {
         );
       }
 
-      // Verify user exists
       const user = await this.userRepo.findOne(userId);
       if (!user) {
         return apiResponse(
@@ -251,7 +248,6 @@ export class ResumeAIController {
         );
       }
 
-      // Verify user exists
       const user = await this.userRepo.findOne(userId);
       if (!user) {
         return apiResponse(
@@ -314,7 +310,6 @@ export class ResumeAIController {
         );
       }
 
-      // Verify user exists
       const user = await this.userRepo.findOne(userId);
       if (!user) {
         return apiResponse(

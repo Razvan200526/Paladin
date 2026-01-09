@@ -125,14 +125,12 @@ export class DocumentChatHandler {
     }
 
     try {
-      // Fetch the resume
       const resume = await this.resumeRepo.findOne(resumeId);
       if (!resume) {
         this.sendNotFound(ws, channelName, 'Resume not found');
         return;
       }
 
-      // Extract text from the resume document
       let documentText = ws.data.documentText;
       let pages: number[] = [];
 
@@ -144,13 +142,11 @@ export class DocumentChatHandler {
         documentText = extracted.text;
         pages = extracted.pages;
 
-        // Cache for subsequent queries
         ws.data.documentId = resumeId;
         ws.data.documentType = 'resume';
         ws.data.documentText = documentText;
       }
 
-      // Stream AI response
       await this.streamAiResponse(ws, channelName, query, documentText, pages);
     } catch (error) {
       logger.error(new Error(`[Resume Chat] Error: ${error}`));
@@ -175,14 +171,12 @@ export class DocumentChatHandler {
     }
 
     try {
-      // Fetch the cover letter
       const coverletter = await this.coverletterRepo.findOne(coverletterId);
       if (!coverletter) {
         this.sendNotFound(ws, channelName, 'Cover letter not found');
         return;
       }
 
-      // Extract text from the cover letter document
       let documentText = ws.data.documentText;
       let pages: number[] = [];
 
@@ -194,13 +188,11 @@ export class DocumentChatHandler {
         documentText = extracted.text;
         pages = extracted.pages;
 
-        // Cache for subsequent queries
         ws.data.documentId = coverletterId;
         ws.data.documentType = 'coverletter';
         ws.data.documentText = documentText;
       }
 
-      // Stream AI response
       await this.streamAiResponse(ws, channelName, query, documentText, pages);
     } catch (error) {
       logger.error(new Error(`[Coverletter Chat] Error: ${error}`));
@@ -237,7 +229,6 @@ Answer the user's question based on this document. Be specific and reference the
         if (chunk.type === 'token') {
           fullText += chunk.content;
 
-          // Send progress update
           const response = this.buildResponse(channelName, {
             pages,
             text: chunk.content,
@@ -245,7 +236,6 @@ Answer the user's question based on this document. Be specific and reference the
           });
           ws.send(JSON.stringify(response));
         } else if (chunk.type === 'complete') {
-          // Send completion
           const response = this.buildResponse(channelName, {
             pages,
             text: fullText,
@@ -256,7 +246,7 @@ Answer the user's question based on this document. Be specific and reference the
           this.sendError(ws, channelName, chunk.content);
         }
       },
-      [], // No prior context
+      [],
     );
   }
 

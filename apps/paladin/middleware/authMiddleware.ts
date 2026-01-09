@@ -5,7 +5,6 @@
 import type { Context, Next } from 'hono';
 import type { AuthService } from '../services/AuthService';
 
-// Middleware factory that uses DI
 export function createAuthMiddleware(authService: AuthService) {
   return async function authMiddleware(c: Context, next: Next) {
     const session = await authService.getSession(c.req.raw.headers);
@@ -18,7 +17,6 @@ export function createAuthMiddleware(authService: AuthService) {
   };
 }
 
-// Standalone middleware that uses service directly
 // This is for backwards compatibility
 export async function authMiddleware(_c: Context, next: Next) {
   // Note: This requires AuthService to be available globally

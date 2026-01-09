@@ -146,7 +146,6 @@ export const RichTextEditor = forwardRef<EditorRefType, RichTextEditorProps>(
       },
     });
 
-    // Expose editor methods via ref
     useImperativeHandle(ref, () => ({
       getContent: () => editor?.getHTML() || '',
       getEditor: () => editor,
@@ -159,14 +158,12 @@ export const RichTextEditor = forwardRef<EditorRefType, RichTextEditorProps>(
       blur: () => editor?.commands.blur(),
     }));
 
-    // Sync content prop changes
     useEffect(() => {
       if (editor && content !== editor.getHTML()) {
         editor.commands.setContent(content);
       }
     }, [content, editor]);
 
-    // Close dropdowns when clicking outside
     useEffect(() => {
       const handleClickOutside = () => {
         setShowColorPicker(false);
@@ -530,7 +527,6 @@ export const RichTextEditor = forwardRef<EditorRefType, RichTextEditorProps>(
   },
 );
 
-// Toolbar button component
 const ToolbarButton = ({
   onClick,
   active,
@@ -557,10 +553,8 @@ const ToolbarButton = ({
   </button>
 );
 
-// Divider component
 const Divider = () => <div className="w-px h-5 bg-border mx-1" />;
 
-// Color picker dropdown
 const ColorPickerDropdown = ({
   colors,
   onSelect,

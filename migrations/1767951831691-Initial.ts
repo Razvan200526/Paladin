@@ -1,7 +1,7 @@
-import type { MigrationInterface, QueryRunner } from 'typeorm';
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class Initial1767788413850 implements MigrationInterface {
-  name = 'Initial1767788413850';
+export class Initial1767951831691 implements MigrationInterface {
+  name = 'Initial1767951831691';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
@@ -80,7 +80,7 @@ export class Initial1767788413850 implements MigrationInterface {
       `CREATE TABLE "resume_builders" ("id" character varying(15) NOT NULL, "name" character varying(255) NOT NULL, "templateId" character varying(50) NOT NULL DEFAULT 'classic', "data" jsonb NOT NULL, "status" character varying(50) NOT NULL DEFAULT 'draft', "thumbnailUrl" text, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "user_id" character varying(15), CONSTRAINT "PK_065eeaaba6c6f4745a1788079a2" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
-      `CREATE TABLE "users" ("id" character varying(15) NOT NULL, "email" character varying(255) NOT NULL, "name" character varying(200) NOT NULL, "first_name" character varying(100) NOT NULL, "last_name" character varying(100) NOT NULL, "is_email_verified" boolean NOT NULL DEFAULT false, "image" text, "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT now(), "deleted_at" TIMESTAMP WITH TIME ZONE, "locked_at" TIMESTAMP WITH TIME ZONE, "blocked_at" TIMESTAMP WITH TIME ZONE, CONSTRAINT "PK_a3ffb1c0c8416b9fc6f907b7433" PRIMARY KEY ("id"))`,
+      `CREATE TABLE "users" ("id" character varying(15) NOT NULL, "email" character varying(255) NOT NULL, "name" character varying(200) NOT NULL, "first_name" character varying(100) NOT NULL, "last_name" character varying(100) NOT NULL, "bio" text, "profession" character varying(100) NOT NULL, "is_email_verified" boolean NOT NULL DEFAULT false, "image" text, "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT now(), "deleted_at" TIMESTAMP WITH TIME ZONE, "locked_at" TIMESTAMP WITH TIME ZONE, "blocked_at" TIMESTAMP WITH TIME ZONE, CONSTRAINT "PK_a3ffb1c0c8416b9fc6f907b7433" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
       `CREATE UNIQUE INDEX "IDX_97672ac88f789774dd47f7c8be" ON "users" ("email") `,
@@ -107,10 +107,10 @@ export class Initial1767788413850 implements MigrationInterface {
       `ALTER TABLE "applications" ADD CONSTRAINT "FK_9e7594d5b474d9cbebba15c1ae7" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
     );
     await queryRunner.query(
-      `ALTER TABLE "applications" ADD CONSTRAINT "FK_241f549e92b54bb3538c9bdcf21" FOREIGN KEY ("resume_id") REFERENCES "resumes"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
+      `ALTER TABLE "applications" ADD CONSTRAINT "FK_241f549e92b54bb3538c9bdcf21" FOREIGN KEY ("resume_id") REFERENCES "resumes"("id") ON DELETE SET NULL ON UPDATE NO ACTION`,
     );
     await queryRunner.query(
-      `ALTER TABLE "applications" ADD CONSTRAINT "FK_2b173e901d7562152e490422e79" FOREIGN KEY ("coverletter_id") REFERENCES "coverletter"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
+      `ALTER TABLE "applications" ADD CONSTRAINT "FK_2b173e901d7562152e490422e79" FOREIGN KEY ("coverletter_id") REFERENCES "coverletter"("id") ON DELETE SET NULL ON UPDATE NO ACTION`,
     );
     await queryRunner.query(
       `ALTER TABLE "chat_sessions" ADD CONSTRAINT "FK_1fa209cf48ae975a109366542a5" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,

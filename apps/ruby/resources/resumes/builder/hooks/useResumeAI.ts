@@ -40,7 +40,6 @@ export const useResumeAI = () => {
   const { data: user } = useAuth();
   const [isGenerating, setIsGenerating] = useState(false);
 
-  // Generate professional summary
   const generateSummaryMutation = useMutation({
     mutationFn: async (params: GenerateSummaryParams) => {
       if (!user?.id) throw new Error('User not authenticated');
@@ -117,7 +116,6 @@ export const useResumeAI = () => {
     },
   });
 
-  // Generate project description
   const generateProjectMutation = useMutation({
     mutationFn: async (params: GenerateProjectParams) => {
       if (!user?.id) throw new Error('User not authenticated');
@@ -139,7 +137,6 @@ export const useResumeAI = () => {
     },
   });
 
-  // Convenience methods
   const generateSummary = useCallback(
     async (params: GenerateSummaryParams) => {
       setIsGenerating(true);
@@ -209,7 +206,6 @@ export const useResumeAI = () => {
   );
 
   return {
-    // State
     isGenerating,
     isGeneratingSummary: generateSummaryMutation.isPending,
     isGeneratingExperience: generateExperienceMutation.isPending,
@@ -217,14 +213,12 @@ export const useResumeAI = () => {
     isImprovingContent: improveContentMutation.isPending,
     isGeneratingProject: generateProjectMutation.isPending,
 
-    // Methods
     generateSummary,
     generateExperienceBullets,
     suggestSkills,
     improveContent,
     generateProjectDescription,
 
-    // Raw mutations (for more control)
     mutations: {
       summary: generateSummaryMutation,
       experience: generateExperienceMutation,

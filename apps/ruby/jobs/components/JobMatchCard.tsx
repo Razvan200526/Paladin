@@ -5,7 +5,7 @@ import type { JobMatch, MatchStatus } from '../../../sdk/JobFetcher';
 import { useUpdateMatchStatus } from '../hooks';
 import { CompatibilityScore } from './CompatibilityScore';
 import { JobCardActions } from './JobCardActions';
-import { JobCompanyLogo } from './JobCompanyLogo';
+
 import { JobMetaInfo } from './JobMetaInfo';
 import { JobSkillsPreview } from './JobSkillsPreview';
 import { JobStatusBadge } from './JobStatusBadge';
@@ -40,10 +40,6 @@ export const JobMatchCard = ({
     >
       <div onClick={onClick}>
         <div className="flex gap-4">
-          <div className="shrink-0">
-            <JobCompanyLogo logo={job.companyLogo} company={job.company} />
-          </div>
-
           <div className="flex-1 min-w-0">
             <div className="flex items-start justify-between gap-2">
               <div className="truncate">

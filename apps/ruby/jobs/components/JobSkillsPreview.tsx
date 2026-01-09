@@ -18,14 +18,14 @@ export const JobSkillsPreview = ({
           key={skill}
           size="sm"
           variant="flat"
-          color="success"
-          className="text-xs"
+          color="primary"
+          className="text-xs border border-border"
         >
           {skill}
         </Chip>
       ))}
       {skills.length > maxDisplay && (
-        <Chip size="sm" variant="flat" className="text-xs">
+        <Chip color="secondary" size="sm" variant="flat" className="text-xs">
           +{skills.length - maxDisplay} more
         </Chip>
       )}

@@ -34,11 +34,11 @@ export class ApplicationEntity {
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 
-  @ManyToOne(() => ResumeEntity, { nullable: true })
+  @ManyToOne(() => ResumeEntity, { nullable: true, onDelete: 'SET NULL' })
   @JoinColumn({ name: 'resume_id' })
   resume?: ResumeEntity;
 
-  @ManyToOne(() => CoverletterEntity, { nullable: true })
+  @ManyToOne(() => CoverletterEntity, { nullable: true, onDelete: 'SET NULL' })
   @JoinColumn({ name: 'coverletter_id' })
   coverletter?: CoverletterEntity;
 

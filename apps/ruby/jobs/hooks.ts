@@ -33,7 +33,7 @@ export const useJobMatches = (
       }
     },
     enabled: !!userId,
-    staleTime: 2 * 60 * 1000, // 2 minutes
+    staleTime: 2 * 60 * 1000,
   });
 };
 
@@ -99,10 +99,6 @@ export const useRefreshJobMatches = () => {
   });
 };
 
-// ============================================
-// Job Preferences Hooks
-// ============================================
-
 export const useJobPreferences = (userId: string | undefined) => {
   return useQuery({
     queryKey: ['jobPreferences', userId],
@@ -133,10 +129,6 @@ export const useUpdateJobPreferences = () => {
   });
 };
 
-// ============================================
-// Job Categories & External Fetching Hooks
-// ============================================
-
 export const useJobCategories = () => {
   return useQuery({
     queryKey: ['jobCategories'],
@@ -144,7 +136,7 @@ export const useJobCategories = () => {
       const response = await backend.jobs.getCategories();
       return response.data ?? [];
     },
-    staleTime: 60 * 60 * 1000, // 1 hour - categories rarely change
+    staleTime: 60 * 60 * 1000,
   });
 };
 
@@ -154,17 +146,12 @@ export const useFetchExternalJobs = () => {
       return backend.jobs.fetchExternalJobs(data);
     },
     onSuccess: () => {
-      // Invalidate job listings and matches after fetching new jobs
       queryClient.invalidateQueries({ queryKey: ['jobListings'] });
       queryClient.invalidateQueries({ queryKey: ['jobMatches'] });
       queryClient.invalidateQueries({ queryKey: ['jobMatchStats'] });
     },
   });
 };
-
-// ============================================
-// Job Listings Hooks
-// ============================================
 
 export const useJobListings = (params?: {
   search?: string;
@@ -178,6 +165,6 @@ export const useJobListings = (params?: {
       const response = await backend.jobs.getListings(params);
       return response.data ?? [];
     },
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: 5 * 60 * 1000,
   });
 };

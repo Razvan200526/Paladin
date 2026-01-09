@@ -1,7 +1,5 @@
-// Components
 export { NotificationBell } from './NotificationBell';
 export { NotificationItem } from './NotificationItem';
-// Store
 export {
   selectError,
   selectHighPriorityNotifications,
@@ -13,7 +11,6 @@ export {
   selectUnreadNotifications,
   useNotificationStore,
 } from './notificationStore';
-// Hooks
 export {
   useDeleteNotification,
   useMarkAllNotificationsAsRead,

@@ -58,7 +58,6 @@ export const ResumePreview = ({
 
   const config = getTemplate(templateId);
 
-  // Render the appropriate template based on templateId
   const renderTemplate = () => {
     switch (templateId) {
       case 'modern':
