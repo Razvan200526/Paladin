@@ -11,7 +11,7 @@
     "test:watch": "bun test tests --watch",
     "test:coverage": "bun test tests --coverage",
     "db:migrate": "bun run --bun node_modules/typeorm/cli.js migration:generate ./migrations/Initial -d ./apps/paladin/shared/database/data-source.ts",
-    "db:run": "bun run --bun node_modules/typeorm/cli.js migration:run -d ./apps/paladin/shared/database/data-source.ts",
+    "db:run": "bun run scripts/run-migrations.ts",
     "db:drop": "bun run --bun node_modules/typeorm/cli.js schema:drop -d ./apps/paladin/shared/database/data-source.ts",
     "db:revert": "bun run --bun node_modules/typeorm/cli.js migration:revert -d ./apps/paladin/shared/database/data-source.ts",
     "db": "bun db:migrate && bun db:run",
