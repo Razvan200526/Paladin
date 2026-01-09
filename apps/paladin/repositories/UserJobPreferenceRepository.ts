@@ -51,18 +51,15 @@ export class UserJobPreferencesRepository {
   ): Promise<UserJobPreferencesEntity> {
     const repo = await this.db.open(UserJobPreferencesEntity);
 
-    // Check if preferences exist for this user
     const existing = await repo.findOne({
       where: { user: { id: userId } },
     });
 
     if (existing) {
-      // Update existing preferences
       Object.assign(existing, data);
       return repo.save(existing);
     }
 
-    // Create new preferences
     const newPrefs = repo.create({
       ...data,
       user: { id: userId } as any,

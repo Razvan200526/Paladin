@@ -37,7 +37,6 @@ export class JobMatchEntity {
   @JoinColumn({ name: 'resume_id' })
   resume?: ResumeEntity;
 
-  // Overall compatibility score (0-100)
   @Column({
     name: 'compatibility_score',
     type: 'decimal',
@@ -46,7 +45,6 @@ export class JobMatchEntity {
   })
   compatibilityScore: number;
 
-  // Individual scoring breakdown
   @Column({
     name: 'skills_score',
     type: 'decimal',
@@ -92,14 +90,12 @@ export class JobMatchEntity {
   })
   semanticScore: number;
 
-  // Skills analysis
   @Column({ name: 'matched_skills', type: 'text', array: true, default: '{}' })
   matchedSkills: string[];
 
   @Column({ name: 'missing_skills', type: 'text', array: true, default: '{}' })
   missingSkills: string[];
 
-  // Keywords analysis
   @Column({
     name: 'matched_keywords',
     type: 'text',
@@ -116,7 +112,6 @@ export class JobMatchEntity {
   })
   missingKeywords: string[];
 
-  // AI-generated suggestions for improving match
   @Column({
     name: 'improvement_suggestions',
     type: 'text',
@@ -125,7 +120,6 @@ export class JobMatchEntity {
   })
   improvementSuggestions: string[];
 
-  // Status tracking
   @Column({
     name: 'status',
     type: 'enum',

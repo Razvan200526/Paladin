@@ -59,7 +59,6 @@ export const EditApplicationPage = () => {
 
   const [hasChanges, setHasChanges] = useState(false);
 
-  // Initialize form data when application loads
   useEffect(() => {
     if (application) {
       setFormData({

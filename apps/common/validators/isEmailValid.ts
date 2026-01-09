@@ -26,7 +26,6 @@ export function isEmailValid(
 
   if (email.length === 0) return false;
 
-  // Must be exactly one "@"
   const atIndex = email.indexOf('@');
   if (atIndex === -1 || email.indexOf('@', atIndex + 1) !== -1) return false;
 
@@ -38,18 +37,12 @@ export function isEmailValid(
     if (domain.length > 255) return false;
   }
 
-  // Regex match
   if (!EMAIL_REGEX.test(email)) return false;
 
-  // Extra domain label validation (defensive)
   const labels = domain.split('.');
-  // No empty labels
   if (labels.some((l) => l.length === 0)) return false;
-  // No leading/trailing hyphen and label length <= 63
   if (labels.some((l) => l.length > 63 || l.startsWith('-') || l.endsWith('-')))
     return false;
-
-  // Disallow IP-literal domains like [127.0.0.1]
   if (domain.startsWith('[') && domain.endsWith(']')) return false;
 
   return true;

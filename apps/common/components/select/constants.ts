@@ -66,7 +66,6 @@ export interface LocationOption {
 }
 
 export const JOB_PROFESSIONS: JobProfession[] = [
-  // Technology
   {
     value: 'software_engineer',
     label: 'Software Engineer',
@@ -128,7 +127,6 @@ export const JOB_PROFESSIONS: JobProfession[] = [
     category: 'Technology',
   },
 
-  // Design & Creative
   {
     value: 'graphic_designer',
     label: 'Graphic Designer',
@@ -166,7 +164,6 @@ export const JOB_PROFESSIONS: JobProfession[] = [
     category: 'Design & Creative',
   },
 
-  // Business & Management
   {
     value: 'project_manager',
     label: 'Project Manager',
@@ -198,7 +195,6 @@ export const JOB_PROFESSIONS: JobProfession[] = [
     category: 'Business & Management',
   },
 
-  // Marketing & Sales
   {
     value: 'marketing_manager',
     label: 'Marketing Manager',
@@ -230,7 +226,6 @@ export const JOB_PROFESSIONS: JobProfession[] = [
     category: 'Marketing & Sales',
   },
 
-  // Finance & Accounting
   {
     value: 'accountant',
     label: 'Accountant',
@@ -256,7 +251,6 @@ export const JOB_PROFESSIONS: JobProfession[] = [
     category: 'Finance & Accounting',
   },
 
-  // Healthcare
   {
     value: 'doctor',
     label: 'Doctor',
@@ -277,11 +271,9 @@ export const JOB_PROFESSIONS: JobProfession[] = [
     category: 'Healthcare',
   },
 
-  // Legal
   { value: 'lawyer', label: 'Lawyer', icon: Scale, category: 'Legal' },
   { value: 'paralegal', label: 'Paralegal', icon: FileText, category: 'Legal' },
 
-  // Education
   {
     value: 'teacher',
     label: 'Teacher',
@@ -301,7 +293,6 @@ export const JOB_PROFESSIONS: JobProfession[] = [
     category: 'Education',
   },
 
-  // Engineering & Construction
   {
     value: 'civil_engineer',
     label: 'Civil Engineer',
@@ -333,7 +324,6 @@ export const JOB_PROFESSIONS: JobProfession[] = [
     category: 'Engineering & Construction',
   },
 
-  // Service Industry
   { value: 'chef', label: 'Chef', icon: ChefHat, category: 'Service Industry' },
   {
     value: 'waiter',
@@ -354,7 +344,6 @@ export const JOB_PROFESSIONS: JobProfession[] = [
     category: 'Service Industry',
   },
 
-  // Transportation & Logistics
   {
     value: 'truck_driver',
     label: 'Truck Driver',
@@ -374,7 +363,6 @@ export const JOB_PROFESSIONS: JobProfession[] = [
     category: 'Transportation & Logistics',
   },
 
-  // Other
   {
     value: 'customer_support',
     label: 'Customer Support',

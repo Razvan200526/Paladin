@@ -1,6 +1,3 @@
-// import { UserType } from "@client/sdk/types"
-// import { Avatar } from "@heroui/react"
-
 // const UserInformation = (user : UserType , formData : FormData) => {
 //   return (
 //     <div>

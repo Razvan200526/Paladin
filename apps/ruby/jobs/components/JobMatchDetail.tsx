@@ -265,7 +265,6 @@ export const JobMatchDetail = ({ match }: JobMatchDetailProps) => {
                         : parse(child.data || '', { replace: () => null }),
                     );
 
-                    // Headings
                     if (domNode.name === 'h1') {
                       return (
                         <h1 className="text-2xl font-bold text-primary mt-6 mb-3">
@@ -295,7 +294,6 @@ export const JobMatchDetail = ({ match }: JobMatchDetailProps) => {
                       );
                     }
 
-                    // Paragraphs
                     if (domNode.name === 'p') {
                       return (
                         <p className="text-sm text-secondary-text leading-relaxed mb-3">
@@ -304,7 +302,6 @@ export const JobMatchDetail = ({ match }: JobMatchDetailProps) => {
                       );
                     }
 
-                    // Lists
                     if (domNode.name === 'ul') {
                       return (
                         <ul className="list-disc list-inside space-y-1 text-sm text-secondary-text ml-4">
@@ -327,7 +324,6 @@ export const JobMatchDetail = ({ match }: JobMatchDetailProps) => {
                       );
                     }
 
-                    // Links
                     if (domNode.name === 'a') {
                       return (
                         <a
@@ -341,7 +337,6 @@ export const JobMatchDetail = ({ match }: JobMatchDetailProps) => {
                       );
                     }
 
-                    // Strong/Bold
                     if (domNode.name === 'strong' || domNode.name === 'b') {
                       return (
                         <strong className="font-semibold text-primary">
@@ -350,7 +345,6 @@ export const JobMatchDetail = ({ match }: JobMatchDetailProps) => {
                       );
                     }
 
-                    // Code
                     if (domNode.name === 'code') {
                       return (
                         <code className="px-1.5 py-0.5 rounded bg-muted/30 text-xs font-mono">
@@ -359,7 +353,6 @@ export const JobMatchDetail = ({ match }: JobMatchDetailProps) => {
                       );
                     }
 
-                    // Horizontal rule
                     if (domNode.name === 'hr') {
                       return <hr className="my-4 border-border" />;
                     }

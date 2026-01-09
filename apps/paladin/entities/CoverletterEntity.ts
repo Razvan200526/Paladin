@@ -38,6 +38,4 @@ export class CoverletterEntity {
 
   @CreateDateColumn()
   uploadedAt: Date;
-
-  // Add more metadata fields as needed
 }

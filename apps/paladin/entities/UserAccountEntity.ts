@@ -30,7 +30,7 @@ export class UserAccountEntity {
   accountId: string;
 
   @Column({ name: 'password', type: 'varchar', length: 255, nullable: true })
-  password?: string; // Used for credential provider (email/password)
+  password?: string;
 
   @Column({ name: 'refresh_token', type: 'text', nullable: true })
   refreshToken?: string;
@@ -39,10 +39,10 @@ export class UserAccountEntity {
   expiresAt?: Date;
 
   @Column({ name: 'scope', type: 'text', nullable: true })
-  scope?: string; // OAuth scopes granted
+  scope?: string;
 
   @Column({ name: 'id_token', type: 'text', nullable: true })
-  idToken?: string; // OpenID Connect ID token
+  idToken?: string;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt: Date;

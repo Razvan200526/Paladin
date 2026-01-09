@@ -32,7 +32,6 @@ export class AiQueryService {
     context: ChatContext[] = [],
   ): Promise<string> {
     try {
-      // Build conversation history for context
       const contents = [
         ...context.map((ctx) => ({
           role: ctx.role,

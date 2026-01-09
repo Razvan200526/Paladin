@@ -38,6 +38,4 @@ export class ResumeEntity {
 
   @CreateDateColumn()
   uploadedAt: Date;
-
-  // Add more metadata fields as needed
 }

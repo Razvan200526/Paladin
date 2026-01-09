@@ -12,7 +12,6 @@ interface TemplateSelectorProps {
   onSelect: (templateId: TemplateId) => void;
 }
 
-// Template thumbnail previews - simplified visual representations
 const TemplateThumbnail = ({
   template,
   isSelected,
@@ -22,7 +21,6 @@ const TemplateThumbnail = ({
 }) => {
   const { colors, layout } = template;
 
-  // Render different layouts based on template type
   const renderLayout = () => {
     switch (layout.type) {
       case 'sidebar-left':
@@ -101,7 +99,6 @@ const TemplateThumbnail = ({
         );
 
       default:
-        // Single column layout
         return (
           <div
             className="p-1.5 h-full"

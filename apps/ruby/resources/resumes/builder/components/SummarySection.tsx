@@ -47,7 +47,6 @@ export const SummarySection = ({
     });
 
     if (result) {
-      // Convert plain text to HTML paragraph
       const htmlContent = `<p>${result.replace(/\n/g, '</p><p>')}</p>`;
       onChange(htmlContent);
     }

@@ -51,7 +51,6 @@ export const JobPreferencesForm = ({
   const userId = user?.id;
   const { mutate: updatePreferences, isPending } = useUpdateJobPreferences();
 
-  // Form state
   const [desiredTitles, setDesiredTitles] = useState<string[]>([]);
   const [desiredLocations, setDesiredLocations] = useState<string[]>([]);
   const [isRemotePreferred, setIsRemotePreferred] = useState(false);
@@ -67,7 +66,6 @@ export const JobPreferencesForm = ({
     'instant' | 'daily' | 'weekly'
   >('daily');
 
-  // Input state for adding items
   const [titleInput, setTitleInput] = useState('');
   const [locationInput, setLocationInput] = useState('');
   const [skillInput, setSkillInput] = useState('');

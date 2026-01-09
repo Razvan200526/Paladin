@@ -6,7 +6,6 @@ interface ClassicTemplateProps {
   config: TemplateConfig;
 }
 
-// Helper to format date strings (e.g., "2023-06" -> "Jun 2023")
 const formatDate = (dateStr: string | undefined): string => {
   if (!dateStr) return '';
   const [year, month] = dateStr.split('-');
@@ -18,7 +17,6 @@ const formatDate = (dateStr: string | undefined): string => {
   return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
 };
 
-// Helper to render HTML content safely
 const HtmlContent = ({
   html,
   className,

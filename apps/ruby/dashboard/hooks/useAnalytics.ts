@@ -32,7 +32,7 @@ export const useAnalyticsStatusBreakdown = (userId: string | undefined) => {
       return res.data;
     },
     enabled: !!userId,
-    staleTime: 1000 * 60 * 5, // Cache for 5 minutes
+    staleTime: 1000 * 60 * 5,
   });
 };
 
@@ -54,7 +54,7 @@ export const useAnalyticsTrends = (
       return res.data;
     },
     enabled: !!userId,
-    staleTime: 1000 * 60 * 5, // Cache for 5 minutes
+    staleTime: 1000 * 60 * 5,
   });
 };
 
@@ -68,7 +68,6 @@ export const useRecentActivity = (userId: string | undefined, limit = 10) => {
       if (!userId) return [];
       const res = await backend.apps.apps.retrieve({ userId });
       if (!res.data) return [];
-      // Sort by most recent and limit
       return res.data
         .sort(
           (a, b) =>
@@ -78,7 +77,7 @@ export const useRecentActivity = (userId: string | undefined, limit = 10) => {
         .slice(0, limit);
     },
     enabled: !!userId,
-    staleTime: 1000 * 60 * 2, // Cache for 2 minutes
+    staleTime: 1000 * 60 * 2,
   });
 };
 
@@ -99,10 +98,8 @@ export const useWeeklyActivity = (userId: string | undefined) => {
       startOfWeek.setDate(now.getDate() - now.getDay());
       startOfWeek.setHours(0, 0, 0, 0);
 
-      // Initialize counts for each day
       const dayCounts = days.map((day) => ({ day, count: 0 }));
 
-      // Count applications created this week by day
       for (const app of res.data) {
         const createdAt = new Date(app.createdAt);
         if (createdAt >= startOfWeek) {
@@ -111,11 +108,10 @@ export const useWeeklyActivity = (userId: string | undefined) => {
         }
       }
 
-      // Reorder to start from Monday
       return [...dayCounts.slice(1), dayCounts[0]];
     },
     enabled: !!userId,
-    staleTime: 1000 * 60 * 5, // Cache for 5 minutes
+    staleTime: 1000 * 60 * 5,
   });
 };
 

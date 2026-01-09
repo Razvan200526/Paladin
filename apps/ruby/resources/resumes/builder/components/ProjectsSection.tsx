@@ -81,7 +81,6 @@ export const ProjectsSection = ({
     const entry = entries.find((e) => e.id === entryId);
     if (!entry) return;
 
-    // Avoid duplicates
     if (entry.technologies.includes(techName)) {
       setNewTechInputs((prev) => ({ ...prev, [entryId]: '' }));
       return;

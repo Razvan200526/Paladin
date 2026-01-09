@@ -1,5 +1,3 @@
-// Resume Template Types
-
 export type TemplateId =
   | 'classic'
   | 'modern'
@@ -11,7 +9,7 @@ export interface TemplateConfig {
   id: TemplateId;
   name: string;
   description: string;
-  thumbnail: string; // Could be a URL or component name
+  thumbnail: string;
   colors: TemplateColors;
   fonts: TemplateFonts;
   layout: TemplateLayout;
@@ -48,7 +46,6 @@ export interface TemplateLayout {
   borderStyle: 'none' | 'underline' | 'boxed' | 'accent-left';
 }
 
-// Predefined template configurations
 export const RESUME_TEMPLATES: Record<TemplateId, TemplateConfig> = {
   classic: {
     id: 'classic',

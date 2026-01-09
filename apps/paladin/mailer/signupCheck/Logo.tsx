@@ -5,7 +5,7 @@ export const Logo = (props: SVGProps<SVGSVGElement>) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 800 800" // ← YOU MUST SET THIS CORRECTLY
+      viewBox="0 0 800 800"
       width={props.width || 200}
       height={props.height || 200}
       fill="currentColor"

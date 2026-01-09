@@ -1,7 +1,6 @@
 import type { MatchStatus } from '@sdk/JobFetcher';
 import { create } from 'zustand';
 
-// Tab keys that can be selected - 'high' is special (score-based, not status)
 export type JobTabKey = MatchStatus | 'all' | 'high';
 
 interface JobsFilters {
@@ -42,8 +41,6 @@ const defaultFilters: JobsFilters = {
   remoteOnly: false,
 };
 
-// Helper to derive status and minScore from tab selection
-// Note: 'high' threshold must match JobsController.getMatchStats (which uses 70)
 export const getFiltersFromTab = (
   tab: JobTabKey,
 ): { status: MatchStatus | 'all'; minScore: number } => {
@@ -57,7 +54,6 @@ export const getFiltersFromTab = (
     case 'dismissed':
       return { status: tab, minScore: 0 };
     case 'all':
-    default:
       return { status: 'all', minScore: 0 };
   }
 };
@@ -70,7 +66,6 @@ export const useJobsStore = create<JobsState & JobsActions>((set) => ({
 
   setFilter: (key, value) =>
     set((state) => {
-      // When tab changes, also update status and minScore accordingly
       if (key === 'tab') {
         const { status, minScore } = getFiltersFromTab(value as JobTabKey);
         return {

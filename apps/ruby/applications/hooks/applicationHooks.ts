@@ -138,7 +138,6 @@ export const useUpdateApplicationStatus = () => {
       queryClient.invalidateQueries({
         queryKey: ['applications', 'retrieve', variables.applicationId],
       });
-      // Invalidate analytics since status changed
       queryClient.invalidateQueries({
         queryKey: ['analytics'],
       });
@@ -198,7 +197,6 @@ export const useDeleteSingleApplication = () => {
       queryClient.invalidateQueries({
         queryKey: ['applications', 'retrieve'],
       });
-      // Invalidate analytics
       queryClient.invalidateQueries({
         queryKey: ['analytics'],
       });

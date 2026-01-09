@@ -79,7 +79,6 @@ export class JobMatchRepository {
 
     match.status = status as MatchStatus;
 
-    // Set related timestamps
     const now = new Date();
     if (status === 'viewed') match.viewedAt = now;
     if (status === 'saved') match.savedAt = now;
@@ -228,7 +227,7 @@ export class JobMatchRepository {
     matchedKeywords: string[];
     missingKeywords: string[];
   } {
-    let skillsScore = 50; // Default base score
+    let skillsScore = 50;
     let keywordsScore = 50;
     let experienceScore = 50;
     const educationScore = 50;
@@ -245,7 +244,6 @@ export class JobMatchRepository {
         k.toLowerCase(),
       );
 
-      // Skills matching
       const jobSkills = [
         ...(job.requiredSkills || []),
         ...(job.preferredSkills || []),
@@ -269,7 +267,6 @@ export class JobMatchRepository {
         );
       }
 
-      // Keywords matching
       const jobKeywords = (job.keywords || []).map((k: string) =>
         k.toLowerCase(),
       );
@@ -291,7 +288,6 @@ export class JobMatchRepository {
         );
       }
 
-      // Experience matching
       if (preferences.yearsExperience && job.yearsExperienceMin) {
         if (preferences.yearsExperience >= job.yearsExperienceMin) {
           experienceScore = 100;
@@ -302,13 +298,11 @@ export class JobMatchRepository {
         }
       }
 
-      // Location/remote preference matching
       if (preferences.isRemotePreferred && job.isRemote) {
         skillsScore = Math.min(100, skillsScore + 10);
       }
     }
 
-    // Calculate overall score (weighted average)
     const overall = Math.round(
       skillsScore * 0.35 +
         keywordsScore * 0.25 +
@@ -323,7 +317,7 @@ export class JobMatchRepository {
       experience: Math.min(100, Math.max(0, experienceScore)),
       education: Math.min(100, Math.max(0, educationScore)),
       matchedSkills,
-      missingSkills: missingSkills.slice(0, 10), // Limit to 10
+      missingSkills: missingSkills.slice(0, 10),
       matchedKeywords,
       missingKeywords: missingKeywords.slice(0, 10),
     };
@@ -368,7 +362,6 @@ export class JobMatchRepository {
       .select(['match.missingSkills'])
       .getMany();
 
-    // Aggregate missing skills across all matches
     const skillCounts: Record<string, number> = {};
 
     for (const match of matches) {
@@ -378,7 +371,6 @@ export class JobMatchRepository {
       }
     }
 
-    // Sort by count and return top N
     return Object.entries(skillCounts)
       .map(([skill, count]) => ({ skill, count }))
       .sort((a, b) => b.count - a.count)

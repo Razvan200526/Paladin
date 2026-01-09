@@ -49,7 +49,7 @@ export const DeleteResourceCard = ({ ref }: { ref: ModalRefType | null }) => {
 
   const handleCancel = () => {
     ref?.close();
-    stopDeleting(); // This will close delete mode and clear the array
+    stopDeleting();
   };
 
   return (

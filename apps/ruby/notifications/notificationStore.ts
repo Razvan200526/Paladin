@@ -10,7 +10,6 @@ type NotificationState = {
 };
 
 type NotificationActions = {
-  // State setters
   setNotifications: (notifications: Notification[]) => void;
   addNotification: (notification: Notification) => void;
   removeNotification: (notificationId: string) => void;
@@ -19,14 +18,12 @@ type NotificationActions = {
   setIsConnected: (isConnected: boolean) => void;
   setError: (error: string | null) => void;
 
-  // Actions
   markAsRead: (notificationId: string) => void;
   markAllAsRead: () => void;
   clearAll: () => void;
   incrementUnreadCount: () => void;
   decrementUnreadCount: () => void;
 
-  // Reset
   reset: () => void;
 };
 
@@ -43,10 +40,8 @@ const initialState: NotificationState = {
 export const useNotificationStore = create<NotificationStore>((set, _get) => ({
   ...initialState,
 
-  // State setters
   setNotifications: (notifications) => {
     set({ notifications });
-    // Update unread count based on notifications
     const unreadCount = notifications.filter((n) => !n.read).length;
     set({ unreadCount });
   },
@@ -94,7 +89,6 @@ export const useNotificationStore = create<NotificationStore>((set, _get) => ({
     set({ error });
   },
 
-  // Actions
   markAsRead: (notificationId) => {
     set((state) => {
       const notification = state.notifications.find(
@@ -132,13 +126,11 @@ export const useNotificationStore = create<NotificationStore>((set, _get) => ({
     set((state) => ({ unreadCount: Math.max(0, state.unreadCount - 1) }));
   },
 
-  // Reset
   reset: () => {
     set(initialState);
   },
 }));
 
-// Selectors
 export const selectNotifications = (state: NotificationStore) =>
   state.notifications;
 export const selectUnreadCount = (state: NotificationStore) =>
@@ -150,13 +142,11 @@ export const selectIsConnected = (state: NotificationStore) =>
 export const selectIsLoading = (state: NotificationStore) => state.isLoading;
 export const selectError = (state: NotificationStore) => state.error;
 
-// Helper to get notifications by type
 export const selectNotificationsByType = (
   state: NotificationStore,
   type: Notification['type'],
 ) => state.notifications.filter((n) => n.type === type);
 
-// Helper to get high priority notifications
 export const selectHighPriorityNotifications = (state: NotificationStore) =>
   state.notifications.filter(
     (n) => n.priority === 'high' || n.priority === 'urgent',

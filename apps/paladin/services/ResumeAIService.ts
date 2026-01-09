@@ -172,7 +172,6 @@ Return the response in this EXACT JSON format only, no additional text:
     const text = response.text?.trim() || '[]';
 
     try {
-      // Extract JSON from the response (handle markdown code blocks)
       const jsonMatch = text.match(/\[[\s\S]*\]/);
       if (jsonMatch) {
         return JSON.parse(jsonMatch[0]) as SkillCategory[];
@@ -233,7 +232,6 @@ Return the response in this EXACT JSON format only:
     const text = response.text?.trim() || '';
 
     try {
-      // Extract JSON from the response
       const jsonMatch = text.match(/\{[\s\S]*\}/);
       if (jsonMatch) {
         const parsed = JSON.parse(jsonMatch[0]);

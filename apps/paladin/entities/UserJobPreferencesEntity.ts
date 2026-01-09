@@ -25,7 +25,6 @@ export class UserJobPreferencesEntity {
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 
-  // Job preferences
   @Column({ name: 'desired_titles', type: 'text', array: true, default: '{}' })
   desiredTitles: string[];
 
@@ -46,7 +45,6 @@ export class UserJobPreferencesEntity {
   @Column({ name: 'is_onsite_ok', type: 'boolean', default: true })
   isOnsiteOk: boolean;
 
-  // Salary expectations
   @Column({ name: 'min_salary', type: 'int', nullable: true })
   minSalary?: number;
 
@@ -61,7 +59,6 @@ export class UserJobPreferencesEntity {
   })
   salaryCurrency: string;
 
-  // Job type preferences
   @Column({
     name: 'job_types',
     type: 'text',
@@ -70,7 +67,6 @@ export class UserJobPreferencesEntity {
   })
   jobTypes: string[];
 
-  // Experience level
   @Column({
     name: 'experience_levels',
     type: 'text',
@@ -79,7 +75,6 @@ export class UserJobPreferencesEntity {
   })
   experienceLevels: string[];
 
-  // Industry preferences
   @Column({
     name: 'preferred_industries',
     type: 'text',
@@ -96,7 +91,6 @@ export class UserJobPreferencesEntity {
   })
   excludedIndustries: string[];
 
-  // Company preferences
   @Column({
     name: 'preferred_companies',
     type: 'text',
@@ -113,11 +107,9 @@ export class UserJobPreferencesEntity {
   })
   excludedCompanies: string[];
 
-  // Skills the user wants to use
   @Column({ name: 'skills', type: 'text', array: true, default: '{}' })
   skills: string[];
 
-  // Notification preferences
   @Column({ name: 'notify_high_matches', type: 'boolean', default: true })
   notifyHighMatches: boolean;
 
@@ -127,7 +119,6 @@ export class UserJobPreferencesEntity {
   @Column({ name: 'notify_frequency', type: 'varchar', default: 'daily' })
   notifyFrequency: 'instant' | 'daily' | 'weekly';
 
-  // Active resume for matching
   @Column({
     name: 'active_resume_id',
     type: 'varchar',
@@ -136,7 +127,6 @@ export class UserJobPreferencesEntity {
   })
   activeResumeId?: string;
 
-  // User's extracted resume content for matching (cached)
   @Column({ name: 'resume_skills', type: 'text', array: true, default: '{}' })
   resumeSkills: string[];
 

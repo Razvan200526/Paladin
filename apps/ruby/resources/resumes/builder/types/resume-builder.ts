@@ -1,4 +1,3 @@
-// Resume Builder Types
 export interface ContactInfo {
   fullName: string;
   email: string;
@@ -17,7 +16,7 @@ export interface ExperienceEntry {
   startDate: string;
   endDate?: string; // undefined = "Present"
   current: boolean;
-  description: string; // HTML from Tiptap
+  description: string;
 }
 
 export interface EducationEntry {
@@ -29,13 +28,13 @@ export interface EducationEntry {
   startDate: string;
   endDate?: string;
   gpa?: string;
-  description: string; // HTML from Tiptap
+  description: string;
 }
 
 export interface SkillCategory {
   id: string;
-  name: string; // e.g., "Programming Languages", "Frameworks"
-  skills: string[]; // e.g., ["TypeScript", "Python", "Go"]
+  name: string;
+  skills: string[];
 }
 
 export interface ProjectEntry {
@@ -43,21 +42,21 @@ export interface ProjectEntry {
   name: string;
   url?: string;
   technologies: string[];
-  description: string; // HTML from Tiptap
+  description: string;
 }
 
 export interface CustomSection {
   id: string;
   title: string;
-  content: string; // HTML from Tiptap
+  content: string;
 }
 
 export interface ResumeData {
   id: string;
-  name: string; // Resume name for saving
+  name: string;
   templateId: string;
   contact: ContactInfo;
-  summary?: string; // HTML from Tiptap
+  summary?: string;
   experience: ExperienceEntry[];
   education: EducationEntry[];
   skills: SkillCategory[];

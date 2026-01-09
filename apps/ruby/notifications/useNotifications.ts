@@ -30,8 +30,8 @@ export const useNotifications = (
       return res.data;
     },
     enabled: !!userId && options?.enabled !== false,
-    staleTime: 1000 * 30, // 30 seconds
-    refetchInterval: 1000 * 60, // Refetch every minute
+    staleTime: 1000 * 30,
+    refetchInterval: 1000 * 60,
   });
 };
 
@@ -50,8 +50,8 @@ export const useUnreadNotificationCount = (userId: string | undefined) => {
       return res.data?.count || 0;
     },
     enabled: !!userId,
-    staleTime: 1000 * 10, // 10 seconds
-    refetchInterval: 1000 * 30, // Refetch every 30 seconds
+    staleTime: 1000 * 10,
+    refetchInterval: 1000 * 30,
   });
 };
 
@@ -152,11 +152,9 @@ export const useRealtimeNotifications = (
   const isConnectingRef = useRef(false);
   const isMountedRef = useRef(true);
 
-  // Store callback in ref to avoid triggering reconnections when it changes
   const onNotificationRef = useRef(options?.onNotification);
   onNotificationRef.current = options?.onNotification;
 
-  // Store enabled in ref
   const enabledRef = useRef(options?.enabled !== false);
   enabledRef.current = options?.enabled !== false;
 
@@ -167,7 +165,6 @@ export const useRealtimeNotifications = (
     }
 
     if (wsRef.current) {
-      // Remove handlers to prevent reconnection attempts
       wsRef.current.onclose = null;
       wsRef.current.onerror = null;
       wsRef.current.close();
@@ -180,13 +177,11 @@ export const useRealtimeNotifications = (
   }, []);
 
   const connect = useCallback(() => {
-    // Guard against multiple simultaneous connection attempts
     if (isConnectingRef.current) {
       console.debug('[WebSocket] Already connecting, skipping');
       return;
     }
 
-    // Check if already connected
     if (wsRef.current?.readyState === WebSocket.OPEN) {
       console.debug('[WebSocket] Already connected, skipping');
       return;
@@ -196,7 +191,6 @@ export const useRealtimeNotifications = (
       return;
     }
 
-    // Don't reconnect if we've exceeded max attempts
     if (reconnectAttempts.current >= maxReconnectAttempts) {
       console.warn('[WebSocket] Max reconnect attempts reached');
       return;
@@ -207,7 +201,6 @@ export const useRealtimeNotifications = (
     const wsUrl = 'ws://localhost:3000/ws';
 
     try {
-      // Close any existing connection first
       if (wsRef.current) {
         wsRef.current.onclose = null;
         wsRef.current.onerror = null;
@@ -230,7 +223,6 @@ export const useRealtimeNotifications = (
         reconnectAttempts.current = 0;
         isConnectingRef.current = false;
 
-        // Subscribe to notifications for this user
         ws.send(
           JSON.stringify({
             action: 'subscribe',
@@ -250,7 +242,6 @@ export const useRealtimeNotifications = (
             setLastNotification(notification);
             onNotificationRef.current?.(notification);
 
-            // Invalidate queries to refresh the notification list
             queryClient.invalidateQueries({
               queryKey: ['notifications', userId],
             });
@@ -260,7 +251,6 @@ export const useRealtimeNotifications = (
           }
 
           if (data.type === 'unread_notifications' && data.data) {
-            // Handle batch of unread notifications on connect
             const notifications = data.data.notifications as Notification[];
             if (notifications.length > 0) {
               setLastNotification(notifications[0]);
@@ -277,7 +267,6 @@ export const useRealtimeNotifications = (
         wsRef.current = null;
         isConnectingRef.current = false;
 
-        // Only attempt to reconnect if component is still mounted and enabled
         if (
           isMountedRef.current &&
           enabledRef.current &&
@@ -306,7 +295,7 @@ export const useRealtimeNotifications = (
       console.error('[WebSocket] Connection error:', error);
       isConnectingRef.current = false;
     }
-  }, [userId]); // Only depend on userId, not on options
+  }, [userId]);
 
   const sendPing = useCallback(() => {
     if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
@@ -325,18 +314,15 @@ export const useRealtimeNotifications = (
     }
   }, []);
 
-  // Connect on mount, disconnect on unmount
   useEffect(() => {
     isMountedRef.current = true;
 
-    // Small delay to avoid Strict Mode double-invoke issues
     const connectTimeout = setTimeout(() => {
       if (isMountedRef.current && userId && enabledRef.current) {
         connect();
       }
     }, 100);
 
-    // Set up ping interval to keep connection alive
     const pingInterval = setInterval(sendPing, 30000);
 
     return () => {
@@ -345,7 +331,7 @@ export const useRealtimeNotifications = (
       clearInterval(pingInterval);
       disconnect();
     };
-  }, [userId, disconnect, connect, sendPing]); // Only reconnect when userId changes
+  }, [userId, disconnect, connect, sendPing]);
 
   return {
     isConnected,
@@ -367,16 +353,13 @@ export const useNotificationCenter = (userId: string | undefined) => {
   const deleteNotification = useDeleteNotification();
 
   return {
-    // Data
     notifications: notifications.data?.notifications || [],
     unreadCount: unreadCount.data || 0,
     total: notifications.data?.total || 0,
 
-    // Loading states
     isLoading: notifications.isLoading || unreadCount.isLoading,
     isFetching: notifications.isFetching || unreadCount.isFetching,
 
-    // Actions
     markAsRead: (notificationId: string) => {
       if (!userId) return;
       markAsRead.mutate({ userId, notificationId });
@@ -390,7 +373,6 @@ export const useNotificationCenter = (userId: string | undefined) => {
       deleteNotification.mutate({ userId, notificationId });
     },
 
-    // Refetch
     refetch: () => {
       notifications.refetch();
       unreadCount.refetch();

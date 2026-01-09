@@ -1,5 +1,3 @@
-// Types
-
 export { CollapsibleSection } from './components/CollapsibleSection';
 export { DateRangeFilter } from './components/DateRangeFilter';
 export { FilterHeader } from './components/FilterHeader';

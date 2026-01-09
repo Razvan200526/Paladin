@@ -50,7 +50,6 @@ export const JobsPage = () => {
 
   const hasFilters = !!filters.searchQuery || filters.tab !== 'all';
 
-  // Handle responsive detection
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 1024);

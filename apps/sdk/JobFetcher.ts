@@ -131,10 +131,6 @@ export interface FetchExternalJobsResult {
 export class JobFetcher {
   constructor(private readonly fetcher: Fetcher) {}
 
-  // ============================================
-  // Job Listings
-  // ============================================
-
   async getListings(params?: {
     search?: string;
     location?: string;
@@ -191,10 +187,6 @@ export class JobFetcher {
     );
   }
 
-  // ============================================
-  // Job Matches
-  // ============================================
-
   async getMatches(params: {
     userId: string;
     status?: MatchStatus | 'all';
@@ -246,10 +238,6 @@ export class JobFetcher {
     );
   }
 
-  // ============================================
-  // Job Preferences
-  // ============================================
-
   async getPreferences(
     userId: string,
   ): Promise<ResponseType<JobPreferences | null>> {
@@ -288,10 +276,6 @@ export class JobFetcher {
       data,
     );
   }
-
-  // ============================================
-  // External Job Fetching
-  // ============================================
 
   async getCategories(): Promise<ResponseType<JobCategory[]>> {
     return this.fetcher.get<ResponseType<JobCategory[]>>(
