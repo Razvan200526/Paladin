@@ -27,7 +27,7 @@ export class PrimaryDatabase {
     this.source = new DataSource({
       type: 'postgres',
       url: this.url,
-      synchronize: false,
+      synchronize: true,
       entities: PrimaryEntities,
     });
 
