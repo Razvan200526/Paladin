@@ -1,5 +1,5 @@
-import { Globe } from 'lucide-react';
 import { AutocompleteItem } from '@heroui/react';
+import { Globe } from 'lucide-react';
 import { useState } from 'react';
 import {
   AutocompleteSelect,

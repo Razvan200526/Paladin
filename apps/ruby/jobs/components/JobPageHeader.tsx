@@ -12,7 +12,7 @@ import {
 import { ScrollShadow, Spinner, Tab, Tabs } from '@heroui/react';
 import { useAuth } from '@ruby/shared/hooks';
 import { useJobMatchStats, useRefreshJobMatches } from '../hooks';
-import { useJobsStore, type JobTabKey } from '../store';
+import { type JobTabKey, useJobsStore } from '../store';
 import { ImportJobsButton } from './header/ImportJobsButton';
 import { JobsFilter } from './JobsFilter';
 

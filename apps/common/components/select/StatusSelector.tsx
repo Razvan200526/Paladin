@@ -1,5 +1,5 @@
-import { CheckCircle2 } from 'lucide-react';
 import { AutocompleteItem } from '@heroui/react';
+import { CheckCircle2 } from 'lucide-react';
 import { useState } from 'react';
 import {
   AutocompleteSelect,

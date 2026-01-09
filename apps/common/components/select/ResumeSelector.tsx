@@ -1,5 +1,5 @@
 import { AutocompleteItem } from '@heroui/react';
-import { FileText, File } from 'lucide-react';
+import { File, FileText } from 'lucide-react';
 import { useState } from 'react';
 import {
   AutocompleteSelect,

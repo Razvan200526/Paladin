@@ -1,4 +1,3 @@
-import type { JobListing } from '@sdk/JobFetcher';
 import { formatDate } from '@common/utils';
 import {
   BriefcaseIcon,
@@ -6,6 +5,7 @@ import {
   CurrencyDollarIcon,
   MapPinIcon,
 } from '@heroicons/react/24/outline';
+import type { JobListing } from '@sdk/JobFetcher';
 
 interface JobMetaInfoProps {
   job: JobListing;
