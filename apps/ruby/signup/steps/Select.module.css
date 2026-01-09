@@ -1,0 +1,54 @@
+.heroBg {
+  background: var(--color-light);
+  transition: background 0.2s;
+}
+
+.heroBg:hover {
+  background: color-mix(in oklch, var(--color-secondary) 10%, transparent);
+  color: var(--color-secondary-text);
+}
+
+.heroBg:focus {
+  background: color-mix(in oklch, var(--color-secondary) 10%, transparent);
+}
+
+.heroBg[data-selected="true"] {
+  color: var(--color-secondary-text);
+}
+
+.trigger {
+  background: var(--color-light) !important;
+  border: var(--color-border) 1px solid !important;
+  transition: border-color 0.2s ease-in-out;
+}
+
+.trigger:hover {
+  background: var(--color-light) !important;
+  border: var(--color-border-hover) 1px solid !important;
+}
+
+.trigger:focus {
+  background: var(--color-light) !important;
+}
+
+.trigger:focus-within {
+  background: var(--color-light) !important;
+}
+
+.trigger[data-hover="true"] {
+  background: var(--color-light) !important;
+}
+
+.trigger[data-focus="true"] {
+  background: var(--color-light) !important;
+}
+
+.trigger[data-open="true"] {
+  background: var(--color-light) !important;
+}
+
+.value {
+  color: var(--color-primary) !important;
+  font-size: 0.75rem !important;
+  line-height: 1.25rem !important;
+}

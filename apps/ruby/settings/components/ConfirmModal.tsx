@@ -1,6 +1,7 @@
 import { Button } from '@common/components/button';
 import { Modal, type ModalRefType } from '@common/components/Modal';
 import { ConfirmChangesCard } from './ConfirmChangesCard';
+
 type ConfirmModalProps = {
   modalRef: React.RefObject<ModalRefType | null>;
   onConfirm: () => Promise<void> | void;

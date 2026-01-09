@@ -1,4 +1,4 @@
-import type { JobListing } from '@client/sdk/JobFetcher';
+import type { JobListing } from '@sdk/JobFetcher';
 import { formatDate } from '@common/utils';
 import {
   BriefcaseIcon,
@@ -30,22 +30,22 @@ export const JobMetaInfo = ({ job }: JobMetaInfoProps) => {
   return (
     <div className="flex flex-wrap gap-2 mt-2 text-xs text-muted">
       <span className="flex items-center gap-1">
-        <MapPinIcon className="w-3.5 h-3.5" />
+        <MapPinIcon className="w-3.5 h-3.5 text-primary" />
         {job.isRemote ? 'Remote' : job.location}
       </span>
       <span className="flex items-center gap-1">
-        <BriefcaseIcon className="w-3.5 h-3.5" />
+        <BriefcaseIcon className="w-3.5 h-3.5 text-primary" />
         {job.jobType}
       </span>
       {salary && (
         <span className="flex items-center gap-1">
-          <CurrencyDollarIcon className="w-3.5 h-3.5" />
+          <CurrencyDollarIcon className="w-3.5 h-3.5 text-primary" />
           {salary}
         </span>
       )}
       {job.postedAt && (
         <span className="flex items-center gap-1">
-          <ClockIcon className="w-3.5 h-3.5" />
+          <ClockIcon className="w-3.5 h-3.5 text-primary" />
           {formatDate(job.postedAt)}
         </span>
       )}

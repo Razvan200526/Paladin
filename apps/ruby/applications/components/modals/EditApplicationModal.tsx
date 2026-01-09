@@ -3,10 +3,11 @@ import { Input } from '@common/components/input';
 import { InputName } from '@common/components/input/InputFirstName';
 import { InputSalary } from '@common/components/input/InputSalary';
 import { Modal, type ModalRefType } from '@common/components/Modal';
-import { Selector } from '@common/components/select/Selector';
+import { LocationSelect } from '@common/components/select/LocationSelect';
+import { PlatformSelector } from '@common/components/select/PlatformSelector';
+import { StatusSelector } from '@common/components/select/StatusSelector';
 import { Toast } from '@common/components/toast';
 import { H4, H6 } from '@common/components/typography';
-import { LOCATIONS } from '@common/constants';
 import { CompanyIcon } from '@common/icons/CompanyIcon';
 import { JobIcon } from '@common/icons/JobIcon';
 import { LocationIcon } from '@common/icons/LocationIcon';
@@ -32,19 +33,6 @@ const parseSalaryRange = (
   }
   return { min: '', max: '', currency: currency || 'USD' };
 };
-
-const platformItems = [
-  { value: 'Linkedin', label: 'LinkedIn' },
-  { value: 'Glassdoor', label: 'Glassdoor' },
-  { value: 'Other', label: 'Other' },
-];
-
-const statusItems = [
-  { value: 'Applied', label: 'Applied' },
-  { value: 'Interviewing', label: 'Interviewing' },
-  { value: 'Accepted', label: 'Accepted' },
-  { value: 'Rejected', label: 'Rejected' },
-];
 
 export const EditApplicationModal = ({
   modalRef,
@@ -80,7 +68,6 @@ export const EditApplicationModal = ({
   }, [application]);
 
   const { mutateAsync: updateApplication, isPending } = useUpdateApplication();
-  const locationItems = LOCATIONS.map((loc) => ({ value: loc, label: loc }));
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({
@@ -139,8 +126,8 @@ export const EditApplicationModal = ({
   return (
     <Modal
       modalRef={modalRef}
-      size="2xl"
-      className="bg-background rounded-xl"
+      size="3xl"
+      className="bg-light rounded-xl"
       hideCloseButton={false}
     >
       <div className="p-6">
@@ -197,15 +184,10 @@ export const EditApplicationModal = ({
                 <LocationIcon className="size-4 text-primary" />
                 <H6 className="text-primary font-semibold text-sm">Location</H6>
               </div>
-              <Selector
+              <LocationSelect
                 size="sm"
-                value={formData.location}
                 placeholder="Select location"
                 onChange={(value) => handleInputChange('location', value)}
-                items={locationItems}
-                classNames={{
-                  trigger: 'bg-light',
-                }}
               />
             </div>
 
@@ -223,7 +205,6 @@ export const EditApplicationModal = ({
             />
           </div>
 
-          {/* Job URL & Contact */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex flex-col gap-2">
               <H6 className="text-primary font-semibold text-sm">Job URL</H6>
@@ -253,33 +234,22 @@ export const EditApplicationModal = ({
             </div>
           </div>
 
-          {/* Platform & Status */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex flex-col gap-2">
               <H6 className="text-primary font-semibold text-sm">Platform</H6>
-              <Selector
+              <PlatformSelector
                 size="sm"
                 placeholder="Where did you find this job?"
-                value={formData.platform}
                 onChange={(value) => handleInputChange('platform', value)}
-                items={platformItems}
-                classNames={{
-                  trigger: 'bg-light',
-                }}
               />
             </div>
 
             <div className="flex flex-col gap-2">
               <H6 className="text-primary font-semibold text-sm">Status</H6>
-              <Selector
+              <StatusSelector
                 size="sm"
                 placeholder="Current application status"
-                value={formData.status}
                 onChange={(value) => handleInputChange('status', value)}
-                items={statusItems}
-                classNames={{
-                  trigger: 'bg-light',
-                }}
               />
             </div>
           </div>

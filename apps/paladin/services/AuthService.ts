@@ -93,6 +93,12 @@ export class AuthService {
             required: true,
           },
           lastName: { fieldName: 'last_name', type: 'string', required: true },
+          bio: { fieldName: 'bio', type: 'string', required: false },
+          profession: {
+            fieldName: 'profession',
+            type: 'string',
+            required: false,
+          },
         },
       },
       session: {
@@ -139,6 +145,8 @@ export class AuthService {
       email: string;
       password: string;
       image?: string;
+      bio?: string;
+      profession?: string;
     },
     headers?: Headers,
   ) {
@@ -153,6 +161,8 @@ export class AuthService {
         email: data.email,
         password: data.password,
         image: data.image,
+        bio: data.bio || '',
+        profession: data.profession || '',
       },
       headers,
     });

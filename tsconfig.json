@@ -25,7 +25,8 @@
       "@common/*": ["./apps/common/*"],
       "@ruby/*": ["./apps/ruby/*"],
       "@paladin/*": ["./apps/paladin/*"],
-      "@sdk/*": ["./apps/sdk/*"]
+      "@sdk/*": ["./apps/sdk/*"],
+      "@migrations/*": ["./migrations/*"]
     },
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,

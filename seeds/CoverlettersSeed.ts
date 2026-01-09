@@ -41,7 +41,7 @@ export async function seedCoverletters(
 
   const coverletters: CoverletterEntity[] = [];
 
-  for (let i = 0; i < 1000; i++) {
+  for (let i = 0; i < 100; i++) {
     const user = getRandomElement(users);
     const name = getRandomElement(coverletterNames);
     const filetype = getRandomElement(fileTypes);
@@ -69,4 +69,3 @@ export async function seedCoverletters(
   await coverletterRepo.save(coverletters);
   return coverletters.length;
 }
-

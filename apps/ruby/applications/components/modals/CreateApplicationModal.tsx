@@ -2,10 +2,13 @@ import { Button } from '@common/components/button';
 import { Input } from '@common/components/input';
 import { InputName } from '@common/components/input/InputFirstName';
 import { InputSalary } from '@common/components/input/InputSalary';
-import { Selector } from '@common/components/select/Selector';
+import { CoverLetterSelector } from '@common/components/select/CoverLetterSelector';
+import { LocationSelect } from '@common/components/select/LocationSelect';
+import { PlatformSelector } from '@common/components/select/PlatformSelector';
+import { ResumeSelector } from '@common/components/select/ResumeSelector';
+import { StatusSelector } from '@common/components/select/StatusSelector';
 import { Toast } from '@common/components/toast';
 import { H4, H6 } from '@common/components/typography';
-import { LOCATIONS } from '@common/constants';
 import { CompanyIcon } from '@common/icons/CompanyIcon';
 import { JobIcon } from '@common/icons/JobIcon';
 import { LocationIcon } from '@common/icons/LocationIcon';
@@ -27,21 +30,6 @@ interface CreateApplicationFormData {
   resumeId?: string;
   coverletterId?: string;
 }
-
-const platformItems = [
-  { value: 'Linkedin', label: 'LinkedIn' },
-  { value: 'Glassdoor', label: 'Glassdoor' },
-  { value: 'Other', label: 'Other' },
-];
-
-const statusItems = [
-  { value: 'Applied', label: 'Applied' },
-  { value: 'Interviewing', label: 'Interviewing' },
-  { value: 'Accepted', label: 'Accepted' },
-  { value: 'Rejected', label: 'Rejected' },
-];
-
-const locationItems = LOCATIONS.map((loc) => ({ value: loc, label: loc }));
 
 interface CreateApplicationCardProps {
   onClose: () => void;
@@ -67,16 +55,6 @@ export const CreateApplicationModal = ({
   const { data: user } = useAuth();
   const { data: resumes } = useResumes(user?.id || '');
   const { data: coverLetters } = useCoverLetters(user?.id || '');
-
-  const resumeItems = [
-    { value: 'none', label: 'None' },
-    ...(resumes?.map((r) => ({ value: r.id, label: r.name })) || []),
-  ];
-
-  const coverLetterItems = [
-    { value: 'none', label: 'None' },
-    ...(coverLetters?.map((cl) => ({ value: cl.id, label: cl.name })) || []),
-  ];
 
   const handleInputChange = (
     field: keyof CreateApplicationFormData,
@@ -184,12 +162,10 @@ export const CreateApplicationModal = ({
               <LocationIcon className="size-5 text-primary" />
               <H6 className="font-semibold">Location</H6>
             </div>
-            <Selector
+            <LocationSelect
               size="sm"
-              placeholder="Job Location"
-              value={formData.location || ''}
+              placeholder="Select location"
               onChange={(value) => handleInputChange('location', value)}
-              items={locationItems}
             />
           </div>
 
@@ -224,42 +200,42 @@ export const CreateApplicationModal = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex flex-col gap-2">
             <H6 className="font-semibold">Platform</H6>
-            <Selector
+            <PlatformSelector
               size="sm"
               placeholder="Where did you find this job?"
-              value={formData.platform}
               onChange={(value) => handleInputChange('platform', value)}
-              items={platformItems}
             />
           </div>
 
           <div className="flex flex-col gap-2">
             <H6 className="font-semibold">Status</H6>
-            <Selector
+            <StatusSelector
               size="sm"
               placeholder="Current application status"
-              value={formData.status}
               onChange={(value) => handleInputChange('status', value)}
-              items={statusItems}
             />
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Selector
-            label="Attach Resume"
-            placeholder="Select a resume"
-            value={formData.resumeId || ''}
-            onChange={(value) => handleInputChange('resumeId', value)}
-            items={resumeItems}
-          />
+          <div className="flex flex-col gap-2">
+            <H6 className="font-semibold">Attach Resume</H6>
+            <ResumeSelector
+              size="sm"
+              placeholder="Select a resume"
+              resumes={resumes || []}
+              onChange={(value) => handleInputChange('resumeId', value)}
+            />
+          </div>
 
-          <Selector
-            label="Attach Cover Letter"
-            placeholder="Select a cover letter"
-            value={formData.coverletterId || ''}
-            onChange={(value) => handleInputChange('coverletterId', value)}
-            items={coverLetterItems}
-          />
+          <div className="flex flex-col gap-2">
+            <H6 className="font-semibold">Attach Cover Letter</H6>
+            <CoverLetterSelector
+              size="sm"
+              placeholder="Select a cover letter"
+              coverLetters={coverLetters || []}
+              onChange={(value) => handleInputChange('coverletterId', value)}
+            />
+          </div>
         </div>
       </div>
 

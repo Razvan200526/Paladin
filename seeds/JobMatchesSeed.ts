@@ -97,7 +97,7 @@ export async function seedJobMatches(
   const resumes = await resumeRepo.find({ relations: ['user'] });
   const matches: JobMatchEntity[] = [];
 
-  for (let i = 0; i < 1000; i++) {
+  for (let i = 0; i < 100; i++) {
     const user = getRandomElement(users);
     const job = getRandomElement(jobs);
     const userResumes = resumes.filter((r) => r.user?.id === user.id);

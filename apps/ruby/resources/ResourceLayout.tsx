@@ -10,7 +10,12 @@ import { PdfUploader } from '@common/components/pdf/PdfUploader';
 import { H4 } from '@common/components/typography';
 import { CoverLetterIcon } from '@common/icons/CoverletterIcon';
 import { ResumeIcon } from '@common/icons/ResumeIcon';
-import { PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
+import {
+  FunnelIcon,
+  PlusIcon,
+  TrashIcon,
+  XMarkIcon,
+} from '@heroicons/react/24/outline';
 import { cn, DropdownItem, DropdownMenu, Tab, Tabs } from '@heroui/react';
 import { backend } from '@ruby/shared/backend';
 import { useAuth } from '@ruby/shared/hooks';
@@ -19,7 +24,7 @@ import type {
   ResumeBuilderType,
   ResumeType,
 } from '@sdk/types';
-import { useMemo, useRef } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import {
   Outlet,
   useLocation,
@@ -63,6 +68,8 @@ export const ResourceLayout = () => {
   const uploadResumeRef = useRef<ModalRefType | null>(null);
   const uploadCoverLetterRef = useRef<ModalRefType | null>(null);
   const createResumeRef = useRef<ModalRefType | null>(null);
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
+
   const { data: resumes, isLoading: resumesLoading } = useResumes(
     user?.id || '',
   );
@@ -200,19 +207,28 @@ export const ResourceLayout = () => {
   const sidebarLoading =
     activeTabKey === 'resume' ? resumesLoading : coverlettersLoading;
 
+  const deleteItemsCount =
+    deletingResumeIds.length + deletingCoverletterIds.length;
+
   return (
     <div className="h-[calc(100dvh)] bg-background flex flex-col">
-      <nav className="px-4 py-2 flex flex-row items-center justify-between w-full border-b border-border bg-background">
-        <H4 className="text-base font-primary">Resources</H4>
+      {/* Navigation Bar */}
+      <nav className="px-2 sm:px-4 py-2 flex flex-row items-center justify-between w-full border-b border-border bg-background gap-1 sm:gap-2">
+        {/* Title - hidden on very small screens when tabs are visible */}
+        <H4 className="text-base font-primary hidden sm:block shrink-0">
+          Resources
+        </H4>
+
+        {/* Tabs - flexible width */}
         <Tabs
           onSelectionChange={handleSelectionChange}
           selectedKey={activeTabKey}
           classNames={{
-            base: 'w-full px-4 py-1',
+            base: 'flex-1 sm:flex-none px-1 sm:px-4 py-1',
             tabContent: 'text-primary',
             cursor: cn('rounded border-none', activeTabItem?.activeClassName),
             tab: cn(
-              'rounded data-[hover-unselected=true]:bg-primary-100/80 py-4 shadow-none',
+              'rounded data-[hover-unselected=true]:bg-primary-100/80 py-3 sm:py-4 shadow-none',
               'border-none transition-all duration-300 data-[hover-unselected=true]:opacity-100',
             ),
             panel: 'p-0',
@@ -228,7 +244,7 @@ export const ResourceLayout = () => {
               title={
                 <div
                   className={cn(
-                    'flex items-center space-x-1 font-medium',
+                    'flex items-center space-x-1 font-medium text-xs sm:text-sm',
                     item.className,
                   )}
                 >
@@ -237,7 +253,7 @@ export const ResourceLayout = () => {
                     <NumberChip
                       className={cn(
                         item.activeClassName,
-                        'text-secondary-text',
+                        'text-secondary-text text-xs',
                       )}
                       value={item.count}
                     />
@@ -248,35 +264,59 @@ export const ResourceLayout = () => {
           ))}
         </Tabs>
 
-        {deletingResumeIds.length + deletingCoverletterIds.length > 0 ? (
-          <Button
-            variant="solid"
-            color="danger"
-            className="px-4 m-2"
-            onPress={() => {
-              deleteModalRef.current?.open();
-            }}
-          >
-            Delete {deletingResumeIds.length + deletingCoverletterIds.length}
-            {deletingResumeIds.length + deletingCoverletterIds.length === 1
-              ? ' item'
-              : ' items'}
-          </Button>
-        ) : null}
-        {resumes?.length || coverletters?.length ? (
-          <Button
-            variant="light"
-            isIconOnly={true}
-            color="danger"
-            radius="full"
-            onPress={() => {
-              state ? stopDeleting() : startDeleting();
-            }}
-          >
-            <TrashIcon className="size-3.5" />
-          </Button>
-        ) : null}
-        <div className="px-1">
+        {/* Action Buttons */}
+        <div className="flex items-center gap-1 shrink-0">
+          {/* Delete button - shows count when items selected */}
+          {deleteItemsCount > 0 ? (
+            <Button
+              variant="solid"
+              color="danger"
+              className="px-2 sm:px-4 text-xs sm:text-sm"
+              size="sm"
+              onPress={() => {
+                deleteModalRef.current?.open();
+              }}
+            >
+              <span className="hidden sm:inline">Delete </span>
+              {deleteItemsCount}
+              <span className="hidden sm:inline">
+                {deleteItemsCount === 1 ? ' item' : ' items'}
+              </span>
+            </Button>
+          ) : null}
+
+          {/* Trash toggle button */}
+          {resumes?.length || coverletters?.length ? (
+            <Button
+              variant="light"
+              isIconOnly={true}
+              color="danger"
+              radius="full"
+              size="sm"
+              onPress={() => {
+                state ? stopDeleting() : startDeleting();
+              }}
+            >
+              <TrashIcon className="size-3.5" />
+            </Button>
+          ) : null}
+
+          {/* Filter toggle button - visible on mobile only */}
+          {showFilterSidebar && (
+            <Button
+              variant="light"
+              isIconOnly={true}
+              color="primary"
+              radius="full"
+              size="sm"
+              className="lg:hidden"
+              onPress={() => setShowMobileFilters(!showMobileFilters)}
+            >
+              <FunnelIcon className="size-4" />
+            </Button>
+          )}
+
+          {/* Add dropdown */}
           <Dropdown
             items={dropdownItems}
             onAction={(key) => {
@@ -284,15 +324,18 @@ export const ResourceLayout = () => {
               item?.onAction?.();
             }}
             trigger={
-              <Button variant="flat" isIconOnly={true} radius="md">
+              <Button variant="flat" isIconOnly={true} radius="md" size="sm">
                 <PlusIcon className="size-4" />
               </Button>
             }
           />
         </div>
       </nav>
-      <div className="flex-1 flex overflow-hidden">
-        <div className="flex-1 overflow-y-scroll">
+
+      {/* Main Content Area */}
+      <div className="flex-1 flex overflow-hidden relative">
+        {/* Content Area */}
+        <div className="flex-1 overflow-y-auto">
           <Outlet
             context={
               {
@@ -308,8 +351,10 @@ export const ResourceLayout = () => {
             }
           />
         </div>
+
+        {/* Filter Sidebar - Desktop (always visible on lg+) */}
         {showFilterSidebar && (
-          <div className="py-2 pr-2">
+          <div className="hidden lg:block py-2 pr-2 shrink-0">
             <ResourceFilterSidebar
               config={currentFilterConfig}
               filteredCount={sidebarFilteredCount}
@@ -318,14 +363,55 @@ export const ResourceLayout = () => {
             />
           </div>
         )}
+
+        {/* Mobile Filter Overlay */}
+        {showFilterSidebar && showMobileFilters && (
+          <>
+            {/* Backdrop */}
+            <div
+              className="lg:hidden fixed inset-0 bg-black/50 z-40"
+              onClick={() => setShowMobileFilters(false)}
+            />
+            {/* Slide-in Panel */}
+            <div
+              className="lg:hidden fixed right-0 top-0 bottom-0 z-50 w-[85vw] max-w-xs bg-background shadow-xl overflow-y-auto"
+              style={{ animation: 'slideInFromRight 0.2s ease-out' }}
+            >
+              <div className="flex items-center justify-between p-4 border-b border-border">
+                <span className="font-semibold text-sm">Filters</span>
+                <Button
+                  variant="light"
+                  isIconOnly={true}
+                  radius="full"
+                  size="sm"
+                  onPress={() => setShowMobileFilters(false)}
+                >
+                  <XMarkIcon className="size-5" />
+                </Button>
+              </div>
+              <div className="p-2">
+                <ResourceFilterSidebar
+                  config={currentFilterConfig}
+                  filteredCount={sidebarFilteredCount}
+                  isLoading={sidebarLoading}
+                  onServerFilterChange={() => {
+                    setShowMobileFilters(false);
+                  }}
+                />
+              </div>
+            </div>
+          </>
+        )}
       </div>
+
+      {/* Modals */}
       <DeleteResourceModal modalRef={deleteModalRef} />
       <Modal
         modalRef={uploadResumeRef}
         isDismissable={true}
         isKeyboardDismissDisabled={false}
         hideCloseButton={true}
-        className="bg-light p-4 rounded"
+        className="bg-light p-4 rounded max-w-[95vw] sm:max-w-md"
       >
         <PdfUploader
           type="resume"
@@ -337,7 +423,7 @@ export const ResourceLayout = () => {
         isDismissable={true}
         isKeyboardDismissDisabled={false}
         hideCloseButton={true}
-        className="bg-light p-4 rounded"
+        className="bg-light p-4 rounded max-w-[95vw] sm:max-w-md"
       >
         <PdfUploader
           type="coverLetter"
@@ -349,7 +435,7 @@ export const ResourceLayout = () => {
         isDismissable={true}
         isKeyboardDismissDisabled={false}
         hideCloseButton={true}
-        className="bg-light p-4 rounded"
+        className="bg-light p-4 rounded max-w-[95vw] sm:max-w-md"
       >
         <div className="text-center py-8">
           <p className="text-lg font-medium mb-2">Create Resume</p>

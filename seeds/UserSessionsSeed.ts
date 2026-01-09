@@ -49,7 +49,7 @@ export async function seedUserSessions(
 
   const sessions: UserSessionEntity[] = [];
 
-  for (let i = 0; i < 1000; i++) {
+  for (let i = 0; i < 100; i++) {
     const user = getRandomElement(users);
     const expiresInDays = Math.floor(Math.random() * 30) + 1; // 1-30 days
     const expiresAt = new Date(
@@ -72,4 +72,3 @@ export async function seedUserSessions(
   await sessionRepo.save(sessions);
   return sessions.length;
 }
-

@@ -1,7 +1,7 @@
 import type { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class Initial1767788399840 implements MigrationInterface {
-  name = 'Initial1767788399840';
+export class Initial1767876123526 implements MigrationInterface {
+  name = 'Initial1767876123526';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
@@ -107,10 +107,10 @@ export class Initial1767788399840 implements MigrationInterface {
       `ALTER TABLE "applications" ADD CONSTRAINT "FK_9e7594d5b474d9cbebba15c1ae7" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
     );
     await queryRunner.query(
-      `ALTER TABLE "applications" ADD CONSTRAINT "FK_241f549e92b54bb3538c9bdcf21" FOREIGN KEY ("resume_id") REFERENCES "resumes"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
+      `ALTER TABLE "applications" ADD CONSTRAINT "FK_241f549e92b54bb3538c9bdcf21" FOREIGN KEY ("resume_id") REFERENCES "resumes"("id") ON DELETE SET NULL ON UPDATE NO ACTION`,
     );
     await queryRunner.query(
-      `ALTER TABLE "applications" ADD CONSTRAINT "FK_2b173e901d7562152e490422e79" FOREIGN KEY ("coverletter_id") REFERENCES "coverletter"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
+      `ALTER TABLE "applications" ADD CONSTRAINT "FK_2b173e901d7562152e490422e79" FOREIGN KEY ("coverletter_id") REFERENCES "coverletter"("id") ON DELETE SET NULL ON UPDATE NO ACTION`,
     );
     await queryRunner.query(
       `ALTER TABLE "chat_sessions" ADD CONSTRAINT "FK_1fa209cf48ae975a109366542a5" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,

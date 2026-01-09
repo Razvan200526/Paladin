@@ -1,4 +1,4 @@
-import type { MatchStatus } from '@client/sdk/JobFetcher';
+import type { MatchStatus } from '@sdk/JobFetcher';
 import { Chip } from '@heroui/react';
 
 interface JobStatusBadgeProps {

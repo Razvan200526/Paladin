@@ -9,6 +9,8 @@ type SignupDataType = {
   firstName: string;
   lastName: string;
   image: string;
+  bio: string;
+  profession: string;
 };
 type SignupStoreType = {
   step: number;
@@ -23,6 +25,8 @@ const DEFAULT_DATA: SignupDataType = {
   firstName: '',
   lastName: '',
   image: '',
+  bio: '',
+  profession: '',
 };
 export const useSignupStore = create<SignupStoreType>()(
   persist(

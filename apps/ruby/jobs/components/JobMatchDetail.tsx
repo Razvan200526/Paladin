@@ -6,7 +6,6 @@ import {
   ArrowTopRightOnSquareIcon,
   BookmarkIcon,
   BriefcaseIcon,
-  BuildingOfficeIcon,
   CheckCircleIcon,
   ClockIcon,
   CurrencyDollarIcon,
@@ -54,23 +53,13 @@ export const JobMatchDetail = ({ match }: JobMatchDetailProps) => {
     <div className="h-full w-full flex flex-col bg-background">
       <div className="p-4 border-b border-border">
         <div className="flex items-start gap-4">
-          {job.companyLogo ? (
-            <img
-              src={job.companyLogo}
-              alt={job.company}
-              className="w-16 h-16 rounded-xl object-cover"
-            />
-          ) : (
-            <div className="w-16 h-16 rounded-xl bg-primary/10 flex items-center justify-center">
-              <BuildingOfficeIcon className="w-8 h-8 text-primary" />
-            </div>
-          )}
           <div className="flex-1">
             <H4 className="text-primary">{job.title}</H4>
             <p className="text-secondary-text font-medium">{job.company}</p>
             <div className="flex flex-wrap gap-2 mt-2">
               <Chip
                 size="sm"
+                color="primary"
                 variant="flat"
                 startContent={<MapPinIcon className="w-3 h-3" />}
               >
@@ -78,6 +67,7 @@ export const JobMatchDetail = ({ match }: JobMatchDetailProps) => {
               </Chip>
               <Chip
                 size="sm"
+                color="primary"
                 variant="flat"
                 startContent={<BriefcaseIcon className="w-3 h-3" />}
               >
@@ -92,10 +82,9 @@ export const JobMatchDetail = ({ match }: JobMatchDetailProps) => {
               )}
             </div>
           </div>
-          <CompatibilityScore score={match.compatibilityScore} size="lg" />
+          <CompatibilityScore score={match.compatibilityScore} size="md" />
         </div>
 
-        {/* Action Buttons */}
         <div className="flex gap-2 mt-4">
           <Button
             size="sm"

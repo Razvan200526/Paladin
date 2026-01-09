@@ -1,6 +1,7 @@
 import { isEmailValid } from '@common/validators/isEmailValid';
 import { apiResponse } from '@paladin/client';
 import type { ResetPasswordModel } from '@paladin/models/ResetPasswordModel';
+import type { SignUpModel } from '@paladin/models/SignUpModel';
 import { controller, get, inject, logger, post } from '@razvan11/paladin';
 import type { Context } from 'hono';
 import { UserRepository } from '../repositories/UserRepository';
@@ -22,7 +23,7 @@ export class AuthController {
   // POST /api/auth/signup/email
   @post('/signup/email')
   async signupEmail(c: Context) {
-    const payload = await c.req.json();
+    const payload = await c.req.json<SignUpModel>();
     try {
       const response = await this.authService.signup({ ...payload });
       return c.json({

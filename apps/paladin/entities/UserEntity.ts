@@ -58,6 +58,12 @@ export class UserEntity {
   @Column({ name: 'last_name', type: 'varchar', length: 100 })
   lastName: string;
 
+  @Column({ name: 'bio', type: 'text', nullable: true })
+  bio?: string;
+
+  @Column({ name: 'profession', type: 'varchar', length: 100 })
+  profession: string;
+
   @Column({ name: 'is_email_verified', type: 'boolean', default: false })
   isEmailVerified: boolean;
 

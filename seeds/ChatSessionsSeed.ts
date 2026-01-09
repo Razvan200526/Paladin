@@ -28,7 +28,7 @@ export async function seedChatSessions(
   const coverletters = await coverletterRepo.find({ relations: ['user'] });
   const sessions: ChatSessionEntity[] = [];
 
-  for (let i = 0; i < 1000; i++) {
+  for (let i = 0; i < 100; i++) {
     const user = getRandomElement(users);
     const resourceType = getRandomElement(resourceTypes);
 
@@ -84,4 +84,3 @@ export async function seedChatSessions(
   await sessionRepo.save(sessions);
   return sessions.length;
 }
-

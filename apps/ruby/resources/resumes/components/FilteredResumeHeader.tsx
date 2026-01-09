@@ -1,4 +1,4 @@
-import type { ResumeType } from '@client/sdk/types';
+import type { ResumeType } from '@sdk/types';
 
 export const FilteredResumeHeader = ({
   filteredResumes,

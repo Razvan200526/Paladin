@@ -1,6 +1,8 @@
+import { Button } from '@common/components/button';
 import { EmptyChat } from '@common/components/empty/EmptyChat';
 import { InputChat } from '@common/components/input/InputChat';
 import { Toast } from '@common/components/toast';
+import { ClockIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { ScrollShadow } from '@heroui/react';
 import { useAuth } from '@ruby/shared/hooks';
 import { useEffect, useRef, useState } from 'react';
@@ -10,9 +12,11 @@ import { Header } from './components/Header';
 import { Message } from './components/Message';
 import { useAiChat } from './useAiChat';
 import { useAiChatHistory } from './useAiChatHistory';
+
 export const AskAiPage = () => {
   const { data: user } = useAuth();
   const [inputValue, setInputValue] = useState('');
+  const [showMobileHistory, setShowMobileHistory] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const {
@@ -60,12 +64,14 @@ export const AskAiPage = () => {
   const handleNewChat = () => {
     newChat();
     refetchHistory();
+    setShowMobileHistory(false);
   };
 
   const handleSelectSession = (selectedSessionId: string) => {
     if (selectedSessionId !== sessionId) {
       switchSession(selectedSessionId);
     }
+    setShowMobileHistory(false);
   };
 
   const handleDeleteSession = async (deleteSessionId: string) => {
@@ -90,8 +96,12 @@ export const AskAiPage = () => {
 
   return (
     <div className="h-[calc(100dvh)] bg-background flex">
+      {/* Main Chat Area */}
       <div className="flex-1 flex flex-col min-w-0">
-        <Header />
+        <Header
+          onHistoryToggle={() => setShowMobileHistory(!showMobileHistory)}
+          showHistoryButton={true}
+        />
 
         <div className="flex-1 overflow-hidden flex flex-col">
           {!hasMessages ? (
@@ -99,14 +109,14 @@ export const AskAiPage = () => {
           ) : (
             <>
               <ScrollShadow
-                className="flex-1 overflow-y-auto px-6 py-6"
+                className="flex-1 overflow-y-auto px-3 sm:px-6 py-4 sm:py-6"
                 size={8}
               >
                 <div className="max-w-3xl mx-auto">
                   {messages.length === 0 ? (
                     <EmptyChat resourceType="resume" />
                   ) : (
-                    <div className="flex flex-col gap-6">
+                    <div className="flex flex-col gap-4 sm:gap-6">
                       {messages.map((message) => (
                         <Message
                           key={message.id}
@@ -120,7 +130,7 @@ export const AskAiPage = () => {
                 </div>
               </ScrollShadow>
 
-              <div className="border-t border-border bg-background px-6 py-4 shrink-0">
+              <div className="border-t border-border bg-background px-3 sm:px-6 py-3 sm:py-4 shrink-0">
                 <div className="max-w-3xl mx-auto">
                   <InputChat
                     placeholder="Ask me anything..."
@@ -141,14 +151,59 @@ export const AskAiPage = () => {
         </div>
       </div>
 
-      <ChatHistorySidebar
-        history={history}
-        isLoading={isHistoryLoading}
-        currentSessionId={sessionId}
-        onNewChat={handleNewChat}
-        onSelectSession={handleSelectSession}
-        onDeleteSession={handleDeleteSession}
-      />
+      {/* Desktop Sidebar - Hidden on mobile */}
+      <div className="hidden lg:block">
+        <ChatHistorySidebar
+          history={history}
+          isLoading={isHistoryLoading}
+          currentSessionId={sessionId}
+          onNewChat={handleNewChat}
+          onSelectSession={handleSelectSession}
+          onDeleteSession={handleDeleteSession}
+        />
+      </div>
+
+      {/* Mobile History Overlay */}
+      {showMobileHistory && (
+        <>
+          {/* Backdrop */}
+          <div
+            className="lg:hidden fixed inset-0 bg-black/50 z-40"
+            onClick={() => setShowMobileHistory(false)}
+          />
+          {/* Slide-in Panel */}
+          <div
+            className="lg:hidden fixed right-0 top-0 bottom-0 z-50 w-[85vw] max-w-xs bg-background shadow-xl overflow-hidden flex flex-col"
+            style={{ animation: 'slideInFromRight 0.2s ease-out' }}
+          >
+            <div className="flex items-center justify-between p-4 border-b border-border shrink-0">
+              <div className="flex items-center gap-2">
+                <ClockIcon className="size-4 text-primary" />
+                <span className="font-semibold text-sm">Chat History</span>
+              </div>
+              <Button
+                variant="light"
+                isIconOnly
+                radius="full"
+                size="sm"
+                onPress={() => setShowMobileHistory(false)}
+              >
+                <XMarkIcon className="size-5" />
+              </Button>
+            </div>
+            <div className="flex-1 overflow-hidden">
+              <ChatHistorySidebar
+                history={history}
+                isLoading={isHistoryLoading}
+                currentSessionId={sessionId}
+                onNewChat={handleNewChat}
+                onSelectSession={handleSelectSession}
+                onDeleteSession={handleDeleteSession}
+              />
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

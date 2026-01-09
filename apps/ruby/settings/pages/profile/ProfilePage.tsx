@@ -1,23 +1,29 @@
 import { Button } from '@common/components/button';
-import { InputEmail, type InputEmailRefType } from '@common/components/input';
-import { InputAvatar } from '@common/components/input/InputAvatar';
-import {
-  InputName,
-  type InputNameRefType,
-} from '@common/components/input/InputFirstName';
+import type { InputEmailRefType } from '@common/components/input';
+
+import type { InputNameRefType } from '@common/components/input/InputFirstName';
+import type { ModalRefType } from '@common/components/Modal';
 import { Toast } from '@common/components/toast';
-import { Avatar } from '@heroui/react';
+import { ScrollShadow } from '@heroui/react';
+import { ConfirmModal } from '@ruby/settings/components/ConfirmModal';
+import { useUpdateProfile } from '@ruby/settings/hooks';
 import { useAuth } from '@ruby/shared/hooks';
 import { useRef, useState } from 'react';
-import { SettingsCard } from '../../components/SettingsCard';
-import { SettingsField } from '../../components/SettingsField';
-import { useUpdateProfile } from '@ruby/settings/hooks';
-import type { ModalRefType } from '@common/components/Modal';
-import { ConfirmModal } from '@ruby/settings/components/ConfirmModal';
+import {
+  ProfileAvatarUpload,
+  ProfileBio,
+  ProfileForm,
+  ProfileHeader,
+  ProfileLinks,
+  ProfilePreferences,
+} from './components';
 
 export const ProfilePage = () => {
   const { data: user, refetch } = useAuth();
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
+  const [bio, setBio] = useState<string | undefined>(undefined);
+  const [socialLinks, setSocialLinks] = useState<Record<string, string>>({});
+  const [preferences, setPreferences] = useState<Record<string, unknown>>({});
 
   const modalRef = useRef<ModalRefType | null>(null);
   const firstNameRef = useRef<InputNameRefType | null>(null);
@@ -27,6 +33,7 @@ export const ProfilePage = () => {
   const { mutateAsync: updateProfile, isPending } = useUpdateProfile(
     user?.id || '',
   );
+
   const handleSave = async () => {
     if (!user?.id) return;
 
@@ -54,6 +61,11 @@ export const ProfilePage = () => {
           `${firstName || user.firstName || ''} ${lastName || user.lastName || ''}`.trim();
       }
 
+      // TODO: Add bio, socialLinks, and preferences to payload when backend supports it
+      // payload.bio = bio;
+      // payload.socialLinks = socialLinks;
+      // payload.preferences = preferences;
+
       const response = await updateProfile(payload);
 
       if (response.success) {
@@ -74,84 +86,71 @@ export const ProfilePage = () => {
   };
 
   return (
-    <div className="p-6 w-full mx-auto space-y-6 gap-2">
-      <SettingsCard
-        title="Profile Information"
-        description="Update your personal information and profile picture"
-        className="w-full h-[calc(100dvh-9rem)]"
-        footer={
-          <div className="flex justify-end gap-2">
-            <Button
-              color="primary"
-              onPress={() => modalRef.current?.open()}
-              isLoading={isPending}
-            >
-              Save Changes
-            </Button>
+    <ScrollShadow className="h-[calc(100dvh-4rem)] overflow-y-auto">
+      <div className="p-6 w-full space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          <div className="lg:col-span-3">
+            <ProfileHeader
+              name={user?.name}
+              email={user?.email}
+              image={imageUrl || user?.image}
+            />
           </div>
-        }
-      >
-        <div className="flex items-center gap-6 pb-4 border-b border-border">
-          <Avatar
-            src={user?.image}
-            size="lg"
+
+          {/* Avatar Upload Section */}
+          <div className="lg:col-span-1">
+            <ProfileAvatarUpload
+              currentImage={imageUrl || user?.image}
+              onAvatarChange={(url) => setImageUrl(url)}
+            />
+          </div>
+        </div>
+
+        {/* Form Section - Full width */}
+        <ProfileForm
+          firstNameRef={firstNameRef}
+          lastNameRef={lastNameRef}
+          emailRef={emailRef}
+          user={{
+            firstName: user?.firstName,
+            lastName: user?.lastName,
+            email: user?.email,
+          }}
+        />
+
+        {/* Bio Section */}
+        <ProfileBio bio={bio} onBioChange={(value) => setBio(value)} />
+
+        {/* Two Column Layout for Links and Preferences */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Social Links */}
+          <ProfileLinks
+            links={socialLinks}
+            onLinksChange={(links) => setSocialLinks(links)}
+          />
+
+          {/* Profile Preferences */}
+          <ProfilePreferences
+            preferences={preferences}
+            onPreferencesChange={(prefs) => setPreferences(prefs)}
+          />
+        </div>
+
+        {/* Save Button */}
+        <div className="flex justify-end pt-4 border-t border-border">
+          <Button
             color="primary"
-            isBordered
-            className="w-20 h-20"
-            name={user?.name}
-          />
-          <div className="flex-1">
-            <h4 className="font-semibold text-primary">{user?.name}</h4>
-            <p className="text-sm text-muted-foreground">{user?.email}</p>
-          </div>
+            size="md"
+            onPress={() => modalRef.current?.open()}
+            isLoading={isPending}
+            className="px-8"
+          >
+            Save Changes
+          </Button>
         </div>
+      </div>
 
-        <SettingsField
-          label="Profile Picture URL"
-          description="Enter a URL for your profile picture"
-        >
-          <InputAvatar
-            size={20}
-            value={imageUrl || user?.image}
-            onAvatarChange={(url) => {
-              setImageUrl(url);
-            }}
-          />
-        </SettingsField>
-
-        <div className="flex flex-col space-y-4">
-          <SettingsField className="w-1/3">
-            <InputName
-              label="First Name"
-              ref={firstNameRef}
-              onChange={(e) => {
-                firstNameRef.current?.setValue(e);
-              }}
-              placeholder={user?.firstName || 'First name'}
-            />
-          </SettingsField>
-
-          <SettingsField className="w-1/3">
-            <InputName
-              label="Last Name"
-              ref={lastNameRef}
-              onChange={(e) => {
-                lastNameRef.current?.setValue(e);
-              }}
-              placeholder={user?.lastName || 'Last Name'}
-            />
-          </SettingsField>
-
-          <SettingsField className="w-1/3">
-            <InputEmail
-              ref={emailRef}
-              onChange={(e) => emailRef.current?.setValue(e)}
-              placeholder={user?.email || 'example@gmail.com'}
-            />
-          </SettingsField>
-        </div>
-      </SettingsCard>
       <ConfirmModal modalRef={modalRef} onConfirm={handleSave} />
-    </div>
+    </ScrollShadow>
   );
 };

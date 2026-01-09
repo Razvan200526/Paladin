@@ -85,7 +85,7 @@ export const Textarea = ({
       value={initialValue}
       isRequired={isRequired || required}
       {...props}
-      label={undefined}
+      label={label || undefined}
       classNames={{
         base: 'w-full',
         input: [

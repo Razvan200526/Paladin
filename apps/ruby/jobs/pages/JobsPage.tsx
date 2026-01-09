@@ -1,5 +1,5 @@
 import { useAuth } from '@ruby/shared/hooks';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   JobDetailDrawer,
   JobDetailPanel,
@@ -13,6 +13,7 @@ import { useJobsStore } from '../store';
 export const JobsPage = () => {
   const { data: user } = useAuth();
   const userId = user?.id;
+  const [isMobile, setIsMobile] = useState(false);
 
   const {
     filters,
@@ -32,7 +33,6 @@ export const JobsPage = () => {
   );
 
   const { data: preferences } = useJobPreferences(userId);
-  // const { mutate: refreshMatches } = useRefreshJobMatches();
 
   const selectedMatch = matches.find((m) => m.id === selectedMatchId);
 
@@ -48,27 +48,26 @@ export const JobsPage = () => {
     return true;
   });
 
-  const hasFilters =
-    !!filters.searchQuery || filters.status !== 'all' || filters.minScore > 0;
+  const hasFilters = !!filters.searchQuery || filters.tab !== 'all';
+
+  // Handle responsive detection
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
-    if (
-      filteredMatches.length > 0 &&
-      !selectedMatchId &&
-      window.innerWidth >= 1024
-    ) {
+    if (filteredMatches.length > 0 && !selectedMatchId && !isMobile) {
       setSelectedMatchId(filteredMatches[0].id);
     }
-  }, [filteredMatches, selectedMatchId, setSelectedMatchId]);
-
-  // const handleRefresh = () => {
-  //   if (userId) {
-  //     refreshMatches(userId);
-  //   }
-  // };
+  }, [filteredMatches, selectedMatchId, setSelectedMatchId, isMobile]);
 
   return (
-    <div className="h-[calc(100dvh-2rem)] m-4 rounded border border-border flex flex-col bg-background">
+    <div className="h-[calc(100dvh-1rem)] sm:h-[calc(100dvh-1.5rem)] md:h-[calc(100dvh-2rem)] m-2 sm:m-3 md:m-4 rounded border border-border flex flex-col bg-background">
       <JobPageHeader />
 
       <div className="flex-1 flex overflow-hidden">

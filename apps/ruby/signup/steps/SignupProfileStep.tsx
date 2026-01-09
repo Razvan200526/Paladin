@@ -1,6 +1,8 @@
 import { Button } from '@common/components/button';
 import { InputAvatar } from '@common/components/input/InputAvatar';
 import { InputName } from '@common/components/input/InputFirstName';
+import { ProfessionSelector } from '@common/components/select/ProfessionSelector';
+import { Textarea, type TextareaRefType } from '@common/components/Textarea';
 import { Toast } from '@common/components/toast';
 import { isNameValid } from '@common/validators/isNameValid';
 import {
@@ -9,10 +11,14 @@ import {
 } from '@heroicons/react/24/outline';
 import { Form } from '@heroui/react';
 import { backend } from '@ruby/shared/backend';
+import { useRef } from 'react';
 import { useSignupStore } from '../signUpStore';
 
 export const SignupProfileStep = () => {
   const { data, setStep, setData } = useSignupStore();
+
+  const bioRef = useRef<TextareaRefType | null>(null);
+  const professionRef = useRef<HTMLInputElement | null>(null);
 
   const goBack = () => {
     setData({ ...data, password: '' });
@@ -35,11 +41,15 @@ export const SignupProfileStep = () => {
       firstName: data.firstName,
       lastName: data.lastName,
       image: data.image,
+      bio: bioRef.current?.getValue() || '',
+      profession: professionRef.current?.value || '',
     });
 
     if (!res.success) {
       Toast.error({ description: 'Failed to send Email OTP' });
+      return;
     }
+
     setStep(3);
   };
 
@@ -78,6 +88,28 @@ export const SignupProfileStep = () => {
         placeholder="Last Name"
         label="Last name"
         onChange={(value) => setData({ ...data, lastName: value })}
+      />
+
+      <div className="flex w-full items-center justify-center">
+        <ProfessionSelector
+          onChange={(e) => {
+            if (professionRef.current) professionRef.current.value = e;
+          }}
+          ref={professionRef}
+          size="sm"
+          placeholder="Your current/desired job..."
+        />
+      </div>
+
+      <Textarea
+        ref={bioRef}
+        onChange={(e) => {
+          bioRef.current?.setValue(e);
+        }}
+        inputClassName="font-light text-sm"
+        label="Bio"
+        placeholder="Your bio..."
+        size="md"
       />
 
       <div className="flex w-full gap-4">

@@ -59,7 +59,7 @@ Be concise, helpful, and encouraging. Format responses with markdown when approp
         contents,
         config: {
           systemInstruction,
-          maxOutputTokens: 2048,
+          maxOutputTokens: 200,
         },
       });
 
@@ -114,6 +114,9 @@ Be concise, helpful, and encouraging. Format responses with markdown when approp
     const response = await this.geminiClient.models.generateContent({
       model: 'gemini-2.5-flash',
       contents,
+      config: {
+        maxOutputTokens: 200,
+      },
     });
 
     return response.text || '';

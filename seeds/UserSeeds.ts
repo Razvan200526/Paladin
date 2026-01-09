@@ -328,7 +328,7 @@ export async function seedUsers(db: PrimaryDatabase): Promise<number> {
   const repository = await db.open(UserEntity);
   const users: UserEntity[] = [];
 
-  for (let i = 0; i < 1000; i++) {
+  for (let i = 0; i < 100; i++) {
     const firstName = getRandomElement(firstNames);
     const lastName = getRandomElement(lastNames);
     const email = generateEmail(firstName, lastName);
@@ -352,4 +352,3 @@ export async function seedUsers(db: PrimaryDatabase): Promise<number> {
   await repository.save(users);
   return users.length;
 }
-
