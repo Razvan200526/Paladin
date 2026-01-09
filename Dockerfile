@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y curl
 COPY --from=build /app/package.json ./package.json
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/apps ./apps
+COPY --from=build /app/scripts ./scripts
 COPY --from=build /app/migrations ./migrations
 COPY --from=build /app/seeds ./seeds
 COPY --from=build /app/tsconfig.json ./tsconfig.json
