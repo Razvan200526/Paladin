@@ -16,7 +16,5 @@ COPY --from=build /app/apps ./apps
 COPY --from=build /app/migrations ./migrations
 COPY --from=build /app/seeds ./seeds
 COPY --from=build /app/tsconfig.json ./tsconfig.json
-RUN mkdir -p /app/var/uploads
-RUN mkdir -p /app/seeds/library/data/images/ready
 EXPOSE 3000
 CMD ["bun", "run", "prod"]
