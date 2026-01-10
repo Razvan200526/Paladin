@@ -17,7 +17,7 @@ export class EnvValidator {
 
   @IsString()
   @env()
-  private readonly WS_URL: string;
+  private readonly APP_WS_URL: string;
 
   @IsString()
   @env()

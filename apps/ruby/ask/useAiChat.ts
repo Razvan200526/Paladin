@@ -84,8 +84,7 @@ export const useAiChat = (options: UseAiChatOptions): UseAiChatReturn => {
     }
 
     isConnectingRef.current = true;
-    const wsUrl = 'ws://localhost:3000/ws/ai-chat';
-
+    const wsUrl = `${process.env.APP_WS_URL}/ws/ai-chat`;
     try {
       if (wsRef.current) {
         wsRef.current.onclose = null;

@@ -10,7 +10,7 @@ import type { ResponseType, ResumeChatResponseType, ResumeType } from './types';
  */
 function getWsUrl(): string {
   if (typeof window === 'undefined') {
-    return 'ws://localhost:3000';
+    return `${process.env.APP_WS_URL}`;
   }
   const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
   return `${protocol}//${window.location.host}`;

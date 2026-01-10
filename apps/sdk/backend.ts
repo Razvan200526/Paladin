@@ -46,6 +46,6 @@ export class Backend {
     this.analytics = new AnalyticsFetcher(this.fetcher);
     this.notifications = new NotificationFetcher(this.fetcher);
     this.jobs = new JobFetcher(this.fetcher);
-    this.socket = new Socket('ws://localhost:3000/ws');
+    this.socket = new Socket(`${process.env.APP_WS_URL}/ws`);
   }
 }
