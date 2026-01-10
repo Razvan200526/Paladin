@@ -16,5 +16,6 @@ COPY --from=build /app/scripts ./scripts
 COPY --from=build /app/migrations ./migrations
 COPY --from=build /app/seeds ./seeds
 COPY --from=build /app/tsconfig.json ./tsconfig.json
+COPY --from=build /app/bunfig.toml ./bunfig.toml
 EXPOSE 3000
 CMD ["bun", "prod"]
