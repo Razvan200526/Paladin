@@ -14,9 +14,7 @@ import {
   InputText,
   type InputTextRefType,
 } from '@common/components/input/InputText';
-import { Selector } from '@common/components/select/Selector';
 import { H3, H6 } from '@common/components/typography';
-import { LOCATIONS } from '@common/constants';
 import { useAuth } from '@ruby/shared/hooks';
 import {
   Github,
@@ -36,7 +34,6 @@ interface ContactSectionProps {
   onChange: (contact: ContactInfo) => void;
 }
 
-const locationItems = LOCATIONS.map((loc) => ({ value: loc, label: loc }));
 export const ContactSection = ({ contact, onChange }: ContactSectionProps) => {
   const updateField = <K extends keyof ContactInfo>(
     field: K,
