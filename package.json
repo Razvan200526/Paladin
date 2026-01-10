@@ -18,7 +18,7 @@
     "seeds": "bun run seeds/index.ts",
     "build:css": "bun x @tailwindcss/cli -i ./dev/tailwind.css -o ./apps/ruby/shared/public/static/dist/style.css",
     "build:spa": "bun build ./apps/ruby/__init__/App.tsx --outdir ./apps/ruby/shared/public/static/dist --target browser --production --entry-naming app.[ext] --asset-naming [name].[ext] --public-path /static/dist/",
-    "build:prod": "bun build ./apps/ruby/__init__/App.tsx --outdir ./apps/ruby/shared/public/static/dist --env=APP_* --target browser --entry-naming app.[ext] --asset-naming [name].[ext] --public-path /static/dist/ --watch",
+    "build:prod": "bun build ./apps/ruby/__init__/App.tsx --outdir ./apps/ruby/shared/public/static/dist --env=APP_* --target browser --entry-naming app.[ext] --asset-naming [name].[ext] --public-path /static/dist/",
     "prod": "bun run build:prod && bun run apps/ruby/index.ts"
   },
   "devDependencies": {
