@@ -9,6 +9,10 @@ export class EnvValidator {
 
   @IsString()
   @env()
+  private readonly APP_SENTRY_DSN: string;
+
+  @IsString()
+  @env()
   private readonly APP_URL: string;
 
   @IsString()
