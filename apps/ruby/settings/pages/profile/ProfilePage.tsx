@@ -1,29 +1,40 @@
 import { Button } from '@common/components/button';
 import type { InputEmailRefType } from '@common/components/input';
-
 import type { InputNameRefType } from '@common/components/input/InputFirstName';
 import type { ModalRefType } from '@common/components/Modal';
 import { Toast } from '@common/components/toast';
+import { isNameValid } from '@common/validators/isNameValid';
+import { isEmailValid } from '@common/validators/isEmailValid';
 import { ScrollShadow } from '@heroui/react';
 import { ConfirmModal } from '@ruby/settings/components/ConfirmModal';
 import { useUpdateProfile } from '@ruby/settings/hooks';
 import { useAuth } from '@ruby/shared/hooks';
 import { useRef, useState } from 'react';
+import * as z from 'zod';
 import {
   ProfileAvatarUpload,
   ProfileBio,
   ProfileForm,
   ProfileHeader,
-  ProfileLinks,
-  ProfilePreferences,
 } from './components';
+
+const profileSchema = z.object({
+  firstName: z
+    .string()
+    .min(2, 'First name must be at least 2 characters')
+    .optional(),
+  lastName: z
+    .string()
+    .min(2, 'Last name must be at least 2 characters')
+    .optional(),
+  email: z.email('Invalid email address').optional(),
+  image: z.url().optional(),
+});
 
 export const ProfilePage = () => {
   const { data: user, refetch } = useAuth();
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
   const [bio, setBio] = useState<string | undefined>(undefined);
-  const [socialLinks, setSocialLinks] = useState<Record<string, string>>({});
-  const [preferences, setPreferences] = useState<Record<string, unknown>>({});
 
   const modalRef = useRef<ModalRefType | null>(null);
   const firstNameRef = useRef<InputNameRefType | null>(null);
@@ -37,12 +48,39 @@ export const ProfilePage = () => {
   const handleSave = async () => {
     if (!user?.id) return;
 
-    try {
-      const firstName = firstNameRef.current?.getValue()?.trim() || undefined;
-      const lastName = lastNameRef.current?.getValue()?.trim() || undefined;
-      const email = emailRef.current?.getValue()?.trim() || undefined;
-      const image = imageUrl || undefined;
+    const firstName = firstNameRef.current?.getValue()?.trim() || undefined;
+    const lastName = lastNameRef.current?.getValue()?.trim() || undefined;
+    const email = emailRef.current?.getValue()?.trim() || undefined;
+    const image = imageUrl || undefined;
 
+    // Validate with zod
+    const result = profileSchema.safeParse({
+      firstName,
+      lastName,
+      email,
+      image,
+    });
+    if (!result.success) {
+      const firstError = result.error.issues[0];
+      Toast.error({ description: firstError.message });
+      return;
+    }
+
+    // Additional validation using existing validators
+    if (firstName && !isNameValid(firstName)) {
+      Toast.error({ description: 'First name contains invalid characters' });
+      return;
+    }
+    if (lastName && !isNameValid(lastName)) {
+      Toast.error({ description: 'Last name contains invalid characters' });
+      return;
+    }
+    if (email && !isEmailValid(email)) {
+      Toast.error({ description: 'Please enter a valid email address' });
+      return;
+    }
+
+    try {
       const payload: {
         name?: string;
         firstName?: string;
@@ -60,11 +98,6 @@ export const ProfilePage = () => {
         payload.name =
           `${firstName || user.firstName || ''} ${lastName || user.lastName || ''}`.trim();
       }
-
-      // TODO: Add bio, socialLinks, and preferences to payload when backend supports it
-      // payload.bio = bio;
-      // payload.socialLinks = socialLinks;
-      // payload.preferences = preferences;
 
       const response = await updateProfile(payload);
 
@@ -120,21 +153,6 @@ export const ProfilePage = () => {
 
         {/* Bio Section */}
         <ProfileBio bio={bio} onBioChange={(value) => setBio(value)} />
-
-        {/* Two Column Layout for Links and Preferences */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Social Links */}
-          <ProfileLinks
-            links={socialLinks}
-            onLinksChange={(links) => setSocialLinks(links)}
-          />
-
-          {/* Profile Preferences */}
-          <ProfilePreferences
-            preferences={preferences}
-            onPreferencesChange={(prefs) => setPreferences(prefs)}
-          />
-        </div>
 
         {/* Save Button */}
         <div className="flex justify-end pt-4 border-t border-border">

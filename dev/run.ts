@@ -15,7 +15,7 @@ const { result } = concurrently(
     },
     {
       command:
-        'bun build ./apps/ruby/__init__/App.tsx --outdir ./apps/ruby/shared/public/static/dist --target browser --entry-naming app.[ext] --asset-naming [name].[ext] --public-path /static/dist/ --watch',
+        'bun build ./apps/ruby/__init__/App.tsx --outdir ./apps/ruby/shared/public/static/dist --env=APP_* --target browser --entry-naming app.[ext] --asset-naming [name].[ext] --public-path /static/dist/ --watch',
       name: 'ruby:platform',
     },
     {

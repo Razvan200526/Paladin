@@ -1,7 +1,3 @@
-/**
- * Resumes Controller
- * Full implementation with apiResponse pattern
- */
 import {
   controller,
   del,

@@ -29,6 +29,7 @@ import {
 } from 'lucide-react';
 import { useRef } from 'react';
 import type { ContactInfo } from '../types/resume-builder';
+import { LocationSelect } from '@common/components/select/LocationSelect';
 
 interface ContactSectionProps {
   contact: ContactInfo;
@@ -124,12 +125,8 @@ export const ContactSection = ({ contact, onChange }: ContactSectionProps) => {
               <MapPin className="size-5 text-secondary-text" />
               <H6>Location</H6>
             </div>
-            <Selector
+            <LocationSelect
               color="primary"
-              classNames={{
-                trigger: 'bg-background border border-primary-500 rounded-sm',
-              }}
-              items={locationItems}
               placeholder="Select Location"
               value={contact.location}
               onChange={(e) => updateField('location', e)}

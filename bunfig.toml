@@ -1,0 +1,5 @@
+[server.static]
+env = "APP_*"
+# bunfig.toml
+[build]
+define = { "Bun.env" = "process.env" }

@@ -1,10 +1,10 @@
 import { Button } from '@common/components/button';
 import { Card } from '@common/components/card';
-import { Toast } from '@common/components/toast';
 import { H6 } from '@common/components/typography';
+import { ProfileIcon } from '@common/icons/ProfileIcon';
 import { Divider, Switch } from '@heroui/react';
 import { Icon } from '@iconify/react';
-import { backend } from '@ruby/shared/backend';
+import { useDeleteAccount } from '@ruby/settings/hooks';
 import { useAuth } from '@ruby/shared/hooks';
 import { useState } from 'react';
 
@@ -12,46 +12,15 @@ export const AccountPage = () => {
   const { data: user } = useAuth();
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [marketingEmails, setMarketingEmails] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
+  const { mutateAsync: deleteAccount, isPending: isDeleting } =
+    useDeleteAccount();
 
   const handleDeleteAccount = async () => {
     if (!user?.id) return;
-
-    setIsDeleting(true);
-    try {
-      const response = await backend.users.delete(user.id);
-
-      if (response.success) {
-        Toast.success({ description: 'Account deleted successfully' });
-        await backend.auth.signout();
-      } else {
-        Toast.error({
-          description: response.message || 'Failed to delete account',
-        });
-      }
-    } catch (error) {
-      Toast.error({
-        description: 'An error occurred while deleting your account',
-      });
-      console.error(error);
-    } finally {
-      setIsDeleting(false);
-      setShowDeleteConfirm(false);
-    }
-  };
-
-  const handleExportData = async () => {
-    try {
-      Toast.info({ description: 'Preparing your data export...' });
-      // TODO: Implement data export functionality
-      setTimeout(() => {
-        Toast.success({ description: 'Data export ready for download' });
-      }, 2000);
-    } catch (error) {
-      Toast.error({ description: 'Failed to export data' });
-      console.error(error);
-    }
+    await deleteAccount(user.id);
+    setShowDeleteConfirm(false);
   };
 
   return (
@@ -63,12 +32,7 @@ export const AccountPage = () => {
           <Card className="bg-light border border-border hover:border-border-hover transition-all duration-300">
             <div className="space-y-5">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-primary/10">
-                  <Icon
-                    icon="heroicons:user-circle"
-                    className="size-5 text-primary"
-                  />
-                </div>
+                <ProfileIcon className="size-5" />
                 <div>
                   <H6 className="text-primary">Account Status</H6>
                   <p className="text-xs text-secondary-text">
@@ -80,7 +44,7 @@ export const AccountPage = () => {
               <Divider className="bg-border" />
 
               <div className="space-y-4">
-                <div className="flex items-center justify-between p-4 bg-primary/5 rounded-lg border border-primary/20">
+                <div className="flex items-center justify-between p-2 bg-primary/5 rounded-lg border border-primary/20">
                   <div className="flex items-center gap-3">
                     <Icon
                       icon="heroicons:check-badge"
@@ -242,75 +206,6 @@ export const AccountPage = () => {
                   color="primary"
                   size="sm"
                 />
-              </div>
-            </div>
-          </div>
-        </Card>
-
-        {/* Data & Privacy */}
-        <Card className="bg-light border border-border hover:border-border-hover transition-all duration-300">
-          <div className="space-y-5">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-primary/10">
-                <Icon
-                  icon="heroicons:shield-check"
-                  className="size-5 text-primary"
-                />
-              </div>
-              <div>
-                <H6 className="text-primary">Data & Privacy</H6>
-                <p className="text-xs text-secondary-text">
-                  Manage your data and privacy settings
-                </p>
-              </div>
-            </div>
-
-            <Divider className="bg-border" />
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="flex items-center justify-between p-4 bg-background rounded-lg border border-border">
-                <div className="flex items-center gap-3">
-                  <Icon
-                    icon="heroicons:arrow-down-tray"
-                    className="size-5 text-secondary-text"
-                  />
-                  <div>
-                    <p className="text-sm font-medium text-primary">
-                      Download Your Data
-                    </p>
-                    <p className="text-xs text-secondary-text">
-                      Export all your data
-                    </p>
-                  </div>
-                </div>
-                <Button
-                  variant="bordered"
-                  color="primary"
-                  size="sm"
-                  onPress={handleExportData}
-                >
-                  Export
-                </Button>
-              </div>
-
-              <div className="flex items-center justify-between p-4 bg-background rounded-lg border border-border">
-                <div className="flex items-center gap-3">
-                  <Icon
-                    icon="heroicons:document-duplicate"
-                    className="size-5 text-secondary-text"
-                  />
-                  <div>
-                    <p className="text-sm font-medium text-primary">
-                      Privacy Policy
-                    </p>
-                    <p className="text-xs text-secondary-text">
-                      Read our privacy policy
-                    </p>
-                  </div>
-                </div>
-                <Button variant="light" color="primary" size="sm">
-                  View
-                </Button>
               </div>
             </div>
           </div>

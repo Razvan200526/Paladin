@@ -1,7 +1,3 @@
-/**
- * Jobs Controller
- * Full implementation with apiResponse pattern - routes aligned with SDK
- */
 import { apiResponse } from '@paladin/client';
 import { JobListingEntity } from '@paladin/entities';
 import { JobListingRepository } from '@paladin/repositories/JobListingRepository';

@@ -5,12 +5,15 @@ import { Button } from '../button/Button';
 import { Card } from '../card/Card';
 import { H3, H6 } from '../typography/index';
 
-Sentry.init({
-  dsn: '',
-  sendDefaultPii: true,
-  environment: 'local',
-  integrations: [],
-});
+if (process.env.NODE_ENV === 'production') {
+  Sentry.init({
+    dsn: process.env.APP_SENTRY_DSN,
+    sendDefaultPii: true,
+    environment: 'production',
+    integrations: [Sentry.browserTracingIntegration()],
+    tracePropagationTargets: ['localhost', process.env.APP_URL as string],
+  });
+}
 
 export const ErrorFallback = ({ error }: { error: Error }) => {
   const [showDetails, setShowDetails] = useState(false);

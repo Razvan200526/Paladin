@@ -97,7 +97,7 @@ export const ResumeBuilderPage = () => {
   );
   const [activeSection, setActiveSection] = useState<string>('template');
   const [selectedTemplate, setSelectedTemplate] =
-    useState<TemplateId>('classic');
+    useState<TemplateId>('modern');
   const [savedResumeId, setSavedResumeId] = useState<string | null>(
     resumeIdFromUrl || null,
   );

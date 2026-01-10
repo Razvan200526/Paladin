@@ -10,7 +10,7 @@ const passwordSchema = z.object({
     ),
 });
 
-export const isUserPasswordValid = (password: string) => {
+export const isUserPasswordValid = (password: string | undefined) => {
   try {
     return z.safeParse(passwordSchema, { password }).success;
   } catch (e) {

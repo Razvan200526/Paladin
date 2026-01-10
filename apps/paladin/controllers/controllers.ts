@@ -16,6 +16,7 @@ export { ResumeBuilderController } from './ResumeBuilderController';
 export { ResumesController } from './ResumesController';
 
 export { UsersController } from './UsersController';
+export { UserSessionsController } from './UserSessionsController';
 
 import { AnalyticsController } from './AnalyticsController';
 import { ApplicationsController } from './ApplicationsController';
@@ -29,6 +30,7 @@ import { ResumeBuilderController } from './ResumeBuilderController';
 import { ResumesController } from './ResumesController';
 import { UploadController } from './UploadController';
 import { UsersController } from './UsersController';
+import { UserSessionsController } from './UserSessionsController';
 
 export const controllers = [
   AuthController,
@@ -43,4 +45,5 @@ export const controllers = [
   NotificationsController,
   UsersController,
   UploadController,
+  UserSessionsController,
 ];

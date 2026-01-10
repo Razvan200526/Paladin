@@ -8,7 +8,7 @@ export const PageLoader = () => {
       <div className="flex flex-col items-center justify-center gap-4 w-full max-w-xs h-full">
         <div className="flex items-center justify-center gap-3">
           <Logo className="size-12" />
-          <H1>EasyRes</H1>
+          <H1>Paladin</H1>
         </div>
         <Progress
           radius="sm"

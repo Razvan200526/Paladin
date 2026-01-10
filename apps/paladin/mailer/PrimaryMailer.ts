@@ -7,10 +7,8 @@ export class PrimaryMailer implements Mailer {
   constructor() {
     console.debug(color.bgRedBright('Creating primary mailer'));
 
-    //@ts-ignore
     this.apiKey = Bun.env.RESEND_API_KEY || '';
     if (!this.apiKey) {
-      console.error('RESEND_API_KEY is not set - cannot send email');
       throw new Error('Mail configuration error: RESEND_API_KEY is not set');
     }
     this.resend = new Resend(this.apiKey);
@@ -18,7 +16,7 @@ export class PrimaryMailer implements Mailer {
 
   public async send({ to, subject, html }: SendMailParams): Promise<void> {
     const { error } = await this.resend.emails.send({
-      from: '"EasyresPlus" <welcome@resumetracker.me>',
+      from: '"Paladin" <welcome@resumetracker.me>',
       to,
       subject,
       html,

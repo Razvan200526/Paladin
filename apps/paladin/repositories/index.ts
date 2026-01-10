@@ -1,7 +1,3 @@
-/**
- * Repositories Index
- * Export all repositories for convenient importing
- */
 export { ApplicationRepository } from './ApplicationRepository';
 export { ChatMessageRepository } from './ChatMessageRepository';
 export { ChatSessionRepository } from './ChatSessionRepository';
@@ -12,3 +8,4 @@ export { ResumeBuilderRepository } from './ResumeBuilderRepository';
 export { ResumeRepository } from './ResumeRepository';
 export { UserJobPreferencesRepository } from './UserJobPreferenceRepository';
 export { UserRepository } from './UserRepository';
+export { UserSessionRepository } from './UserSessionRepository';

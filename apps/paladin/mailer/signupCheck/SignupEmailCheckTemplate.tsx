@@ -70,7 +70,7 @@ export const SignupEmailCheckTemplate = ({ otp }: { otp: string }) => {
                     fontWeight: '500',
                   }}
                 >
-                  Thank you for signing up with EasyResPlus.
+                  Thank you for signing up with Paladin.
                 </p>
               </td>
             </tr>
@@ -182,7 +182,7 @@ export const SignupEmailCheckTemplate = ({ otp }: { otp: string }) => {
                     color: '#d1d5db',
                   }}
                 >
-                  &copy; {new Date().getFullYear()} EasyResPlus. All rights
+                  &copy; {new Date().getFullYear()} Paladin. All rights
                   reserved.
                 </p>
               </td>

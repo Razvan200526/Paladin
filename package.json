@@ -1,5 +1,5 @@
 {
-  "name": "easyres",
+  "name": "paladin",
   "module": "index.ts",
   "type": "module",
   "private": true,
@@ -78,6 +78,7 @@
     "nuqs": "^2.8.5",
     "pdfjs-dist": "5.4.394",
     "pg": "^8.16.3",
+    "posthog-js": "^1.316.1",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "react-error-boundary": "^6.0.2",

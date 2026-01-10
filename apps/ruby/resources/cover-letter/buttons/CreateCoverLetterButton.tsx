@@ -31,14 +31,6 @@ export const CreateCoverLetterButton = () => {
       >
         Upload PDF cover letter
       </Button>
-      {/*<Button
-        size="sm"
-        className="bg-coverletter m-2"
-        startContent={<PlusCircleIcon className="size-3.5" />}
-        onPress={() => createModalRef.current?.open()}
-      >
-        Create cover letter
-      </Button>*/}
       <Modal
         modalRef={uploadPdfModalRef}
         isDismissable={true}
@@ -51,15 +43,6 @@ export const CreateCoverLetterButton = () => {
           onUpload={(urls) => uploadCoverLetter(urls)}
         />
       </Modal>
-      {/*<Modal
-        modalRef={createModalRef}
-        isDismissable={true}
-        isKeyboardDismissDisabled={false}
-        hideCloseButton={true}
-        className="bg-light p-4 rounded"
-      >
-      </Modal>*/}
-      {/*TODO : implement creating note from scratch thing.Like a mini word type of thing*/}
     </>
   );
 };

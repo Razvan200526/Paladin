@@ -1,6 +1,6 @@
 /**
  * Notification Service
- * Migrated from easyres - manages in-memory notifications and WebSocket broadcasts
+ * Migrated from Paladin - manages in-memory notifications and WebSocket broadcasts
  */
 import { service } from '@razvan11/paladin';
 

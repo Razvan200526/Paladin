@@ -14,7 +14,7 @@ export const Header = () => {
       <div className="flex items-center gap-2 px-2 w-full">
         <div className="flex w-full items-center text-center gap-3">
           <Logo className="size-8" />
-          {isOpen && <H4 className="text-primary pt-1">Easyres</H4>}
+          {isOpen && <H4 className="text-primary pt-1">Paladin</H4>}
         </div>
       </div>
       <div className="flex items-center justify-end gap-1.5">

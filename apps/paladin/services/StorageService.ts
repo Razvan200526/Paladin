@@ -1,6 +1,6 @@
 /**
  * Storage Service
- * Migrated from easyres with @service decorator and @inject for DI
+ * Migrated from Paladin with @service decorator and @inject for DI
  */
 
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';

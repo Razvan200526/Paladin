@@ -53,7 +53,7 @@ export const Footer = () => {
             <div className="flex items-center gap-2">
               <Logo className="size-8" />
               <span className="text-2xl font-bold text-primary">
-                EasyresPlus
+                Paladin
               </span>
             </div>
             <P className="text-sm leading-6 text-secondary-text">
@@ -73,12 +73,12 @@ export const Footer = () => {
             </div>
             <div className="flex items-center gap-2 text-primary-200">
               <Mail className="h-5 w-5" />
-              <a
-                href="mailto:contact@EasyresPlus.ro"
+              {/*<a
+                href="mailto:contact@Paladin.ro"
                 className="text-sm hover:text-primary"
               >
-                contact@EasyresPlus.ro
-              </a>
+                contact@Paladin.ro
+              </a>*/}
             </div>
           </div>
           <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
@@ -118,7 +118,7 @@ export const Footer = () => {
         </div>
         <div className="mt-16 border-t border-white/10 pt-8 sm:mt-20 lg:mt-24">
           <p className="text-xs leading-5 text-gray-400">
-            &copy; {new Date().getFullYear()} EasyResPlus. Toate drepturile
+            &copy; {new Date().getFullYear()} Paladin. Toate drepturile
             rezervate.
           </p>
         </div>

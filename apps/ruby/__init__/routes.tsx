@@ -16,12 +16,7 @@ import { ResourceLayout } from '@ruby/resources/ResourceLayout';
 import { ResumeBuilderPage } from '@ruby/resources/resumes/builder/ResumeBuilderPage';
 import { ResumeInspectPage } from '@ruby/resources/resumes/ResumeInspectPage';
 import { ResumePage } from '@ruby/resources/resumes/ResumePage';
-import {
-  AccountPage,
-  PreferencesPage,
-  ProfilePage,
-  SecurityPage,
-} from '@ruby/settings/pages';
+import { AccountPage, ProfilePage, SecurityPage } from '@ruby/settings/pages';
 import { SettingsLayout } from '@ruby/settings/SettingsLayout';
 import { AuthLayout } from '@ruby/shared/components/layout/AuthLayout';
 import { SigninPage } from '@ruby/signin/SignInPage';
@@ -121,10 +116,6 @@ export const router = createBrowserRouter([
               {
                 path: 'security',
                 element: <SecurityPage />,
-              },
-              {
-                path: 'preferences',
-                element: <PreferencesPage />,
               },
             ],
           },

@@ -2,105 +2,54 @@ import { Button } from '@common/components/button';
 import { Card } from '@common/components/card';
 import { Toast } from '@common/components/toast';
 import { H6 } from '@common/components/typography';
-import { EyelashClosedIcon } from '@common/icons/EyelashClosedIcon';
-import { EyeOpenIcon } from '@common/icons/EyeOpenIcon';
-import { Divider, Input } from '@heroui/react';
+import { isUserPasswordValid } from '@common/validators/isUserPasswordValid';
+import { Divider, ScrollShadow } from '@heroui/react';
 import { Icon } from '@iconify/react';
-import { backend } from '@ruby/shared/backend';
+import { useSessions, useRevokeSession } from '@ruby/settings/hooks';
 import { useAuth } from '@ruby/shared/hooks';
-import { useState } from 'react';
-
-interface SessionType {
-  id: string;
-  ipAddress?: string;
-  userAgent?: string;
-  createdAt: Date;
-  expiresAt: Date;
-}
+import { useRef, useState } from 'react';
+import {
+  InputPassword,
+  type InputPasswordRefType,
+} from '@common/components/input';
+import {
+  InputConfirmPassword,
+  type InputConfirmPasswordRefType,
+} from '@common/components/input/InputConfirmPassword';
+import { KeyIcon } from '@heroicons/react/24/outline';
 
 export const SecurityPage = () => {
   const { data: user } = useAuth();
   const [isChangingPassword, setIsChangingPassword] = useState(false);
   const [isSavingPassword, setIsSavingPassword] = useState(false);
-  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
-  const [showNewPassword, setShowNewPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [sessions, setSessions] = useState<SessionType[]>([]);
-  const [loadingSessions, setLoadingSessions] = useState(false);
 
-  const [passwordData, setPasswordData] = useState({
-    currentPassword: '',
-    newPassword: '',
-    confirmPassword: '',
-  });
+  const {
+    data: sessions = [],
+    isLoading: loadingSessions,
+    refetch: loadSessions,
+  } = useSessions(user?.id || '');
+  const { mutateAsync: revokeSession } = useRevokeSession();
 
-  const [passwordErrors, setPasswordErrors] = useState({
-    currentPassword: '',
-    newPassword: '',
-    confirmPassword: '',
-  });
-
-  const loadSessions = async () => {
-    if (!user?.id) return;
-
-    setLoadingSessions(true);
-    try {
-      const response = await backend.users.sessions.filter({
-        userId: user.id,
-        limit: 10,
-        sortBy: 'createdAt',
-        sortOrder: 'desc',
-      });
-
-      if (response.success && response.data.sessions) {
-        setSessions(response.data.sessions);
-      }
-    } catch (error) {
-      console.error('Failed to load sessions:', error);
-    } finally {
-      setLoadingSessions(false);
-    }
-  };
-
-  const validatePassword = () => {
-    const errors = {
-      currentPassword: '',
-      newPassword: '',
-      confirmPassword: '',
-    };
-
-    if (!passwordData.currentPassword) {
-      errors.currentPassword = 'Current password is required';
-    }
-
-    if (!passwordData.newPassword) {
-      errors.newPassword = 'New password is required';
-    } else if (passwordData.newPassword.length < 8) {
-      errors.newPassword = 'Password must be at least 8 characters';
-    }
-
-    if (!passwordData.confirmPassword) {
-      errors.confirmPassword = 'Please confirm your password';
-    } else if (passwordData.newPassword !== passwordData.confirmPassword) {
-      errors.confirmPassword = 'Passwords do not match';
-    }
-
-    setPasswordErrors(errors);
-    return !Object.values(errors).some((error) => error !== '');
-  };
+  const currentPasswordRef = useRef<InputPasswordRefType | null>(null);
+  const newPasswordRef = useRef<InputPasswordRefType | null>(null);
+  const confirmPasswordRef = useRef<InputConfirmPasswordRefType | null>(null);
 
   const handleChangePassword = async () => {
-    if (!validatePassword() || !user?.id) return;
+    if (!isUserPasswordValid(newPasswordRef.current?.getValue())) {
+      Toast.error({
+        description:
+          'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
+      });
+      return;
+    }
 
     setIsSavingPassword(true);
     try {
       // TODO: Implement password change API call
       Toast.success({ description: 'Password changed successfully' });
-      setPasswordData({
-        currentPassword: '',
-        newPassword: '',
-        confirmPassword: '',
-      });
+      currentPasswordRef.current?.setValue('');
+      newPasswordRef.current?.setValue('');
+      confirmPasswordRef.current?.setValue('');
       setIsChangingPassword(false);
     } catch (error) {
       Toast.error({ description: 'Failed to change password' });
@@ -111,33 +60,14 @@ export const SecurityPage = () => {
   };
 
   const handleCancelPasswordChange = () => {
-    setPasswordData({
-      currentPassword: '',
-      newPassword: '',
-      confirmPassword: '',
-    });
-    setPasswordErrors({
-      currentPassword: '',
-      newPassword: '',
-      confirmPassword: '',
-    });
+    currentPasswordRef.current?.setValue('');
+    newPasswordRef.current?.setValue('');
+    confirmPasswordRef.current?.setValue('');
     setIsChangingPassword(false);
   };
 
   const handleRevokeSession = async (sessionId: string) => {
-    try {
-      const response = await backend.users.sessions.delete(sessionId);
-
-      if (response.success) {
-        Toast.success({ description: 'Session revoked successfully' });
-        loadSessions();
-      } else {
-        Toast.error({ description: 'Failed to revoke session' });
-      }
-    } catch (error) {
-      Toast.error({ description: 'An error occurred' });
-      console.error(error);
-    }
+    await revokeSession(sessionId);
   };
 
   const getBrowserFromUserAgent = (userAgent?: string) => {
@@ -152,19 +82,12 @@ export const SecurityPage = () => {
   return (
     <div className="h-[calc(100dvh-4rem)] overflow-y-auto">
       <div className="p-6 w-full space-y-6">
-        {/* Top Row - Password and 2FA */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Password Section */}
           <Card className="bg-light border border-border hover:border-border-hover transition-all duration-300">
             <div className="space-y-5">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-primary/10">
-                    <Icon
-                      icon="heroicons:key"
-                      className="size-5 text-primary"
-                    />
-                  </div>
+                  <KeyIcon className="size-4 text-primary" />
                   <div>
                     <H6 className="text-primary">Password</H6>
                     <p className="text-xs text-secondary-text">
@@ -188,10 +111,7 @@ export const SecurityPage = () => {
 
               {!isChangingPassword ? (
                 <div className="flex items-center gap-3 p-4 bg-primary/5 rounded-lg border border-primary/20">
-                  <Icon
-                    icon="heroicons:shield-check"
-                    className="size-5 text-success-500"
-                  />
+                  <KeyIcon className="size-4 text-primary" />
                   <div>
                     <p className="font-medium text-primary">
                       Password Protected
@@ -204,120 +124,36 @@ export const SecurityPage = () => {
               ) : (
                 <div className="space-y-4">
                   <div className="space-y-1.5">
-                    <Input
+                    <InputPassword
+                      className="p-4"
                       label="Current Password"
-                      labelPlacement="outside"
-                      type={showCurrentPassword ? 'text' : 'password'}
-                      value={passwordData.currentPassword}
-                      onChange={(e) =>
-                        setPasswordData({
-                          ...passwordData,
-                          currentPassword: e.target.value,
-                        })
-                      }
+                      value={currentPasswordRef.current?.getValue()}
+                      onChange={(e) => currentPasswordRef.current?.setValue(e)}
                       placeholder="Enter current password"
-                      variant="bordered"
                       size="sm"
-                      isInvalid={!!passwordErrors.currentPassword}
-                      errorMessage={passwordErrors.currentPassword}
-                      classNames={{
-                        label: 'text-sm font-medium text-primary',
-                        input: 'text-primary',
-                        inputWrapper: 'border-border',
-                      }}
-                      endContent={
-                        <button
-                          type="button"
-                          onClick={() =>
-                            setShowCurrentPassword(!showCurrentPassword)
-                          }
-                          className="focus:outline-none"
-                        >
-                          {showCurrentPassword ? (
-                            <EyelashClosedIcon className="size-4 text-default-400" />
-                          ) : (
-                            <EyeOpenIcon className="size-4 text-default-400" />
-                          )}
-                        </button>
-                      }
                     />
                   </div>
 
                   <div className="space-y-1.5">
-                    <Input
+                    <InputPassword
+                      className="p-4"
                       label="New Password"
-                      labelPlacement="outside"
-                      type={showNewPassword ? 'text' : 'password'}
-                      value={passwordData.newPassword}
-                      onChange={(e) =>
-                        setPasswordData({
-                          ...passwordData,
-                          newPassword: e.target.value,
-                        })
-                      }
+                      value={newPasswordRef.current?.getValue()}
+                      onChange={(e) => newPasswordRef.current?.setValue(e)}
                       placeholder="Enter new password"
-                      variant="bordered"
                       size="sm"
-                      isInvalid={!!passwordErrors.newPassword}
-                      errorMessage={passwordErrors.newPassword}
-                      classNames={{
-                        label: 'text-sm font-medium text-primary',
-                        input: 'text-primary',
-                        inputWrapper: 'border-border',
-                      }}
-                      endContent={
-                        <button
-                          type="button"
-                          onClick={() => setShowNewPassword(!showNewPassword)}
-                          className="focus:outline-none"
-                        >
-                          {showNewPassword ? (
-                            <EyelashClosedIcon className="size-4 text-default-400" />
-                          ) : (
-                            <EyeOpenIcon className="size-4 text-default-400" />
-                          )}
-                        </button>
-                      }
                     />
                   </div>
 
                   <div className="space-y-1.5">
-                    <Input
+                    <InputConfirmPassword
+                      className="p-4"
+                      password={newPasswordRef.current?.getValue() || ''}
                       label="Confirm Password"
-                      labelPlacement="outside"
-                      type={showConfirmPassword ? 'text' : 'password'}
-                      value={passwordData.confirmPassword}
-                      onChange={(e) =>
-                        setPasswordData({
-                          ...passwordData,
-                          confirmPassword: e.target.value,
-                        })
-                      }
+                      value={confirmPasswordRef.current?.getValue()}
+                      onChange={(e) => confirmPasswordRef.current?.setValue(e)}
                       placeholder="Confirm new password"
-                      variant="bordered"
                       size="sm"
-                      isInvalid={!!passwordErrors.confirmPassword}
-                      errorMessage={passwordErrors.confirmPassword}
-                      classNames={{
-                        label: 'text-sm font-medium text-primary',
-                        input: 'text-primary',
-                        inputWrapper: 'border-border',
-                      }}
-                      endContent={
-                        <button
-                          type="button"
-                          onClick={() =>
-                            setShowConfirmPassword(!showConfirmPassword)
-                          }
-                          className="focus:outline-none"
-                        >
-                          {showConfirmPassword ? (
-                            <EyelashClosedIcon className="size-4 text-default-400" />
-                          ) : (
-                            <EyeOpenIcon className="size-4 text-default-400" />
-                          )}
-                        </button>
-                      }
                     />
                   </div>
 
@@ -424,13 +260,13 @@ export const SecurityPage = () => {
                 </div>
               </div>
 
-              <div className="p-3 bg-warning-50 rounded-lg border border-warning-200">
+              <div className="p-3 bg-secondary/10 rounded-lg border border-secondary-text">
                 <div className="flex items-start gap-2">
                   <Icon
                     icon="heroicons:information-circle"
-                    className="size-4 text-warning-600 mt-0.5"
+                    className="size-4 text-secondary-text mt-0.5"
                   />
-                  <p className="text-xs text-warning-700">
+                  <p className="text-xs text-secondary-text">
                     Two-factor authentication adds an extra layer of security to
                     your account. Coming soon!
                   </p>
@@ -462,7 +298,7 @@ export const SecurityPage = () => {
                 variant="light"
                 color="primary"
                 size="sm"
-                onPress={loadSessions}
+                onPress={() => loadSessions()}
                 isLoading={loadingSessions}
               >
                 Refresh
@@ -487,43 +323,44 @@ export const SecurityPage = () => {
                 </p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {sessions.map((session) => (
-                  <div
-                    key={session.id}
-                    className="flex items-center justify-between p-4 bg-background rounded-lg border border-border hover:border-primary/30 transition-colors"
-                  >
-                    <div className="flex items-center gap-3">
-                      <Icon
-                        icon="heroicons:computer-desktop"
-                        className="size-5 text-primary"
-                      />
-                      <div>
-                        <p className="font-medium text-primary">
-                          {getBrowserFromUserAgent(session.userAgent)}
-                        </p>
-                        <p className="text-xs text-secondary-text">
-                          {session.ipAddress || 'Unknown IP'} •{' '}
-                          {new Date(session.createdAt).toLocaleDateString()}
-                        </p>
-                      </div>
-                    </div>
-                    <Button
-                      variant="light"
-                      color="danger"
-                      size="sm"
-                      onPress={() => handleRevokeSession(session.id)}
+              <ScrollShadow size={4} className="overflow-y-scroll max-h-50">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 h-fit ">
+                  {sessions.map((session) => (
+                    <div
+                      key={session.id}
+                      className="flex items-center justify-between p-4 bg-background rounded-lg border border-border hover:border-primary/30 transition-colors"
                     >
-                      Revoke
-                    </Button>
-                  </div>
-                ))}
-              </div>
+                      <div className="flex items-center gap-3">
+                        <Icon
+                          icon="heroicons:computer-desktop"
+                          className="size-5 text-primary"
+                        />
+                        <div>
+                          <p className="font-medium text-primary">
+                            {getBrowserFromUserAgent(session.userAgent)}
+                          </p>
+                          <p className="text-xs text-secondary-text">
+                            {session.ipAddress || 'Unknown IP'} •{' '}
+                            {new Date(session.createdAt).toLocaleDateString()}
+                          </p>
+                        </div>
+                      </div>
+                      <Button
+                        variant="light"
+                        color="danger"
+                        size="sm"
+                        onPress={() => handleRevokeSession(session.id)}
+                      >
+                        Revoke
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              </ScrollShadow>
             )}
           </div>
         </Card>
 
-        {/* Security Log */}
         <Card className="bg-light border border-border hover:border-border-hover transition-all duration-300">
           <div className="space-y-5">
             <div className="flex items-center gap-3">

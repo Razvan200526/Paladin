@@ -45,13 +45,6 @@ const items: DropdownItemDataType[] = [
   },
 ];
 const tabItems = [
-  // {
-  //   key: 'suggestions',
-  //   label: 'Suggestions',
-  //   icon: MessageIcon,
-  //   className: 'text-coverletter data-[hover=true]:bg-coverletter/10',
-  //   activeClassName: 'bg-coverletter/15 border-coverletter',
-  // },
   {
     key: 'chat',
     label: 'Chat',

@@ -11,13 +11,9 @@ export interface LayoutViewProps {
   children?: ReactNode;
 }
 
-/**
- * A production-safe LayoutView component that replaces @razvan11/paladin's LayoutView.
- * This uses the standard JSX runtime instead of jsx-dev-runtime.
- */
 export const LayoutView = ({
   favicon,
-  title = 'App',
+  title = 'Paladin',
   description,
   styles = [],
   scripts = [],

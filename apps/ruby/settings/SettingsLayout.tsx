@@ -43,13 +43,6 @@ export const SettingsLayout = () => {
       className: 'text-primary data-[hover=true]:bg-primary/10',
       activeClassName: 'bg-primary/15 border-primary',
     },
-    {
-      key: 'preferences',
-      label: 'Preferences',
-      href: 'preferences',
-      className: 'text-primary data-[hover=true]:bg-primary/10',
-      activeClassName: 'bg-primary/15 border-primary',
-    },
   ];
 
   const handleSelectionChange = (key: string | number) => {

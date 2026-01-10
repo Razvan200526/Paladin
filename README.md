@@ -1,6 +1,6 @@
-# Easyres
+# Paladin
 
-A full-stack job application tracking and career management platform built with modern web technologies. Easyres helps job seekers organize their job search, manage applications, and leverage AI to enhance their career documents.
+A full-stack job application tracking and career management platform built with modern web technologies. Paladin helps job seekers organize their job search, manage applications, and leverage AI to enhance their career documents.
 
 ## Table of Contents
 
@@ -29,7 +29,7 @@ A full-stack job application tracking and career management platform built with 
 
 ## Overview
 
-Easyres is a comprehensive job application management system designed to streamline the job search process. It provides tools for tracking applications, managing resumes and cover letters, and utilizing AI-powered assistance to improve career documents and provide job-related guidance.
+Paladin is a comprehensive job application management system designed to streamline the job search process. It provides tools for tracking applications, managing resumes and cover letters, and utilizing AI-powered assistance to improve career documents and provide job-related guidance.
 
 ## Problem Statement
 
@@ -45,7 +45,7 @@ Job searching is a complex and often overwhelming process. Job seekers typically
 
 5. **Status Tracking**: Keeping track of application statuses (applied, interviewing, rejected, offered) across dozens of applications is challenging.
 
-Easyres solves these problems by providing:
+Paladin solves these problems by providing:
 
 - A centralized dashboard to track all job applications in one place
 - Resume and cover letter management with cloud storage
@@ -139,7 +139,7 @@ Easyres solves these problems by providing:
 ## Project Structure
 
 ```
-easyres/
+Paladin/
 ├── apps/
 │   ├── common/           # Shared utilities and validators
 │   │   └── EnvValidator.ts
@@ -192,7 +192,7 @@ The application requires the following environment variables to be configured. C
 
 ```env
 # Database
-APP_DATABASE_URL=postgresql://postgres:password@localhost:5432/easyres
+APP_DATABASE_URL=postgresql://postgres:password@localhost:5432/Paladin
 
 # Application
 APP_URL=http://localhost:3000
@@ -201,7 +201,7 @@ APP_URL=http://localhost:3000
 R2_ACCESS_KEY=your_r2_access_key
 R2_SECRET_ACCESS_KEY=your_r2_secret_access_key
 R2_ENDPOINT=https://your-account-id.r2.cloudflarestorage.com
-R2_BUCKET_NAME=easyres-files
+R2_BUCKET_NAME=Paladin-files
 
 # Google AI
 GEMINI_API_KEY=your_gemini_api_key
@@ -220,8 +220,8 @@ GEMINI_API_KEY=your_gemini_api_key
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/easyres.git
-   cd easyres
+   git clone https://github.com/your-username/Paladin.git
+   cd Paladin
    ```
 
 2. Install dependencies:

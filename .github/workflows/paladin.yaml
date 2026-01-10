@@ -1,4 +1,4 @@
-name: Easyres CI
+name: Paladin CI
 
 on:
   push:
@@ -21,4 +21,3 @@ jobs:
 
       - name: Lint
         run: bun run lint
-

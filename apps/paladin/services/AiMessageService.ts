@@ -58,7 +58,7 @@ Be concise, helpful, and encouraging. Format responses with markdown when approp
         contents,
         config: {
           systemInstruction,
-          maxOutputTokens: 200,
+          maxOutputTokens: 1000,
         },
       });
 
@@ -114,7 +114,7 @@ Be concise, helpful, and encouraging. Format responses with markdown when approp
       model: 'gemini-2.5-flash',
       contents,
       config: {
-        maxOutputTokens: 200,
+        maxOutputTokens: 1000,
       },
     });
 

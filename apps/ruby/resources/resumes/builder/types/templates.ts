@@ -1,5 +1,5 @@
 export type TemplateId =
-  | 'classic'
+  // | 'classic'
   | 'modern'
   | 'minimal'
   | 'professional'
@@ -47,41 +47,41 @@ export interface TemplateLayout {
 }
 
 export const RESUME_TEMPLATES: Record<TemplateId, TemplateConfig> = {
-  classic: {
-    id: 'classic',
-    name: 'Classic',
-    description:
-      'Traditional and professional. Perfect for corporate and formal industries.',
-    thumbnail: 'classic',
-    colors: {
-      primary: '#1f2937', // gray-800
-      secondary: '#4b5563', // gray-600
-      accent: '#2563eb', // blue-600
-      text: '#111827', // gray-900
-      textSecondary: '#6b7280', // gray-500
-      background: '#ffffff',
-      headerBackground: '#ffffff',
-      sectionBorder: '#d1d5db', // gray-300
-    },
-    fonts: {
-      heading: 'Georgia, serif',
-      body: 'system-ui, sans-serif',
-      size: {
-        name: '1.75rem',
-        sectionTitle: '0.875rem',
-        jobTitle: '1rem',
-        body: '0.875rem',
-        small: '0.75rem',
-      },
-    },
-    layout: {
-      type: 'single-column',
-      headerStyle: 'centered',
-      sectionSpacing: 'normal',
-      showIcons: true,
-      borderStyle: 'underline',
-    },
-  },
+  // classic: {
+  //   id: 'classic',
+  //   name: 'Classic',
+  //   description:
+  //     'Traditional and professional. Perfect for corporate and formal industries.',
+  //   thumbnail: 'classic',
+  //   colors: {
+  //     primary: '#1f2937', // gray-800
+  //     secondary: '#4b5563', // gray-600
+  //     accent: '#2563eb', // blue-600
+  //     text: '#111827', // gray-900
+  //     textSecondary: '#6b7280', // gray-500
+  //     background: '#ffffff',
+  //     headerBackground: '#ffffff',
+  //     sectionBorder: '#d1d5db', // gray-300
+  //   },
+  //   fonts: {
+  //     heading: 'Georgia, serif',
+  //     body: 'system-ui, sans-serif',
+  //     size: {
+  //       name: '1.75rem',
+  //       sectionTitle: '0.875rem',
+  //       jobTitle: '1rem',
+  //       body: '0.875rem',
+  //       small: '0.75rem',
+  //     },
+  //   },
+  //   layout: {
+  //     type: 'single-column',
+  //     headerStyle: 'centered',
+  //     sectionSpacing: 'normal',
+  //     showIcons: true,
+  //     borderStyle: 'underline',
+  //   },
+  // },
   modern: {
     id: 'modern',
     name: 'Modern',
@@ -225,7 +225,7 @@ export const RESUME_TEMPLATES: Record<TemplateId, TemplateConfig> = {
 };
 
 export const getTemplate = (templateId: TemplateId): TemplateConfig => {
-  return RESUME_TEMPLATES[templateId] || RESUME_TEMPLATES.classic;
+  return RESUME_TEMPLATES[templateId] || RESUME_TEMPLATES.modern;
 };
 
 export const getAllTemplates = (): TemplateConfig[] => {

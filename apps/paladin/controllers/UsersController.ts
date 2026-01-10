@@ -1,8 +1,3 @@
-/**
- * Users Controller
- * Full implementation with apiResponse pattern
- */
-
 import type { UpdateUserModel } from '@paladin/models/UpdateUserModel';
 import { controller, get, inject, logger, post, put } from '@razvan11/paladin';
 import type { Context } from 'hono';
@@ -61,6 +56,7 @@ export class UsersController {
     }
   }
 
+  @get()
   @put('/update/:id')
   async updateUser(c: Context): Promise<ApiResponse<string | null>> {
     try {

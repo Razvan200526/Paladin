@@ -11,7 +11,7 @@ interface ProfileHeaderProps {
 
 export const ProfileHeader = ({ name, email, image }: ProfileHeaderProps) => {
   return (
-    <Card className="bg-linear-to-br from-primary/5 via-primary/10 to-primary/5 border border-primary/20 h-full">
+    <Card className="bg-primary-100 border border-border h-full flex items-center justify-center">
       <div className="flex items-center gap-6 py-2">
         <div className="relative shrink-0">
           <Avatar

@@ -17,7 +17,7 @@ export const HeroNavbar = () => {
       <div className="flex lg:flex-1">
         <div className="flex items-center gap-2">
           <Logo className="size-8" />
-          <H6 className="text-2xl font-title">EasyresPlus</H6>
+          <H6 className="text-2xl font-title">Paladin</H6>
         </div>
       </div>
       <div className="hidden lg:flex lg:gap-x-12">

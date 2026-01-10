@@ -10,5 +10,5 @@ export const AppDataSource = new DataSource({
   entities: PrimaryEntities,
   migrations: [Initial1767951915831],
   migrationsTableName: 'migrations',
-  ssl: false
+  ssl: Bun.env.NODE_ENV === 'production'
 });

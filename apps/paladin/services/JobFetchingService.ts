@@ -1,6 +1,6 @@
 /**
  * Job Fetching Service
- * Migrated from easyres with @service decorator
+ * Migrated from Paladin with @service decorator
  * Fetches jobs from external APIs (Remotive, Arbeitnow)
  */
 import { inject, service } from '@razvan11/paladin';
