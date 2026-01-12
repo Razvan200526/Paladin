@@ -52,9 +52,7 @@ export const Footer = () => {
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <Logo className="size-8" />
-              <span className="text-2xl font-bold text-primary">
-                Paladin
-              </span>
+              <span className="text-2xl font-bold text-primary">Paladin</span>
             </div>
             <P className="text-sm leading-6 text-secondary-text">
               Empowering your career with AI-driven resume optimization.

@@ -14,9 +14,8 @@ export { NotificationsController } from './NotificationsController';
 export { ResumeAIController } from './ResumeAIController';
 export { ResumeBuilderController } from './ResumeBuilderController';
 export { ResumesController } from './ResumesController';
-
-export { UsersController } from './UsersController';
 export { UserSessionsController } from './UserSessionsController';
+export { UsersController } from './UsersController';
 
 import { AnalyticsController } from './AnalyticsController';
 import { ApplicationsController } from './ApplicationsController';
@@ -29,8 +28,8 @@ import { ResumeAIController } from './ResumeAIController';
 import { ResumeBuilderController } from './ResumeBuilderController';
 import { ResumesController } from './ResumesController';
 import { UploadController } from './UploadController';
-import { UsersController } from './UsersController';
 import { UserSessionsController } from './UserSessionsController';
+import { UsersController } from './UsersController';
 
 export const controllers = [
   AuthController,

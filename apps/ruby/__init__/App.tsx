@@ -9,13 +9,20 @@ import '@fontsource/montserrat/800.css';
 import '@fontsource/montserrat/900.css';
 import '../logo.svg';
 import { ToastProvider } from '@common/components/toast';
+import { PostHogProvider } from '@posthog/react';
 import { queryClient } from '@ruby/shared/QueryClient';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { NuqsAdapter } from 'nuqs/adapters/react-router/v7';
+import posthog from 'posthog-js';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router';
 import { router } from './routes';
+
+posthog.init(process.env.APP_POSTHOG_KEY, {
+  api_host: process.env.APP_POSTHOG_HOST,
+  defaults: '2025-11-30',
+});
 
 const render = () => {
   const elem = document.getElementById('root');
@@ -26,13 +33,15 @@ const render = () => {
   const root = createRoot(elem);
   root.render(
     <StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <NuqsAdapter>
-          <ToastProvider>
-            <RouterProvider router={router} />
-          </ToastProvider>
-        </NuqsAdapter>
-      </QueryClientProvider>
+      <PostHogProvider client={posthog}>
+        <QueryClientProvider client={queryClient}>
+          <NuqsAdapter>
+            <ToastProvider>
+              <RouterProvider router={router} />
+            </ToastProvider>
+          </NuqsAdapter>
+        </QueryClientProvider>
+      </PostHogProvider>
     </StrictMode>,
   );
 };

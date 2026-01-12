@@ -7,7 +7,7 @@ describe('formats relative number', () => {
   });
   test('should format thousands', () => {
     expect(formatRelativeNumber(1000)).toBe('1K');
-  })
+  });
   test('should format millions', () => {
     expect(formatRelativeNumber(1000000)).toBe('1M');
   });

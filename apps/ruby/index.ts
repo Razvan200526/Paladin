@@ -8,7 +8,6 @@ import { App, logger } from '@razvan11/paladin';
 import { HealthController } from './__init__/HealthController';
 import { IndexController } from './__init__/IndexController';
 
-
 try {
   const app = new App({
     name: 'Paladin',

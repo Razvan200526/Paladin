@@ -5,6 +5,14 @@ import { IsString } from 'class-validator';
 export class EnvValidator {
   @IsString()
   @env()
+  private readonly APP_POSTHOG_KEY: string;
+
+  @IsString()
+  @env()
+  private readonly APP_POSTHOG_HOST: string;
+
+  @IsString()
+  @env()
   private readonly APP_DATABASE_URL: string;
 
   @IsString()

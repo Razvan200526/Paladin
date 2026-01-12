@@ -14,6 +14,7 @@ import {
   InputText,
   type InputTextRefType,
 } from '@common/components/input/InputText';
+import { LocationSelect } from '@common/components/select/LocationSelect';
 import { H3, H6 } from '@common/components/typography';
 import { useAuth } from '@ruby/shared/hooks';
 import {
@@ -27,7 +28,6 @@ import {
 } from 'lucide-react';
 import { useRef } from 'react';
 import type { ContactInfo } from '../types/resume-builder';
-import { LocationSelect } from '@common/components/select/LocationSelect';
 
 interface ContactSectionProps {
   contact: ContactInfo;

@@ -29,7 +29,7 @@ export class PrimaryDatabase {
       url: this.url,
       synchronize: true,
       entities: PrimaryEntities,
-      ssl : Bun.env.NODE_ENV === 'production'
+      ssl: Bun.env.NODE_ENV === 'production',
     });
 
     return this.source;

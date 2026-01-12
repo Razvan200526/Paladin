@@ -1,9 +1,6 @@
 export type TemplateId =
   // | 'classic'
-  | 'modern'
-  | 'minimal'
-  | 'professional'
-  | 'creative';
+  'modern' | 'minimal' | 'professional' | 'creative';
 
 export interface TemplateConfig {
   id: TemplateId;

@@ -1,13 +1,5 @@
 import { Button } from '@common/components/button';
 import { Card } from '@common/components/card';
-import { Toast } from '@common/components/toast';
-import { H6 } from '@common/components/typography';
-import { isUserPasswordValid } from '@common/validators/isUserPasswordValid';
-import { Divider, ScrollShadow } from '@heroui/react';
-import { Icon } from '@iconify/react';
-import { useSessions, useRevokeSession } from '@ruby/settings/hooks';
-import { useAuth } from '@ruby/shared/hooks';
-import { useRef, useState } from 'react';
 import {
   InputPassword,
   type InputPasswordRefType,
@@ -16,7 +8,15 @@ import {
   InputConfirmPassword,
   type InputConfirmPasswordRefType,
 } from '@common/components/input/InputConfirmPassword';
+import { Toast } from '@common/components/toast';
+import { H6 } from '@common/components/typography';
+import { isUserPasswordValid } from '@common/validators/isUserPasswordValid';
 import { KeyIcon } from '@heroicons/react/24/outline';
+import { Divider, ScrollShadow } from '@heroui/react';
+import { Icon } from '@iconify/react';
+import { useRevokeSession, useSessions } from '@ruby/settings/hooks';
+import { useAuth } from '@ruby/shared/hooks';
+import { useRef, useState } from 'react';
 
 export const SecurityPage = () => {
   const { data: user } = useAuth();

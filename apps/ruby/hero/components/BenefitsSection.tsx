@@ -17,8 +17,8 @@ export const BenefitsSection = () => {
               Proven Results
             </H2>
             <P className="mt-4 text-lg leading-8 text-gray-400">
-              Don't just take our word for it. See the impact Paladin has on
-              job search success.
+              Don't just take our word for it. See the impact Paladin has on job
+              search success.
             </P>
           </div>
           <dl className="mt-16 grid grid-cols-1 gap-0.5 overflow-hidden rounded-2xl text-center sm:grid-cols-2 lg:grid-cols-4">
