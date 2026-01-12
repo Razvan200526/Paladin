@@ -13,7 +13,6 @@ export const SkillsAnalysis = ({
 }: SkillsAnalysisProps) => {
   return (
     <div className={cn('space-y-4', className)}>
-      {/* Matched Skills */}
       <div>
         <h4 className="font-semibold text-primary text-sm mb-2 flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-green-500" />
@@ -35,7 +34,6 @@ export const SkillsAnalysis = ({
         )}
       </div>
 
-      {/* Missing Skills */}
       <div>
         <h4 className="font-semibold text-primary text-sm mb-2 flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-red-500" />
@@ -54,7 +52,7 @@ export const SkillsAnalysis = ({
           </div>
         ) : (
           <p className="text-sm text-green-600">
-            You have all required skills! 🎉
+            You have all required skills!
           </p>
         )}
       </div>

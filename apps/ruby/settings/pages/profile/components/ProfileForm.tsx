@@ -1,9 +1,9 @@
 import { Card } from '@common/components/card';
-import { InputEmail, type InputEmailRefType } from '@common/components/input';
 import {
   InputName,
   type InputNameRefType,
 } from '@common/components/input/InputFirstName';
+import { ProfessionSelector } from '@common/components/select/ProfessionSelector';
 import { H6 } from '@common/components/typography';
 import { Divider } from '@heroui/react';
 import { Icon } from '@iconify/react';
@@ -12,18 +12,17 @@ import type { RefObject } from 'react';
 interface ProfileFormProps {
   firstNameRef: RefObject<InputNameRefType | null>;
   lastNameRef: RefObject<InputNameRefType | null>;
-  emailRef: RefObject<InputEmailRefType | null>;
+  professionRef: RefObject<HTMLInputElement | null>;
   user?: {
     firstName?: string;
     lastName?: string;
-    email?: string;
   };
 }
 
 export const ProfileForm = ({
   firstNameRef,
   lastNameRef,
-  emailRef,
+  professionRef,
   user,
 }: ProfileFormProps) => {
   return (
@@ -65,11 +64,11 @@ export const ProfileForm = ({
             placeholder={user?.lastName || 'Last Name'}
           />
 
-          <InputEmail
-            ref={emailRef}
-            onChange={(e) => emailRef.current?.setValue(e)}
-            placeholder={user?.email || 'example@gmail.com'}
-          />
+          <ProfessionSelector className='mt-5.5' ref={professionRef} onChange={(e) => {
+            if (professionRef.current) {
+              professionRef.current.value = e;
+              console.log(professionRef.current.value);
+            }}}/>
         </div>
       </div>
     </Card>

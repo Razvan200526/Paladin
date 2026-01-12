@@ -21,6 +21,8 @@ export type UserType = {
   firstName: string;
   lastName: string;
   createdAt: Date;
+  profession: string;
+  bio: string;
 };
 
 export type ResponseType<T = any> = {

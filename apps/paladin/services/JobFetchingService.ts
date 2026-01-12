@@ -1,8 +1,3 @@
-/**
- * Job Fetching Service
- * Migrated from Paladin with @service decorator
- * Fetches jobs from external APIs (Remotive, Arbeitnow)
- */
 import { inject, service } from '@razvan11/paladin';
 import { JobListingEntity } from '../entities/JobListingEntity';
 import { PrimaryDatabase } from '../shared/database/PrimaryDatabase';
@@ -49,9 +44,6 @@ interface ArbeitnowResponse {
 export class JobFetchingService {
   constructor(@inject(PrimaryDatabase) private db: PrimaryDatabase) {}
 
-  /**
-   * Fetch jobs from Remotive API (remote jobs)
-   */
   async fetchFromRemotive(
     category?: string,
     limit = 50,
@@ -108,9 +100,6 @@ export class JobFetchingService {
     }
   }
 
-  /**
-   * Fetch jobs from Arbeitnow API
-   */
   async fetchFromArbeitnow(limit = 50): Promise<JobListingEntity[]> {
     try {
       const response = await fetch(
@@ -154,15 +143,16 @@ export class JobFetchingService {
     }
   }
 
-  /**
-   * Fetch and save jobs from all sources
-   */
   async fetchAndSaveJobs(
     options: { categories?: string[]; limit?: number } = {},
   ): Promise<{ total: number; new: number; sources: Record<string, number> }> {
-    const { categories = ['software-dev'], limit = 50 } = options;
+    const { categories, limit = 50 } = options;
     const allJobs: JobListingEntity[] = [];
     const sourceCounts: Record<string, number> = {};
+
+    if (!categories || categories.length === 0) {
+      return { total: 0, new: 0, sources: {} };
+    }
 
     for (const category of categories) {
       const remotiveJobs = await this.fetchFromRemotive(category, limit);
@@ -184,9 +174,7 @@ export class JobFetchingService {
             .orIgnore()
             .execute();
           savedCount++;
-        } catch {
-          // Job already exists, skip
-        }
+        } catch {}
       }
     }
 

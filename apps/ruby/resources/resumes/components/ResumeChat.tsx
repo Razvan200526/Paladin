@@ -4,12 +4,13 @@ import {
   type DropdownItemDataType,
 } from '@common/components/dropdown/Dropdown';
 import { EmptyChat } from '@common/components/empty/EmptyChat';
+import { HTMLContent } from '@common/components/HTMLContent';
 import {
   InputChat,
   type InputChatRefType,
 } from '@common/components/input/InputChat';
 import type { ModalRefType } from '@common/components/Modal';
-import { H1, H2, H3, H6 } from '@common/components/typography';
+import { H6 } from '@common/components/typography';
 import { AiChatIcon } from '@common/icons/AiChatIcon';
 import { MoreIcon } from '@common/icons/MoreIcon';
 import { ThinkingIcon } from '@common/icons/ThinkingIcon';
@@ -22,8 +23,6 @@ import { useAuth } from '@ruby/shared/hooks';
 import type { Socket } from '@sdk/Socket';
 import type { ResumeType } from '@sdk/types';
 import { useRef, useState } from 'react';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 import { DeleteResumeModal } from '../modals/DeleteResumeModal';
 import { RenameResumeModal } from '../modals/RenameResumeModal';
 import { useResumeChatStore } from '../resumeStore';
@@ -261,65 +260,14 @@ export const ResumeChat = ({ resume }: { resume: ResumeType }) => {
                           <div
                             className={cn(
                               role === 'user'
-                                ? 'w-fit rounded-full bg-secondary/5 text-secondary-text text-sm px-4 py-3'
-                                : 'w-full prose prose-sm dark:prose-invert max-w-none',
+                                ? 'w-fit rounded-md bg-secondary/5 text-secondary-text text-sm px-4 py-3'
+                                : 'w-full rounded-md bg-secondary/5 text-secondary-text text-sm px-4 py-3 prose prose-sm dark:prose-invert max-w-none',
                             )}
                           >
                             {role === 'user' ? (
                               content
                             ) : (
-                              <ReactMarkdown
-                                remarkPlugins={[remarkGfm]}
-                                components={{
-                                  h1: ({ children }) => (
-                                    <H1 className="text-xs font-semibold text-primary mt-4 mb-2">
-                                      {children}
-                                    </H1>
-                                  ),
-                                  h2: ({ children }) => (
-                                    <H2 className="text-xs font-semibold text-primary mt-3 mb-2">
-                                      {children}
-                                    </H2>
-                                  ),
-                                  h3: ({ children }) => (
-                                    <H3 className="text-xs text-primary font-semibold mt-2 mb-1">
-                                      {children}
-                                    </H3>
-                                  ),
-                                  p: ({ children }) => (
-                                    <p className="mb-2 text-secondary-text leading-relaxed">
-                                      {children}
-                                    </p>
-                                  ),
-                                  strong: ({ children }) => (
-                                    <strong className="font-xs text-secondary-text">
-                                      {children}
-                                    </strong>
-                                  ),
-                                  ul: ({ children }) => (
-                                    <ul className="list-disc ml-5 mb-2 space-y-1">
-                                      {children}
-                                    </ul>
-                                  ),
-                                  ol: ({ children }) => (
-                                    <ol className="list-decimal ml-5 mb-2 space-y-1">
-                                      {children}
-                                    </ol>
-                                  ),
-                                  li: ({ children }) => (
-                                    <li className="leading-relaxed">
-                                      {children}
-                                    </li>
-                                  ),
-                                  code: ({ children }) => (
-                                    <code className="bg-secondary/10 px-1.5 py-0.5 rounded text-sm">
-                                      {children}
-                                    </code>
-                                  ),
-                                }}
-                              >
-                                {content}
-                              </ReactMarkdown>
+                                <HTMLContent content={content} />
                             )}
                           </div>
                         </div>

@@ -142,23 +142,16 @@ export const ApplicationFilterSidebar = ({
           <Selector
             label="Sort by"
             placeholder="Select field"
-            selectedKeys={[localFilters.sortBy]}
-            onSelectionChange={(value) =>
-              handleLocalFilterChange('sortBy', Array.from(value)[0] as string)
-            }
+            value={localFilters.sortBy}
+            onChange={(value) => handleLocalFilterChange('sortBy', value)}
             items={config.sortByOptions}
             size="sm"
           />
           <Selector
             label="Order"
             placeholder="Select order"
-            selectedKeys={[localFilters.sortOrder]}
-            onSelectionChange={(value) =>
-              handleLocalFilterChange(
-                'sortOrder',
-                Array.from(value)[0] as 'asc' | 'desc',
-              )
-            }
+            value={localFilters.sortOrder}
+            onChange={(value) => handleLocalFilterChange('sortOrder', value)}
             items={sortOrderItems}
             size="sm"
           />

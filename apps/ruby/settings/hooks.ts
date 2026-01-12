@@ -3,18 +3,15 @@ import { backend } from '@ruby/shared/backend';
 import { queryClient } from '@ruby/shared/QueryClient';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
-// ============================================================================
-// Profile Hooks
-// ============================================================================
-
 export const useUpdateProfile = (userId: string) => {
   return useMutation({
     mutationFn: async (payload: {
       name?: string;
       firstName?: string;
       lastName?: string;
-      email?: string;
+      profession?: string;
       image?: string;
+      bio?: string;
     }) => {
       const res = await backend.users.update(userId, payload);
       if (!res.success) {
@@ -26,11 +23,6 @@ export const useUpdateProfile = (userId: string) => {
     },
   });
 };
-
-// ============================================================================
-// Session Hooks
-// ============================================================================
-
 export interface SessionType {
   id: string;
   ipAddress?: string;

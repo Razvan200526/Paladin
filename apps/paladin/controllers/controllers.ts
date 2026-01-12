@@ -11,6 +11,7 @@ export { ChatHistoryController } from './ChatHistoryController';
 export { CoverlettersController } from './CoverlettersController';
 export { JobsController } from './JobsController';
 export { NotificationsController } from './NotificationsController';
+export { PostHogProxyController } from './PostHogProxyController';
 export { ResumeAIController } from './ResumeAIController';
 export { ResumeBuilderController } from './ResumeBuilderController';
 export { ResumesController } from './ResumesController';
@@ -24,6 +25,7 @@ import { ChatHistoryController } from './ChatHistoryController';
 import { CoverlettersController } from './CoverlettersController';
 import { JobsController } from './JobsController';
 import { NotificationsController } from './NotificationsController';
+import { PostHogProxyController } from './PostHogProxyController';
 import { ResumeAIController } from './ResumeAIController';
 import { ResumeBuilderController } from './ResumeBuilderController';
 import { ResumesController } from './ResumesController';
@@ -45,4 +47,5 @@ export const controllers = [
   UsersController,
   UploadController,
   UserSessionsController,
+  PostHogProxyController,
 ];

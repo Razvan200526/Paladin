@@ -137,9 +137,11 @@ export class UserRepository {
     const updateData = {
       name: entity.name,
       email: entity.email,
+      profession: entity.profession,
       firstName: entity.firstName,
       lastName: entity.lastName,
       image: entity.image,
+      bio: entity.bio,
     };
     await repository.update(entity.id, updateData);
     const updated = await this.findOne(entity.id);

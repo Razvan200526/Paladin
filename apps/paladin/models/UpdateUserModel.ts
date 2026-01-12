@@ -13,6 +13,10 @@ export class UpdateUserModel {
 
   @IsOptional()
   @IsString()
+  profession?: string;
+
+  @IsOptional()
+  @IsString()
   lastName?: string;
 
   @IsOptional()
@@ -22,4 +26,8 @@ export class UpdateUserModel {
   @IsOptional()
   @IsString()
   name?: string;
+
+  @IsOptional()
+  @IsString()
+  bio?: string;
 }

@@ -4,7 +4,6 @@ import { InputSearch } from '@common/components/input/InputSearch';
 import { Selector } from '@common/components/select/Selector';
 import { H6 } from '@common/components/typography';
 import { FunnelIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { ChevronUpDownIcon } from '@heroicons/react/24/solid';
 import {
   Checkbox,
   Popover,
@@ -49,28 +48,11 @@ export const JobsFilter = ({ className }: JobsFilterProps) => {
           size="sm"
         />
         <Selector
-          color="primary"
-          variant="flat"
-          size="sm"
-          radius="sm"
-          style={{
-            background: 'var(--color-background)',
-            cursor: 'pointer',
-          }}
-          selectorIcon={<ChevronUpDownIcon className="size-3.5" />}
-          classNames={{
-            trigger:
-              'text-secondary-text border border-border hover:transition-all hover:duration-150 hover:ease-in-out hover:border-border-hover',
-            value: 'text-primary',
-            popoverContent: 'bg-background border border-border',
-            listbox: 'text-primary',
-          }}
           placeholder="Status"
-          selectedKeys={[filters.status]}
-          onSelectionChange={(keys) => {
-            const selected = Array.from(keys)[0] as MatchStatus | 'all';
-            setFilter('status', selected);
-          }}
+          value={filters.status}
+          onChange={(selected) =>
+            setFilter('status', selected as MatchStatus | 'all')
+          }
           className="w-32"
           items={STATUS_OPTIONS}
         />

@@ -1,7 +1,3 @@
-/**
- * Example Index Controller
- * Serves the React SPA with server-side rendered shell
- */
 import { controller, get, inject } from '@razvan11/paladin';
 import type { Context } from 'hono';
 import { IndexView } from './IndexView';
@@ -17,7 +13,7 @@ export class IndexController {
   @get('/*')
   index(c: Context) {
     return render(c, IndexView, {
-      apiUrl: this.apiUrl || 'http://localhost:3000',
+      apiUrl: this.apiUrl,
     });
   }
 }

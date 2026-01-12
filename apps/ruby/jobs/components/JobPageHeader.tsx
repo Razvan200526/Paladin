@@ -33,9 +33,7 @@ export const JobPageHeader = () => {
 
   return (
     <div className="p-2 sm:p-4 border-b border-border bg-background">
-      {/* Header Row */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-3 sm:mb-4">
-        {/* Title Section */}
         <div className="flex items-center gap-2 sm:gap-3">
           <div className="p-1.5 sm:p-2 rounded-lg">
             <BriefcaseIcon className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
@@ -48,7 +46,6 @@ export const JobPageHeader = () => {
           </div>
         </div>
 
-        {/* Action Buttons */}
         <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
           <ImportJobsButton userId={user?.id} onSuccess={handleRefresh} />
           <Button
@@ -102,7 +99,6 @@ export const JobPageHeader = () => {
         </div>
       </div>
 
-      {/* Stats Tabs - Horizontally scrollable on mobile */}
       <div className="mb-3 sm:mb-4 -mx-2 sm:mx-0">
         {isLoadingStats ? (
           <div className="flex items-center gap-2 px-2">

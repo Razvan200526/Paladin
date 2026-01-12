@@ -1,4 +1,5 @@
 import { Button } from '@common/components/button';
+import { HTMLContent } from '@common/components/HTMLContent';
 import { H4 } from '@common/components/typography';
 import { formatDate } from '@common/utils';
 import {
@@ -15,7 +16,6 @@ import {
 } from '@heroicons/react/24/outline';
 import { BookmarkIcon as BookmarkSolidIcon } from '@heroicons/react/24/solid';
 import { Chip, Divider, ScrollShadow } from '@heroui/react';
-import parse from 'html-react-parser';
 import type { JobMatch, MatchStatus } from '../../../sdk/JobFetcher';
 import { useUpdateMatchStatus } from '../hooks';
 import { CompatibilityScore } from './CompatibilityScore';
@@ -139,10 +139,9 @@ export const JobMatchDetail = ({ match }: JobMatchDetailProps) => {
       {/* Content */}
       <ScrollShadow className="flex-1 overflow-auto">
         <div className="p-4 space-y-6">
-          {/* Quick Info */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="p-3 rounded-lg bg-background/50 border border-border">
-              <div className="flex items-center gap-2 text-muted text-xs mb-1">
+            <div className="p-3 rounded-lg bg-light border border-border-hover">
+              <div className="flex items-center gap-2 text-secondary-text text-xs mb-1">
                 <CurrencyDollarIcon className="w-4 h-4" />
                 Salary
               </div>
@@ -150,8 +149,8 @@ export const JobMatchDetail = ({ match }: JobMatchDetailProps) => {
                 {formatSalary(job.salaryMin, job.salaryMax, job.salaryCurrency)}
               </p>
             </div>
-            <div className="p-3 rounded-lg bg-background/50 border border-border">
-              <div className="flex items-center gap-2 text-muted text-xs mb-1">
+            <div className="p-3 rounded-lg bg-light border border-border-hover">
+              <div className="flex items-center gap-2 text-secondary-text text-xs mb-1">
                 <ClockIcon className="w-4 h-4" />
                 Experience
               </div>
@@ -161,8 +160,8 @@ export const JobMatchDetail = ({ match }: JobMatchDetailProps) => {
                   : 'Not specified'}
               </p>
             </div>
-            <div className="p-3 rounded-lg bg-background/50 border border-border">
-              <div className="flex items-center gap-2 text-muted text-xs mb-1">
+            <div className="p-3 rounded-lg bg-light border border-border-hover">
+              <div className="flex items-center gap-2 text-secondary-text text-xs mb-1">
                 <AcademicCapIcon className="w-4 h-4" />
                 Education
               </div>
@@ -170,8 +169,8 @@ export const JobMatchDetail = ({ match }: JobMatchDetailProps) => {
                 {job.educationRequirement || 'Not specified'}
               </p>
             </div>
-            <div className="p-3 rounded-lg bg-background/50 border border-border">
-              <div className="flex items-center gap-2 text-muted text-xs mb-1">
+            <div className="p-3 rounded-lg bg-light border border-border-hover">
+              <div className="flex items-center gap-2 text-secondary-text text-xs mb-1">
                 <ClockIcon className="w-4 h-4" />
                 Posted
               </div>
@@ -224,7 +223,6 @@ export const JobMatchDetail = ({ match }: JobMatchDetailProps) => {
             </>
           )}
 
-          {/* Benefits */}
           {job.benefits.length > 0 && (
             <>
               <div>
@@ -248,116 +246,13 @@ export const JobMatchDetail = ({ match }: JobMatchDetailProps) => {
             </>
           )}
 
-          {/* Job Description */}
           <div>
             <h4 className="font-semibold text-primary text-sm mb-3">
               Job Description
             </h4>
             {job.descriptionHtml ? (
               <div className="space-y-4 p-6 rounded-lg border border-border">
-                {parse(job.descriptionHtml, {
-                  replace: (domNode: any) => {
-                    if (domNode.type !== 'tag') return;
-
-                    const children = domNode.children?.map((child: any) =>
-                      child.type === 'text'
-                        ? child.data
-                        : parse(child.data || '', { replace: () => null }),
-                    );
-
-                    if (domNode.name === 'h1') {
-                      return (
-                        <h1 className="text-2xl font-bold text-primary mt-6 mb-3">
-                          {children}
-                        </h1>
-                      );
-                    }
-                    if (domNode.name === 'h2') {
-                      return (
-                        <h2 className="text-xl font-bold text-primary mt-5 mb-2">
-                          {children}
-                        </h2>
-                      );
-                    }
-                    if (domNode.name === 'h3') {
-                      return (
-                        <h3 className="text-lg font-semibold text-primary mt-4 mb-2">
-                          {children}
-                        </h3>
-                      );
-                    }
-                    if (domNode.name === 'h4') {
-                      return (
-                        <h4 className="text-base font-semibold text-primary mt-3 mb-2">
-                          {children}
-                        </h4>
-                      );
-                    }
-
-                    if (domNode.name === 'p') {
-                      return (
-                        <p className="text-sm text-secondary-text leading-relaxed mb-3">
-                          {children}
-                        </p>
-                      );
-                    }
-
-                    if (domNode.name === 'ul') {
-                      return (
-                        <ul className="list-disc list-inside space-y-1 text-sm text-secondary-text ml-4">
-                          {children}
-                        </ul>
-                      );
-                    }
-                    if (domNode.name === 'ol') {
-                      return (
-                        <ol className="list-decimal list-inside space-y-1 text-sm text-secondary-text ml-4">
-                          {children}
-                        </ol>
-                      );
-                    }
-                    if (domNode.name === 'li') {
-                      return (
-                        <li className="text-sm text-secondary-text">
-                          {children}
-                        </li>
-                      );
-                    }
-
-                    if (domNode.name === 'a') {
-                      return (
-                        <a
-                          href={domNode.attribs?.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-accent underline hover:text-accent/80"
-                        >
-                          {children}
-                        </a>
-                      );
-                    }
-
-                    if (domNode.name === 'strong' || domNode.name === 'b') {
-                      return (
-                        <strong className="font-semibold text-primary">
-                          {children}
-                        </strong>
-                      );
-                    }
-
-                    if (domNode.name === 'code') {
-                      return (
-                        <code className="px-1.5 py-0.5 rounded bg-muted/30 text-xs font-mono">
-                          {children}
-                        </code>
-                      );
-                    }
-
-                    if (domNode.name === 'hr') {
-                      return <hr className="my-4 border-border" />;
-                    }
-                  },
-                })}
+                <HTMLContent content={job.descriptionHtml} />
               </div>
             ) : (
               <p className="text-sm text-primary whitespace-pre-wrap p-4 rounded border border-border">

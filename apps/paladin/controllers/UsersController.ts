@@ -63,7 +63,7 @@ export class UsersController {
       const userId = c.req.param('id');
       const payload = await c.req.json<UpdateUserModel>();
 
-      const { name, email, firstName, lastName, image } = payload;
+      const { name, email, firstName, lastName, image , profession ,bio} = payload;
 
       const user = await this.userRepo.findOne(userId);
       if (!user) {
@@ -80,9 +80,11 @@ export class UsersController {
 
       if (name && name !== '') user.name = name;
       if (email && email !== '') user.email = email;
+      if (profession && profession !== '') user.profession = profession;
       if (firstName && firstName !== '') user.firstName = firstName;
       if (lastName && lastName !== '') user.lastName = lastName;
       if (image && image !== '') user.image = image;
+      if(bio && bio !== '') user.bio = bio;
       const updatedUser = await this.userRepo.update(user);
 
       return apiResponse(c, {

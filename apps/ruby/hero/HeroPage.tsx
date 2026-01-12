@@ -7,7 +7,6 @@ import { BenefitsSection } from './components/BenefitsSection';
 import { FeaturesSection } from './components/FeaturesSection';
 import { Footer } from './components/Footer';
 import { HeroNavbar } from './components/HeroNavbar';
-import { PricingSection } from './components/PricingSection';
 
 export const HeroPage = () => {
   return (
@@ -85,7 +84,7 @@ export const HeroPage = () => {
 
       <FeaturesSection />
       <BenefitsSection />
-      <PricingSection />
+      {/*<PricingSection />*/}
 
       <Footer />
     </div>

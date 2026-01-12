@@ -1,7 +1,6 @@
 import { Link } from '@common/components/Link';
 import { H2, H3, P } from '@common/components/typography';
 import { Logo } from '@common/icons/Logo';
-import { Facebook, Instagram, Linkedin, Mail, Twitter } from 'lucide-react';
 
 const navigation = {
   main: [
@@ -10,28 +9,7 @@ const navigation = {
     { name: 'Plans', href: '#' },
     { name: 'Contact', href: '#' },
   ],
-  social: [
-    {
-      name: 'Facebook',
-      href: '#',
-      icon: Facebook,
-    },
-    {
-      name: 'Twitter',
-      href: '#',
-      icon: Twitter,
-    },
-    {
-      name: 'LinkedIn',
-      href: '#',
-      icon: Linkedin,
-    },
-    {
-      name: 'Instagram',
-      href: '#',
-      icon: Instagram,
-    },
-  ],
+
   legal: [
     { name: 'Politica de Confidențialitate', href: '#' },
     { name: 'Termeni și Condiții', href: '#' },
@@ -55,22 +33,12 @@ export const Footer = () => {
               <span className="text-2xl font-bold text-primary">Paladin</span>
             </div>
             <P className="text-sm leading-6 text-secondary-text">
-              Empowering your career with AI-driven resume optimization.
+              <p>Empowering your career with AI-driven resume optimization.</p>
+              <Link to="https://remotive.io">Remotive</Link>
+              <span> api has been used for job postings.</span>
             </P>
-            <div className="flex space-x-6">
-              {navigation.social.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className="text-primary hover:text-primary"
-                >
-                  <span className="sr-only">{item.name}</span>
-                  <item.icon className="h-6 w-6" aria-hidden="true" />
-                </Link>
-              ))}
-            </div>
             <div className="flex items-center gap-2 text-primary-200">
-              <Mail className="h-5 w-5" />
+              {/*<Mail className="h-5 w-5" />*/}
               {/*<a
                 href="mailto:contact@Paladin.ro"
                 className="text-sm hover:text-primary"
@@ -81,21 +49,6 @@ export const Footer = () => {
           </div>
           <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
             <div className="md:grid md:grid-cols-2 md:gap-8">
-              <div>
-                <H3>Product</H3>
-                <ul className="mt-6 space-y-4">
-                  {navigation.main.map((item) => (
-                    <li key={item.name}>
-                      <Link
-                        to={item.href}
-                        className="text-sm leading-6 text-primary hover:text-primary"
-                      >
-                        {item.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
               <div className="mt-10 md:mt-0 mx-0">
                 <H3>Legal (RO)</H3>
                 <ul className="mt-6 space-y-4">

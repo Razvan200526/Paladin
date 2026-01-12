@@ -1,24 +1,16 @@
 import { Card } from '@common/components/card';
-import { Textarea } from '@common/components/Textarea';
+import { Textarea, type TextareaRefType } from '@common/components/Textarea';
 import { H6 } from '@common/components/typography';
 import { Divider } from '@heroui/react';
 import { Icon } from '@iconify/react';
-import { useState } from 'react';
+import { type RefObject } from 'react';
 
 interface ProfileBioProps {
-  bio?: string;
-  onBioChange?: (bio: string) => void;
+  ref: RefObject<TextareaRefType | null>
+  bio ?: string
 }
 
-export const ProfileBio = ({ bio, onBioChange }: ProfileBioProps) => {
-  const [value, setValue] = useState(bio || '');
-  const maxLength = 500;
-
-  const handleChange = (newValue: string) => {
-    setValue(newValue);
-    onBioChange?.(newValue);
-  };
-
+export const ProfileBio = ({ bio ,ref }: ProfileBioProps) => {
   return (
     <Card className="bg-light border border-border hover:border-border-hover transition-all duration-300">
       <div className="space-y-5">
@@ -41,19 +33,13 @@ export const ProfileBio = ({ bio, onBioChange }: ProfileBioProps) => {
 
         <div className="space-y-2">
           <Textarea
-            value={value}
-            onChange={handleChange}
-            placeholder="Tell us a bit about yourself, your experience, and what you're looking for..."
+            ref={ref}
+            placeholder={bio}
             minRows={4}
             maxRows={6}
             inputClassName="text-primary"
             wrapperClassName="border-border"
           />
-          <div className="flex justify-end">
-            <span className="text-xs text-secondary-text">
-              {value.length}/{maxLength} characters
-            </span>
-          </div>
         </div>
       </div>
     </Card>

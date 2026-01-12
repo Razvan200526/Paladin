@@ -3,7 +3,7 @@ import { Backend } from '@sdk/backend';
 import { Fetcher, type FetcherConfigType } from '@sdk/Fetcher';
 
 const fetcher = new Fetcher({
-  baseURL: process.env.APP_URL || 'http://localhost:3000',
+  baseURL: process.env.APP_URL,
   headers: { 'Content-Type': 'application/json' },
   beforeSend: (config: FetcherConfigType) => ({
     ...config,

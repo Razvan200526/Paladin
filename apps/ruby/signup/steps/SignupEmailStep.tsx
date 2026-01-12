@@ -1,6 +1,5 @@
 import { Button } from '@common/components/button';
 import { InputEmail } from '@common/components/input';
-import { Link } from '@common/components/Link';
 import { Toast } from '@common/components/toast';
 import { H6 } from '@common/components/typography';
 import { isEmailValid } from '@common/validators/isEmailValid';
@@ -8,6 +7,7 @@ import { ArrowRightCircleIcon } from '@heroicons/react/24/outline';
 import { Form } from '@heroui/react';
 import { backend } from '@ruby/shared/backend';
 import { useState } from 'react';
+import { Link } from 'react-router';
 import { useSignupStore } from '../signUpStore';
 
 export const SignupEmailStep = () => {
@@ -65,9 +65,9 @@ export const SignupEmailStep = () => {
         </Button>
       </Form>
 
-      <H6 className="flex items-center justify-center gap-2 pt-4 text-small">
-        Already have an account?
-        <Link className="text-secondary-text font-semibold" to="/signin">
+      <H6 className="flex items-center justify-center gap-2 pt-4">
+        <p className="font-light text-primary">Already have an account?</p>
+        <Link className="text-secondary-text font-light" to="/signin">
           Sign In
         </Link>
       </H6>

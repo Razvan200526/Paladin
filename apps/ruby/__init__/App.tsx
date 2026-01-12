@@ -19,10 +19,13 @@ import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router';
 import { router } from './routes';
 
-posthog.init(process.env.APP_POSTHOG_KEY, {
-  api_host: process.env.APP_POSTHOG_HOST,
-  defaults: '2025-11-30',
-});
+if (process.env.NODE_ENV === 'production') {
+  posthog.init(process.env.APP_POSTHOG_KEY, {
+    api_host: '/t',
+    ui_host: process.env.APP_POSTHOG_HOST,
+    defaults: '2025-11-30',
+  });
+}
 
 const render = () => {
   const elem = document.getElementById('root');

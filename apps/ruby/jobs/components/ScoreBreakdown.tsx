@@ -12,32 +12,20 @@ interface ScoreBreakdownProps {
 interface ScoreBarProps {
   label: string;
   score: number;
-  weight: string;
 }
 
-const ScoreBar = ({ label, score, weight }: ScoreBarProps) => {
-  const getBarColor = (score: number) => {
-    if (score >= 80) return 'bg-green-500';
-    if (score >= 60) return 'bg-yellow-500';
-    if (score >= 40) return 'bg-orange-500';
-    return 'bg-red-500';
-  };
-
+const ScoreBar = ({ label, score }: ScoreBarProps) => {
   return (
     <div className="space-y-1">
       <div className="flex justify-between items-center text-sm">
-        <span className="text-secondary-text">{label}</span>
+        <span className="text-secondary-text font-semibold">{label}</span>
         <div className="flex items-center gap-2">
-          <span className="text-xs text-muted">({weight})</span>
           <span className="font-medium text-primary">{Math.round(score)}%</span>
         </div>
       </div>
-      <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+      <div className="h-2 bg-gray-300 rounded-full overflow-hidden">
         <div
-          className={cn(
-            'h-full rounded-full transition-all duration-500',
-            getBarColor(score),
-          )}
+          className="h-full rounded-full transition-all duration-500 bg-primary-400"
           style={{ width: `${Math.min(100, score)}%` }}
         />
       </div>
@@ -54,11 +42,11 @@ export const ScoreBreakdown = ({
   className,
 }: ScoreBreakdownProps) => {
   const scores = [
-    { label: 'Skills Match', score: skillsScore, weight: '35%' },
-    { label: 'Experience', score: experienceScore, weight: '20%' },
-    { label: 'Keywords', score: keywordsScore, weight: '20%' },
-    { label: 'Semantic Relevance', score: semanticScore, weight: '15%' },
-    { label: 'Education', score: educationScore, weight: '10%' },
+    { label: 'Skills Match', score: skillsScore },
+    { label: 'Experience', score: experienceScore },
+    { label: 'Keywords', score: keywordsScore },
+    { label: 'Semantic Relevance', score: semanticScore },
+    { label: 'Education', score: educationScore },
   ];
 
   return (

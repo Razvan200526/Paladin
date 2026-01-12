@@ -20,12 +20,6 @@ export class AiQueryService {
     this.geminiClient = new GoogleGenAI({ apiKey: this.apiKey });
   }
 
-  /**
-   * Stream a response from Gemini AI
-   * @param message - The user's message
-   * @param context - Previous conversation context for multi-turn chat
-   * @param onChunk - Callback for each token chunk
-   */
   async streamResponse(
     message: string,
     onChunk: (chunk: StreamChunk) => void,
@@ -58,7 +52,7 @@ Be concise, helpful, and encouraging. Format responses with markdown when approp
         contents,
         config: {
           systemInstruction,
-          maxOutputTokens: 1000,
+          maxOutputTokens: 2000,
         },
       });
 
@@ -92,9 +86,6 @@ Be concise, helpful, and encouraging. Format responses with markdown when approp
     }
   }
 
-  /**
-   * Generate a non-streaming response (for simpler use cases)
-   */
   async generateResponse(
     message: string,
     context: ChatContext[] = [],
@@ -114,7 +105,7 @@ Be concise, helpful, and encouraging. Format responses with markdown when approp
       model: 'gemini-2.5-flash',
       contents,
       config: {
-        maxOutputTokens: 1000,
+        maxOutputTokens: 2000,
       },
     });
 

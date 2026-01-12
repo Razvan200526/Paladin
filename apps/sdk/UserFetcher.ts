@@ -69,6 +69,8 @@ export class UserFetcher {
     id: string,
     payload: {
       email?: string;
+      profession?: string;
+      bio?: string;
       name?: string;
       firstName?: string;
       lastName?: string;

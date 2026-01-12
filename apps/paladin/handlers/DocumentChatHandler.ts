@@ -276,7 +276,7 @@ Answer the user's question based on this document. Be specific and reference the
       isProduction: process.env.NODE_ENV === 'production',
       debug: process.env.NODE_ENV !== 'production',
       app: {
-        url: process.env.APP_URL || 'http://localhost:3000',
+        url: process.env.APP_URL,
       },
     };
   }
