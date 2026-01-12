@@ -16,6 +16,7 @@ interface ProfileFormProps {
   user?: {
     firstName?: string;
     lastName?: string;
+    profession?: string;
   };
 }
 
@@ -65,6 +66,7 @@ export const ProfileForm = ({
           />
 
           <ProfessionSelector
+          placeholder={user?.profession}
             className="mt-5.5"
             ref={professionRef}
             onChange={(e) => {

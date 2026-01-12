@@ -139,6 +139,7 @@ export const ProfilePage = () => {
           user={{
             firstName: user?.firstName,
             lastName: user?.lastName,
+            profession: user?.profession,
           }}
         />
 
