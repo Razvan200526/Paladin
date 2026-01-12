@@ -10,6 +10,7 @@ import { DeleteApplicationModel, UpdateApplicationModel } from '../models';
 import { ApplicationRepository } from '../repositories/ApplicationRepository';
 import { UserRepository } from '../repositories/UserRepository';
 import type { ApiResponse, CreateApplicationType } from '../sdk/types';
+import { CacheService } from '../services/CacheService';
 import { PrimaryDatabase } from '../shared/database/PrimaryDatabase';
 
 type ApplicationStatus = 'Applied' | 'Interviewing' | 'Accepted' | 'Rejected';
@@ -39,7 +40,15 @@ export class ApplicationsController {
     @inject(UserRepository) private readonly userRepo: UserRepository,
     @inject(ApplicationRepository)
     private readonly appRepo: ApplicationRepository,
+    @inject(CacheService) private readonly cache: CacheService,
   ) {}
+
+  /**
+   * Invalidate analytics cache for a user when applications change
+   */
+  private async invalidateAnalyticsCache(userId: string): Promise<void> {
+    await this.cache.deletePattern(`analytics:${userId}:*`);
+  }
 
   // POST /api/applications/create
   @post('/create')
@@ -99,6 +108,8 @@ export class ApplicationsController {
 
       const newApplication = applicationRepository.create(appEntity);
       await applicationRepository.save(newApplication);
+
+      await this.invalidateAnalyticsCache(userId);
 
       return apiResponse(c, {
         data: { newApplication },
@@ -253,6 +264,8 @@ export class ApplicationsController {
 
       const result = await appRepo.delete(applicationIds);
 
+      await this.invalidateAnalyticsCache(userId);
+
       return apiResponse(c, {
         data: {
           success: true,
@@ -374,6 +387,8 @@ export class ApplicationsController {
         applicationId,
         updateData,
       );
+
+      await this.invalidateAnalyticsCache(userId);
 
       return apiResponse(c, {
         data: { application: updatedApplication },

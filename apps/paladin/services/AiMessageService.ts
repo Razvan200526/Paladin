@@ -15,7 +15,6 @@ export interface ChatContext {
 @service()
 export class AiQueryService {
   private geminiClient: GoogleGenAI;
-
   constructor(@inject('GEMINI_API_KEY') private apiKey: string) {
     this.geminiClient = new GoogleGenAI({ apiKey: this.apiKey });
   }

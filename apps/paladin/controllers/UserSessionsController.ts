@@ -239,8 +239,6 @@ export class UserSessionsController {
     try {
       const id = c.req.param('id');
 
-      // Check if exists first? Or just delete.
-      // Usually good to check to return 404 if not found, but not strictly required.
       const session = await this.sessionRepo.findOne(id);
       if (!session) {
         return apiResponse(

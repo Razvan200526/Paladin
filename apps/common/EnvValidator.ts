@@ -3,6 +3,11 @@ import { IsString } from 'class-validator';
 
 @validator()
 export class EnvValidator {
+
+  @IsString()
+  @env()
+  private readonly APP_REDIS_URL: string;
+
   @IsString()
   @env()
   private readonly APP_POSTHOG_KEY: string;

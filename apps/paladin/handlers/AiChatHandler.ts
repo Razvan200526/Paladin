@@ -155,7 +155,7 @@ export class AiChatHandler {
       'ai',
     );
 
-    const context = this.sessionService.getContext(session.id);
+    const context = await this.sessionService.getContext(session.id);
 
     let fullContent = '';
     try {

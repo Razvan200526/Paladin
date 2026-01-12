@@ -120,23 +120,7 @@ export class UserSessionRepository {
       | FindOptionsWhere<UserSessionEntity>[],
   ): Promise<DeleteResult> {
     const repository = await this.open();
-    return await repository.delete(criteria); // Sessions are typically hard deleted, or check if soft delete is enabled.
-    // The entity has @DeleteDateColumn, so softDelete might be appropriate if we want to keep history,
-    // but typically sessions are just removed. However, ApplicationRepository uses softDelete.
-    // UserSessionEntity has @DeleteDateColumn, so I should use softDelete if I want to respect that,
-    // but the fetcher assumes 'delete'. Let's check other repos. ApplicationRepository uses softDelete.
-    // But ChatMessageRepository uses delete.
-    // Let's use softDelete as the entity has DeleteDateColumn.
-    // Wait, ApplicationRepository.delete calls softDelete.
-    // UserSessionEntity HAS DeleteDateColumn. So softDelete is safer.
-    // But usually sessions are revoked (hard deleted or marked expired).
-    // Let's use softDelete for now as the column exists.
-    // Actually, looking at ChatMessageRepository, it uses delete().
-    // ChatMessageEntity might not have DeleteDateColumn.
-    // UserSessionEntity has DeleteDateColumn.
-    // So I will use softDelete.
-    // Update: UserSessionEntity has DeleteDateColumn.
-    // Actually, let's use softDelete to be safe.
+    return await repository.delete(criteria);
   }
 
   public async hardDelete(

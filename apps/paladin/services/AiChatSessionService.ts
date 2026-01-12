@@ -5,6 +5,10 @@ import { ChatSessionRepository } from '@paladin/repositories/ChatSessionReposito
 import { UserRepository } from '@paladin/repositories/UserRepository';
 import { inject, logger, service } from '@razvan11/paladin';
 import type { ChatContext } from './AiMessageService';
+import { CacheService } from './CacheService';
+
+const SESSION_CACHE_TTL = 60 * 60 * 24; // 24 hours
+const USER_SESSIONS_CACHE_TTL = 60 * 5; // 5 minutes
 
 export interface ChatSession {
   id: string;
@@ -24,13 +28,26 @@ export interface ChatMessage {
 
 @service()
 export class AiChatSessionService {
-  private activeSessions: Map<string, ChatSession> = new Map();
-
   constructor(
     @inject(ChatSessionRepository) private sessionRepo: ChatSessionRepository,
     @inject(ChatMessageRepository) private messageRepo: ChatMessageRepository,
     @inject(UserRepository) private userRepo: UserRepository,
+    @inject(CacheService) private cache: CacheService,
   ) {}
+
+  /**
+   * Get cache key for a session
+   */
+  private getSessionCacheKey(sessionId: string): string {
+    return `session:${sessionId}`;
+  }
+
+  /**
+   * Get cache key for user's session list
+   */
+  private getUserSessionsCacheKey(userId: string): string {
+    return `user:${userId}:sessions`;
+  }
 
   /**
    * Create a new chat session for a user (persists to DB)
@@ -58,16 +75,32 @@ export class AiChatSessionService {
       updatedAt: savedEntity.updatedAt || undefined,
     };
 
-    this.activeSessions.set(session.id, session);
+    await this.cache.set(
+      this.getSessionCacheKey(session.id),
+      session,
+      SESSION_CACHE_TTL,
+    );
+
+    await this.cache.delete(this.getUserSessionsCacheKey(userId));
+
     return session;
   }
 
   /**
-   * Get a session by ID (loads from DB if not in cache)
+   * Get a session by ID (loads from cache or DB)
    */
   async getSession(sessionId: string): Promise<ChatSession | null> {
-    if (this.activeSessions.has(sessionId)) {
-      return this.activeSessions.get(sessionId) ?? null;
+    const cached = await this.cache.get<ChatSession>(
+      this.getSessionCacheKey(sessionId),
+    );
+    if (cached) {
+      cached.createdAt = new Date(cached.createdAt);
+      if (cached.updatedAt) cached.updatedAt = new Date(cached.updatedAt);
+      cached.messages = cached.messages.map((m) => ({
+        ...m,
+        timestamp: new Date(m.timestamp),
+      }));
+      return cached;
     }
 
     const entity = await this.sessionRepo.findOne(sessionId);
@@ -90,7 +123,12 @@ export class AiChatSessionService {
       updatedAt: entity.updatedAt || undefined,
     };
 
-    this.activeSessions.set(session.id, session);
+    await this.cache.set(
+      this.getSessionCacheKey(session.id),
+      session,
+      SESSION_CACHE_TTL,
+    );
+
     return session;
   }
 
@@ -99,10 +137,29 @@ export class AiChatSessionService {
    */
   async getUserSessions(userId: string): Promise<ChatSession[]> {
     logger.info(`[AiChatSessionService] Getting sessions for user: ${userId}`);
+
+    const cached = await this.cache.get<ChatSession[]>(
+      this.getUserSessionsCacheKey(userId),
+    );
+    if (cached) {
+      logger.info(
+        `[AiChatSessionService] Found cached sessions: ${cached.length}`,
+      );
+      return cached.map((s) => ({
+        ...s,
+        createdAt: new Date(s.createdAt),
+        updatedAt: s.updatedAt ? new Date(s.updatedAt) : undefined,
+        messages: s.messages.map((m) => ({
+          ...m,
+          timestamp: new Date(m.timestamp),
+        })),
+      }));
+    }
+
     const entities = await this.sessionRepo.findByUserId(userId);
     logger.info(`[AiChatSessionService] Found sessions: ${entities.length}`);
 
-    return entities.map((e) => ({
+    const sessions = entities.map((e) => ({
       id: e.id,
       userId: e.user?.id || '',
       title: e.resourceName,
@@ -116,6 +173,14 @@ export class AiChatSessionService {
       createdAt: e.createdAt,
       updatedAt: e.updatedAt || undefined,
     }));
+
+    await this.cache.set(
+      this.getUserSessionsCacheKey(userId),
+      sessions,
+      USER_SESSIONS_CACHE_TTL,
+    );
+
+    return sessions;
   }
 
   /**
@@ -177,6 +242,14 @@ export class AiChatSessionService {
       await this.updateSessionTitle(sessionId, title);
     }
 
+    await this.cache.set(
+      this.getSessionCacheKey(sessionId),
+      session,
+      SESSION_CACHE_TTL,
+    );
+
+    await this.cache.delete(this.getUserSessionsCacheKey(session.userId));
+
     return message;
   }
 
@@ -190,9 +263,17 @@ export class AiChatSessionService {
       await this.sessionRepo.update(entity);
     }
 
-    const session = this.activeSessions.get(sessionId);
+    const session = await this.cache.get<ChatSession>(
+      this.getSessionCacheKey(sessionId),
+    );
     if (session) {
       session.title = title;
+      await this.cache.set(
+        this.getSessionCacheKey(sessionId),
+        session,
+        SESSION_CACHE_TTL,
+      );
+      await this.cache.delete(this.getUserSessionsCacheKey(session.userId));
     }
   }
 
@@ -204,20 +285,27 @@ export class AiChatSessionService {
     messageId: string,
     content: string,
   ): Promise<void> {
-    const session = this.activeSessions.get(sessionId);
+    const session = await this.cache.get<ChatSession>(
+      this.getSessionCacheKey(sessionId),
+    );
     if (!session) return;
 
     const message = session.messages.find((m) => m.id === messageId);
     if (message && message.sender === 'ai') {
       message.content = content;
+      await this.cache.set(
+        this.getSessionCacheKey(sessionId),
+        session,
+        SESSION_CACHE_TTL,
+      );
     }
   }
 
-  /**
-   * Finalize AI message (persist to DB after streaming completes)
-   */
+
   async finalizeAiMessage(sessionId: string, messageId: string): Promise<void> {
-    const session = this.activeSessions.get(sessionId);
+    const session = await this.cache.get<ChatSession>(
+      this.getSessionCacheKey(sessionId),
+    );
     if (!session) return;
 
     const message = session.messages.find((m) => m.id === messageId);
@@ -230,11 +318,11 @@ export class AiChatSessionService {
     }
   }
 
-  /**
-   * Get conversation context for Gemini (last N messages)
-   */
-  getContext(sessionId: string, maxMessages = 10): ChatContext[] {
-    const session = this.activeSessions.get(sessionId);
+
+  async getContext(sessionId: string, maxMessages = 10): Promise<ChatContext[]> {
+    const session = await this.cache.get<ChatSession>(
+      this.getSessionCacheKey(sessionId),
+    );
     if (!session) return [];
 
     const recentMessages = session.messages.slice(-maxMessages);
@@ -247,8 +335,11 @@ export class AiChatSessionService {
   /**
    * Get all messages in a session
    */
-  getMessages(sessionId: string): ChatMessage[] {
-    return this.activeSessions.get(sessionId)?.messages || [];
+  async getMessages(sessionId: string): Promise<ChatMessage[]> {
+    const session = await this.cache.get<ChatSession>(
+      this.getSessionCacheKey(sessionId),
+    );
+    return session?.messages || [];
   }
 
   /**
@@ -256,6 +347,9 @@ export class AiChatSessionService {
    */
   async deleteSession(sessionId: string): Promise<void> {
     logger.info(`[AiChatSessionService] Deleting session: ${sessionId}`);
+
+    const session = await this.getSession(sessionId);
+
     try {
       const deleteMessagesResult =
         await this.messageRepo.deleteBySessionId(sessionId);
@@ -270,7 +364,12 @@ export class AiChatSessionService {
         `[AiChatSessionService] Deleted session: ${deleteSessionResult}`,
       );
 
-      this.activeSessions.delete(sessionId);
+      await this.cache.delete(this.getSessionCacheKey(sessionId));
+
+      if (session) {
+        await this.cache.delete(this.getUserSessionsCacheKey(session.userId));
+      }
+
       logger.info(
         `[AiChatSessionService] Cleared cache for session: ${sessionId}`,
       );
@@ -283,7 +382,7 @@ export class AiChatSessionService {
   /**
    * Clear cache for a session
    */
-  clearSessionCache(sessionId: string): void {
-    this.activeSessions.delete(sessionId);
+  async clearSessionCache(sessionId: string): Promise<void> {
+    await this.cache.delete(this.getSessionCacheKey(sessionId));
   }
 }

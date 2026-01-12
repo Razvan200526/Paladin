@@ -1,8 +1,4 @@
-/**
- * Services Index
- * Export all services for convenient importing
- */
-
+export { CacheService } from './CacheService';
 export { AiChatSessionService } from './AiChatSessionService';
 export { AiQueryService } from './AiMessageService';
 export { AuthService } from './AuthService';

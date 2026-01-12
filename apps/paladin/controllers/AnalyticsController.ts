@@ -3,12 +3,18 @@ import type {
   TrendsData,
   TrendsPeriod,
 } from '@common/types';
-import { controller, get, inject } from '@razvan11/paladin';
+import { controller, get, inject, logger } from '@razvan11/paladin';
 import type { Context } from 'hono';
 import { MoreThanOrEqual } from 'typeorm';
 import { apiResponse } from '../client';
 import { ApplicationRepository } from '../repositories/ApplicationRepository';
 import type { ApiResponse } from '../sdk/types';
+import { CacheService } from '../services/CacheService';
+
+// Cache TTL constants (in seconds)
+const OVERVIEW_CACHE_TTL = 60 * 5; // 5 minutes
+const STATUS_BREAKDOWN_CACHE_TTL = 60 * 5; // 5 minutes
+const TRENDS_CACHE_TTL = 60 * 15; // 15 minutes
 
 type AnalyticsOverview = {
   totalApplications: number;
@@ -31,13 +37,48 @@ export class AnalyticsController {
   constructor(
     @inject(ApplicationRepository)
     private readonly appRepo: ApplicationRepository,
+    @inject(CacheService)
+    private readonly cache: CacheService,
   ) {}
+
+  /**
+   * Get cache key for analytics overview
+   */
+  private getOverviewCacheKey(userId: string): string {
+    return `analytics:${userId}:overview`;
+  }
+
+  /**
+   * Get cache key for status breakdown
+   */
+  private getStatusBreakdownCacheKey(userId: string): string {
+    return `analytics:${userId}:statusBreakdown`;
+  }
+
+  /**
+   * Get cache key for trends
+   */
+  private getTrendsCacheKey(userId: string, period: string): string {
+    return `analytics:${userId}:trends:${period}`;
+  }
 
   // GET /api/analytics/overview/:userId
   @get('/overview/:userId')
   async overview(c: Context): Promise<ApiResponse<AnalyticsOverview | null>> {
     try {
       const userId = c.req.param('userId');
+      const cacheKey = this.getOverviewCacheKey(userId);
+
+      const cached = await this.cache.get<AnalyticsOverview>(cacheKey);
+      if (cached) {
+        logger.info(`[AnalyticsController] Cache hit for overview: ${userId}`);
+        return apiResponse(c, {
+          data: cached,
+          message: 'Analytics overview retrieved successfully (cached)',
+        });
+      }
+
+      logger.info(`[AnalyticsController] Cache miss for overview: ${userId}`);
 
       const totalApplications = await this.appRepo.countByUser(userId);
       const applied = await this.appRepo.countByUserAndStatus(
@@ -80,23 +121,27 @@ export class AnalyticsController {
           ? ((accepted + interviewing + rejected) / totalApplications) * 100
           : 0;
 
-      return apiResponse(c, {
-        data: {
-          totalApplications,
-          statusCounts: {
-            applied,
-            interviewing,
-            accepted,
-            rejected,
-          },
-          thisMonthCount,
-          thisWeekCount,
-          responseRate,
+      const data = {
+        totalApplications,
+        statusCounts: {
           applied,
           interviewing,
           accepted,
           rejected,
         },
+        thisMonthCount,
+        thisWeekCount,
+        responseRate,
+        applied,
+        interviewing,
+        accepted,
+        rejected,
+      };
+
+      await this.cache.set(cacheKey, data, OVERVIEW_CACHE_TTL);
+
+      return apiResponse(c, {
+        data,
         message: 'Analytics overview retrieved successfully',
       });
     } catch (e) {
@@ -120,6 +165,22 @@ export class AnalyticsController {
   ): Promise<ApiResponse<StatusBreakdownData | null>> {
     try {
       const userId = c.req.param('userId');
+      const cacheKey = this.getStatusBreakdownCacheKey(userId);
+
+      const cached = await this.cache.get<StatusBreakdownData>(cacheKey);
+      if (cached) {
+        logger.info(
+          `[AnalyticsController] Cache hit for status breakdown: ${userId}`,
+        );
+        return apiResponse(c, {
+          data: cached,
+          message: 'Status breakdown retrieved successfully (cached)',
+        });
+      }
+
+      logger.info(
+        `[AnalyticsController] Cache miss for status breakdown: ${userId}`,
+      );
 
       const applied = await this.appRepo.countByUserAndStatus(
         userId,
@@ -167,11 +228,15 @@ export class AnalyticsController {
         },
       ];
 
+      const data = {
+        breakdown,
+        total,
+      };
+
+      await this.cache.set(cacheKey, data, STATUS_BREAKDOWN_CACHE_TTL);
+
       return apiResponse(c, {
-        data: {
-          breakdown,
-          total,
-        },
+        data,
         message: 'Status breakdown retrieved successfully',
       });
     } catch (e) {
@@ -194,6 +259,19 @@ export class AnalyticsController {
     try {
       const userId = c.req.param('userId');
       const period = (c.req.query('period') || 'last_6_months') as TrendsPeriod;
+      const cacheKey = this.getTrendsCacheKey(userId, period);
+
+      const cached = await this.cache.get<TrendsData>(cacheKey);
+      if (cached) {
+        logger.info(`[AnalyticsController] Cache hit for trends: ${userId}`);
+        return apiResponse(c, {
+          data: cached,
+          message: 'Trends retrieved successfully (cached)',
+        });
+      }
+
+      logger.info(`[AnalyticsController] Cache miss for trends: ${userId}`);
+
       const applications = await this.appRepo.findByUser(userId);
 
       const now = new Date();
@@ -308,15 +386,19 @@ export class AnalyticsController {
           rejected: data.rejected || 0,
         }));
 
-      return apiResponse(c, {
-        data: {
-          trends,
-          period: {
-            start: startDate.toISOString(),
-            end: now.toISOString(),
-            type: period,
-          },
+      const data = {
+        trends,
+        period: {
+          start: startDate.toISOString(),
+          end: now.toISOString(),
+          type: period,
         },
+      };
+
+      await this.cache.set(cacheKey, data, TRENDS_CACHE_TTL);
+
+      return apiResponse(c, {
+        data,
         message: 'Trends retrieved successfully',
       });
     } catch (e) {
@@ -331,5 +413,14 @@ export class AnalyticsController {
         500,
       );
     }
+  }
+
+  /**
+   * Invalidate all analytics cache for a user
+   * Call this when applications are created, updated, or deleted
+   */
+  async invalidateUserCache(userId: string): Promise<void> {
+    logger.info(`[AnalyticsController] Invalidating cache for user: ${userId}`);
+    await this.cache.deletePattern(`analytics:${userId}:*`);
   }
 }

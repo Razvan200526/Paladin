@@ -3,7 +3,7 @@ import { JobListingEntity } from '@paladin/entities';
 import { JobListingRepository } from '@paladin/repositories/JobListingRepository';
 import { JobMatchRepository } from '@paladin/repositories/JobMatchRepository';
 import { UserJobPreferencesRepository } from '@paladin/repositories/UserJobPreferenceRepository';
-import { JobFetchingService } from '@paladin/services';
+import { CacheService, JobFetchingService } from '@paladin/services';
 import {
   controller,
   get,
@@ -15,6 +15,12 @@ import {
 } from '@razvan11/paladin';
 import type { Context } from 'hono';
 
+const LISTINGS_CACHE_TTL = 60 * 15; // 15 minutes
+const LISTING_CACHE_TTL = 60 * 30; // 30 minutes
+const PREFERENCES_CACHE_TTL = 60 * 60; // 1 hour
+const CATEGORIES_CACHE_TTL = 60 * 60 * 24; // 24 hours
+const MATCH_STATS_CACHE_TTL = 60 * 5; // 5 minutes
+
 @controller('/api/jobs')
 export class JobsController {
   constructor(
@@ -23,7 +29,41 @@ export class JobsController {
     @inject(UserJobPreferencesRepository)
     private preferences: UserJobPreferencesRepository,
     @inject(JobListingRepository) private listings: JobListingRepository,
+    @inject(CacheService) private cache: CacheService,
   ) {}
+
+  /**
+   * Generate cache key for job listings search
+   */
+  private getListingsCacheKey(params: Record<string, unknown>): string {
+    const key = Object.entries(params)
+      .filter(([, v]) => v !== undefined)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([k, v]) => `${k}=${v}`)
+      .join('&');
+    return `jobs:listings:${key || 'all'}`;
+  }
+
+  /**
+   * Generate cache key for a single listing
+   */
+  private getListingCacheKey(id: string): string {
+    return `jobs:listing:${id}`;
+  }
+
+  /**
+   * Generate cache key for user preferences
+   */
+  private getPreferencesCacheKey(userId: string): string {
+    return `jobs:preferences:${userId}`;
+  }
+
+  /**
+   * Generate cache key for match stats
+   */
+  private getMatchStatsCacheKey(userId: string): string {
+    return `jobs:matchStats:${userId}`;
+  }
 
   // GET /api/jobs/listings
   @get('/listings')
@@ -36,6 +76,24 @@ export class JobsController {
       const limit = Number(c.req.query('limit')) || 20;
       const offset = Number(c.req.query('offset')) || 0;
 
+      const cacheKey = this.getListingsCacheKey({
+        search,
+        location,
+        jobType,
+        isRemote,
+        limit,
+        offset,
+      });
+
+      const cached = await this.cache.get<JobListingEntity[]>(cacheKey);
+      if (cached) {
+        logger.info(`[JobsController] Cache hit for listings: ${cacheKey}`);
+        return apiResponse(c, {
+          data: cached,
+          message: 'Job listings retrieved successfully (cached)',
+        });
+      }
+
       const jobs = await this.listings.findAll({
         search,
         location,
@@ -45,6 +103,8 @@ export class JobsController {
         limit,
         offset,
       });
+
+      await this.cache.set(cacheKey, jobs, LISTINGS_CACHE_TTL);
 
       return apiResponse(c, {
         data: jobs,
@@ -65,6 +125,16 @@ export class JobsController {
   async getListing(c: Context) {
     try {
       const id = c.req.param('id');
+      const cacheKey = this.getListingCacheKey(id);
+
+      const cached = await this.cache.get<JobListingEntity>(cacheKey);
+      if (cached) {
+        return apiResponse(c, {
+          data: cached,
+          message: 'Job listing retrieved successfully (cached)',
+        });
+      }
+
       const job = await this.listings.findById(id);
 
       if (!job) {
@@ -74,6 +144,8 @@ export class JobsController {
           404,
         );
       }
+
+      await this.cache.set(cacheKey, job, LISTING_CACHE_TTL);
 
       return apiResponse(c, {
         data: job,
@@ -136,6 +208,8 @@ export class JobsController {
       listing.expiresAt = body.expiresAt ? new Date(body.expiresAt) : undefined;
 
       const saved = await this.listings.create(listing);
+
+      await this.cache.deletePattern('jobs:listings:*');
 
       logger.info(`Job listing created successfully: ${saved.id}`);
 
@@ -210,6 +284,16 @@ export class JobsController {
         );
       }
 
+      const cacheKey = this.getMatchStatsCacheKey(userId);
+
+      const cached = await this.cache.get(cacheKey);
+      if (cached) {
+        return apiResponse(c, {
+          data: cached,
+          message: 'Match stats retrieved successfully (cached)',
+        });
+      }
+
       const [stats, averageScore, highMatchCount, topSkillGaps] =
         await Promise.all([
           this.matches.getStatsByUserId(userId),
@@ -217,16 +301,21 @@ export class JobsController {
           this.matches.getHighMatchCountByUserId(userId, 70),
           this.matches.getTopSkillGapsByUserId(userId, 5),
         ]);
+
+      const data = {
+        totalMatches: stats.total,
+        newMatches: stats.new,
+        savedMatches: stats.saved,
+        appliedMatches: stats.applied,
+        averageScore: Math.round(averageScore * 100) / 100,
+        highMatchCount,
+        topSkillGaps,
+      };
+
+      await this.cache.set(cacheKey, data, MATCH_STATS_CACHE_TTL);
+
       return apiResponse(c, {
-        data: {
-          totalMatches: stats.total,
-          newMatches: stats.new,
-          savedMatches: stats.saved,
-          appliedMatches: stats.applied,
-          averageScore: Math.round(averageScore * 100) / 100,
-          highMatchCount,
-          topSkillGaps,
-        },
+        data,
         message: 'Match stats retrieved successfully',
       });
     } catch (e) {
@@ -272,7 +361,7 @@ export class JobsController {
   @patch('/matches/status')
   async updateMatchStatus(c: Context) {
     try {
-      const { matchId, status } = await c.req.json();
+      const { matchId, status, userId } = await c.req.json();
 
       if (!matchId || !status) {
         return apiResponse(
@@ -290,6 +379,10 @@ export class JobsController {
           { data: null, message: 'Match not found', isNotFound: true },
           404,
         );
+      }
+
+      if (userId) {
+        await this.cache.delete(this.getMatchStatsCacheKey(userId));
       }
 
       return apiResponse(c, {
@@ -313,6 +406,8 @@ export class JobsController {
       const userId = c.req.param('userId');
       const result = await this.matches.refreshMatchesForUser(userId);
 
+      await this.cache.delete(this.getMatchStatsCacheKey(userId));
+
       return apiResponse(c, {
         data: {
           newMatches: result.newMatches,
@@ -335,8 +430,21 @@ export class JobsController {
   async getPreferences(c: Context) {
     try {
       const userId = c.req.param('userId');
+      const cacheKey = this.getPreferencesCacheKey(userId);
+
+      const cached = await this.cache.get(cacheKey);
+      if (cached) {
+        logger.info(`[JobsController] Cache hit for preferences: ${userId}`);
+        return apiResponse(c, {
+          data: cached,
+          message: 'Preferences retrieved successfully (cached)',
+        });
+      }
+
       const preferences = await this.preferences.findByUserId(userId);
       logger.info(`Retrieved preferences for user ${userId}`);
+
+      await this.cache.set(cacheKey, preferences ?? null, PREFERENCES_CACHE_TTL);
 
       return apiResponse(c, {
         data: preferences ?? null,
@@ -372,6 +480,9 @@ export class JobsController {
         preferencesData,
       );
 
+      await this.cache.delete(this.getPreferencesCacheKey(userId));
+      await this.cache.delete(this.getMatchStatsCacheKey(userId));
+
       return apiResponse(c, {
         data: preferences,
         message: 'Preferences updated successfully',
@@ -389,18 +500,32 @@ export class JobsController {
   // GET /api/jobs/categories
   @get('/categories')
   async getCategories(c: Context) {
+    const cacheKey = 'jobs:categories';
+
+    const cached = await this.cache.get(cacheKey);
+    if (cached) {
+      return apiResponse(c, {
+        data: cached,
+        message: 'Categories retrieved successfully (cached)',
+      });
+    }
+
+    const categories = [
+      { value: 'software-dev', label: 'Software Development' },
+      { value: 'data', label: 'Data Science & Analytics' },
+      { value: 'devops', label: 'DevOps & Infrastructure' },
+      { value: 'design', label: 'Design & UX' },
+      { value: 'product', label: 'Product Management' },
+      { value: 'marketing', label: 'Marketing' },
+      { value: 'sales', label: 'Sales' },
+      { value: 'finance', label: 'Finance' },
+      { value: 'other', label: 'Other' },
+    ];
+
+    await this.cache.set(cacheKey, categories, CATEGORIES_CACHE_TTL);
+
     return apiResponse(c, {
-      data: [
-        { value: 'software-dev', label: 'Software Development' },
-        { value: 'data', label: 'Data Science & Analytics' },
-        { value: 'devops', label: 'DevOps & Infrastructure' },
-        { value: 'design', label: 'Design & UX' },
-        { value: 'product', label: 'Product Management' },
-        { value: 'marketing', label: 'Marketing' },
-        { value: 'sales', label: 'Sales' },
-        { value: 'finance', label: 'Finance' },
-        { value: 'other', label: 'Other' },
-      ],
+      data: categories,
       message: 'Categories retrieved successfully',
     });
   }
@@ -422,6 +547,9 @@ export class JobsController {
       }
 
       const jobs = await this.jobs.fetchAndSaveJobs({ categories, limit });
+
+      await this.cache.deletePattern('jobs:listings:*');
+
       return apiResponse(c, {
         data: jobs,
         message: `Fetched ${jobs.new} applications`,
