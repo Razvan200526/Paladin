@@ -1,13 +1,14 @@
 import { Button } from '@common/components/button';
 import type { InputNameRefType } from '@common/components/input/InputFirstName';
 import type { ModalRefType } from '@common/components/Modal';
+import type { TextareaRefType } from '@common/components/Textarea';
 import { Toast } from '@common/components/toast';
 import { isNameValid } from '@common/validators/isNameValid';
 import { ScrollShadow } from '@heroui/react';
 import { ConfirmModal } from '@ruby/settings/components/ConfirmModal';
 import { useUpdateProfile } from '@ruby/settings/hooks';
 import { useAuth } from '@ruby/shared/hooks';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import * as z from 'zod';
 import {
   ProfileAvatarUpload,
@@ -15,7 +16,6 @@ import {
   ProfileForm,
   ProfileHeader,
 } from './components';
-import type { TextareaRefType } from '@common/components/Textarea';
 
 const profileSchema = z.object({
   firstName: z

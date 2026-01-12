@@ -267,7 +267,7 @@ export const ResumeChat = ({ resume }: { resume: ResumeType }) => {
                             {role === 'user' ? (
                               content
                             ) : (
-                                <HTMLContent content={content} />
+                              <HTMLContent content={content} />
                             )}
                           </div>
                         </div>

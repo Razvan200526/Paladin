@@ -3,14 +3,14 @@ import { Textarea, type TextareaRefType } from '@common/components/Textarea';
 import { H6 } from '@common/components/typography';
 import { Divider } from '@heroui/react';
 import { Icon } from '@iconify/react';
-import { type RefObject } from 'react';
+import type { RefObject } from 'react';
 
 interface ProfileBioProps {
-  ref: RefObject<TextareaRefType | null>
-  bio ?: string
+  ref: RefObject<TextareaRefType | null>;
+  bio?: string;
 }
 
-export const ProfileBio = ({ bio ,ref }: ProfileBioProps) => {
+export const ProfileBio = ({ bio, ref }: ProfileBioProps) => {
   return (
     <Card className="bg-light border border-border hover:border-border-hover transition-all duration-300">
       <div className="space-y-5">

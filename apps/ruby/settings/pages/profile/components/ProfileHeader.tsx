@@ -10,7 +10,12 @@ interface ProfileHeaderProps {
   profession?: string;
 }
 
-export const ProfileHeader = ({ name, email, image , profession }: ProfileHeaderProps) => {
+export const ProfileHeader = ({
+  name,
+  email,
+  image,
+  profession,
+}: ProfileHeaderProps) => {
   return (
     <Card className="bg-primary-100 border border-border h-full flex items-center justify-center">
       <div className="flex items-center gap-6 py-2">
@@ -30,7 +35,9 @@ export const ProfileHeader = ({ name, email, image , profession }: ProfileHeader
         </div>
 
         <div className="flex-1 min-w-0">
-          <H4 className="text-primary truncate">{name || 'User'} - {profession}</H4>
+          <H4 className="text-primary truncate">
+            {name || 'User'} - {profession}
+          </H4>
           <p className="text-sm text-secondary-text truncate">{email}</p>
           <div className="flex items-center gap-2 mt-2">
             <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/20">

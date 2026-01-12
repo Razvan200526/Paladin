@@ -64,11 +64,15 @@ export const ProfileForm = ({
             placeholder={user?.lastName || 'Last Name'}
           />
 
-          <ProfessionSelector className='mt-5.5' ref={professionRef} onChange={(e) => {
-            if (professionRef.current) {
-              professionRef.current.value = e;
-              console.log(professionRef.current.value);
-            }}}/>
+          <ProfessionSelector
+            className="mt-5.5"
+            ref={professionRef}
+            onChange={(e) => {
+              if (professionRef.current) {
+                professionRef.current.value = e;
+              }
+            }}
+          />
         </div>
       </div>
     </Card>
