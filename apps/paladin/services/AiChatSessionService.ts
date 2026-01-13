@@ -301,7 +301,6 @@ export class AiChatSessionService {
     }
   }
 
-
   async finalizeAiMessage(sessionId: string, messageId: string): Promise<void> {
     const session = await this.cache.get<ChatSession>(
       this.getSessionCacheKey(sessionId),
@@ -318,8 +317,10 @@ export class AiChatSessionService {
     }
   }
 
-
-  async getContext(sessionId: string, maxMessages = 10): Promise<ChatContext[]> {
+  async getContext(
+    sessionId: string,
+    maxMessages = 10,
+  ): Promise<ChatContext[]> {
     const session = await this.cache.get<ChatSession>(
       this.getSessionCacheKey(sessionId),
     );

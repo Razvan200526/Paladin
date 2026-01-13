@@ -1,1 +1,1 @@
-bun lint && bun fmt
+bun run lint && bun run fmt

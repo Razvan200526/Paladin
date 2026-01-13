@@ -1,7 +1,7 @@
-export { CacheService } from './CacheService';
 export { AiChatSessionService } from './AiChatSessionService';
 export { AiQueryService } from './AiMessageService';
 export { AuthService } from './AuthService';
+export { CacheService } from './CacheService';
 export { DocumentTextService } from './DocumentTextService';
 export { JobFetchingService, REMOTIVE_CATEGORIES } from './JobFetchingService';
 export type {

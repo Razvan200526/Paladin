@@ -30,6 +30,12 @@ export class AuthService {
             type?: string;
           }) {
             try {
+              if (process.env.NODE_ENV === 'test') {
+                logger.info(
+                  `[Test] Skipping email sending to ${email} with OTP ${otp}`,
+                );
+                return;
+              }
               if (type === 'email-verification') {
                 const mailer = new SignupEmailCheckMailer();
                 await mailer.send({ to: email, otp, lang: 'en' });

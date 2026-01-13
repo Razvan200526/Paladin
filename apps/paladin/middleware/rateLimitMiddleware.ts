@@ -134,12 +134,7 @@ export class RateLimitService {
     config: RateLimitConfig,
   ): Promise<RateLimitResult> {
     const key = `${config.keyPrefix || 'ratelimit'}:${identifier}`;
-    return checkRateLimit(
-      this.cache,
-      key,
-      config.limit,
-      config.windowSeconds,
-    );
+    return checkRateLimit(this.cache, key, config.limit, config.windowSeconds);
   }
 
   /**

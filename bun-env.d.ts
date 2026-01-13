@@ -3,5 +3,6 @@ declare module 'bun' {
     APP_POSTHOG_KEY: string;
     APP_POSTHOG_HOST: string;
     APP_URL: string;
+    APP_ENV: string;
   }
 }

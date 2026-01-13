@@ -7,7 +7,7 @@
     "dev": "bun dev/run.ts",
     "fmt": "bun x @biomejs/biome check --write",
     "lint": "bun x @biomejs/biome lint",
-    "test": "bun test tests",
+    "test": "bun test --env-file=.env.test",
     "test:watch": "bun test tests --watch",
     "test:coverage": "bun test tests --coverage",
     "db:migrate": "bun run --bun node_modules/typeorm/cli.js migration:generate ./migrations/Initial -d ./apps/paladin/shared/database/data-source.ts",

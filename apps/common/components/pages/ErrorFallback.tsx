@@ -5,14 +5,16 @@ import { Button } from '../button/Button';
 import { Card } from '../card/Card';
 import { H3, H6 } from '../typography/index';
 
-if (process.env.NODE_ENV === 'production') {
-  Sentry.init({
-    dsn: process.env.APP_SENTRY_DSN,
-    sendDefaultPii: true,
-    environment: 'production',
-    integrations: [Sentry.browserTracingIntegration()],
-    tracePropagationTargets: ['localhost', process.env.APP_URL as string],
-  });
+try {
+  if (process.env.APP_ENV === 'production')
+    Sentry.init({
+      dsn: process.env.APP_SENTRY_DSN,
+      sendDefaultPii: true,
+      integrations: [Sentry.browserTracingIntegration()],
+      tracePropagationTargets: ['localhost', process.env.APP_URL as string],
+    });
+} catch (error) {
+  console.error('Error initializing Sentry:', error);
 }
 
 export const ErrorFallback = ({ error }: { error: Error }) => {
