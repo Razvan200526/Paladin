@@ -66,7 +66,7 @@ export const ProfileForm = ({
           />
 
           <ProfessionSelector
-          placeholder={user?.profession}
+            placeholder={user?.profession}
             className="mt-5.5"
             ref={professionRef}
             onChange={(e) => {

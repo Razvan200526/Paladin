@@ -31,7 +31,9 @@ export class AuthService {
           }) {
             try {
               if (process.env.NODE_ENV === 'test') {
-                logger.info(`[Test] Skipping email sending to ${email} with OTP ${otp}`);
+                logger.info(
+                  `[Test] Skipping email sending to ${email} with OTP ${otp}`,
+                );
                 return;
               }
               if (type === 'email-verification') {

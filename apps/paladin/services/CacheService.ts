@@ -3,8 +3,8 @@
  * Redis-based caching layer using Bun's native Redis client
  */
 
-import { RedisClient } from 'bun';
 import { inject, logger, service } from '@razvan11/paladin';
+import { RedisClient } from 'bun';
 
 const CACHE_PREFIX = 'paladin:';
 

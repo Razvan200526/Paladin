@@ -3,11 +3,10 @@ import { EnvValidator } from '@common/EnvValidator';
 import { controllers } from '@paladin/controllers/controllers';
 import { AiChatHandler } from '@paladin/handlers/AiChatHandler';
 import { DocumentChatHandler } from '@paladin/handlers/DocumentChatHandler';
-
+import { NotificationHandler } from '@paladin/handlers/NotificationHandler';
 import { App, logger } from '@razvan11/paladin';
 import { HealthController } from './__init__/HealthController';
 import { IndexController } from './__init__/IndexController';
-import { NotificationHandler } from '@paladin/handlers/NotificationHandler';
 
 export const createApp = () => {
   const app = new App({

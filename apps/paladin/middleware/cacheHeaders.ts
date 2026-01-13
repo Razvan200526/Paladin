@@ -29,7 +29,10 @@ interface CacheControlOptions {
 /**
  * Set Cache-Control header on response
  */
-export function setCacheControl(c: Context, options: CacheControlOptions): void {
+export function setCacheControl(
+  c: Context,
+  options: CacheControlOptions,
+): void {
   const directives: string[] = [];
 
   if (options.noStore) {

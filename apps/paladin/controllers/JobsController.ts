@@ -444,7 +444,11 @@ export class JobsController {
       const preferences = await this.preferences.findByUserId(userId);
       logger.info(`Retrieved preferences for user ${userId}`);
 
-      await this.cache.set(cacheKey, preferences ?? null, PREFERENCES_CACHE_TTL);
+      await this.cache.set(
+        cacheKey,
+        preferences ?? null,
+        PREFERENCES_CACHE_TTL,
+      );
 
       return apiResponse(c, {
         data: preferences ?? null,
