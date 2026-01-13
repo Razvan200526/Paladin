@@ -62,11 +62,33 @@ jobs:
       - name: Install dependencies
         run: bun install
 
-      - name: Run tests
+      - name: Run Migrations
+        run: bun run db:run
+        env:
+          APP_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/paladin_test
+
+      - name: Run Tests
         run: bun run test
         env:
-          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/paladin_test
+          APP_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/paladin_test
           APP_REDIS_URL: redis://localhost:6379
+          APP_URL: http://localhost:3000
+          APP_WS_URL: ws://localhost:3000
+          NODE_ENV: test
+          BETTER_AUTH_SECRET: test-secret
+          BETTER_AUTH_URL: http://localhost:3000
+          GOOGLE_GENERATIVE_AI_API_KEY: test-key
+          RESEND_API_KEY: test-key
+          APP_POSTHOG_KEY: test-key
+          APP_POSTHOG_HOST: test-host
+          APP_SENTRY_DSN: https://sentry.io/123
+          R2_ACCOUNT_ID: test
+          R2_ACCESS_KEY: test
+          R2_ACCESS_KEY_ID: test
+          R2_SECRET_ACCESS_KEY: test
+          R2_BUCKET_NAME: test
+          R2_PUBLIC_URL: https://cdn.test
+          R2_ENDPOINT: https://r2.test
 
   typecheck:
     name: Type Check
