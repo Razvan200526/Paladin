@@ -9,13 +9,12 @@ import { HealthController } from './__init__/HealthController';
 import { IndexController } from './__init__/IndexController';
 import { NotificationHandler } from '@paladin/handlers/NotificationHandler';
 
-try {
+export const createApp = () => {
   const app = new App({
     name: 'Paladin',
     cors: [Bun.env.APP_URL || 'http://localhost:8000'],
     validators: { env: [EnvValidator] },
   });
-
 
   app.serveStatic({ path: '/static', root: './apps/ruby/shared/public' });
   app.registerControllers(HealthController, ...controllers, IndexController);
@@ -25,7 +24,15 @@ try {
     DocumentChatHandler,
   );
 
-  await app.run();
-} catch (e) {
-  logger.error(e as Error);
+  return app;
+};
+
+if (import.meta.main) {
+  try {
+    const app = createApp();
+    await app.run();
+  } catch (e) {
+    logger.error(e as Error);
+    process.exit(1);
+  }
 }

@@ -32,8 +32,8 @@ export const Footer = () => {
               <Logo className="size-8" />
               <span className="text-2xl font-bold text-primary">Paladin</span>
             </div>
+            <p>Empowering your career with AI-driven resume optimization.</p>
             <P className="text-sm leading-6 text-secondary-text">
-              <p>Empowering your career with AI-driven resume optimization.</p>
               <Link to="https://remotive.io">Remotive</Link>
               <span> api has been used for job postings.</span>
             </P>
